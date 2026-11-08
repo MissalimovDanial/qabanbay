@@ -1,0 +1,445 @@
+@tool
+extends RefCounted
+## Runtime atlas regions preserve generated source images without destructive edits.
+const CHARACTERS_PATH = "res://art/source/02-characters-poses.png"
+const ENVIRONMENT = preload("res://art/source/03-environments.png")
+const TERRAIN = preload("res://art/animation/terrain-v2.png")
+const TERRAIN_REGIONS := {"rock":Rect2(0,280,400,210),"tree":Rect2(0,490,470,500),"reeds":Rect2(1155,100,375,390),"grass_tuft":Rect2(780,250,355,240),"flying":Rect2(1160,590,376,400)}
+const NEW_PROPS:Dictionary={"yurt":Vector2i(0,0),"dead_tree":Vector2i(1,0),"tumbleweed":Vector2i(2,0),"golden_man":Vector2i(0,1),"kumys":Vector2i(1,1),"secret_door":Vector2i(2,1)}
+var eagle_texture: Texture2D
+
+const OBJECTS = preload("res://art/source/04-tiles-props-ui.png")
+
+const REGIONS := {
+	"idle": Rect2(16, 22, 216, 228),
+ "enemy_idle": Rect2(8, 540, 222, 225),
+ "enemy_attack": Rect2(990, 540, 302, 225),
+	"run0": Rect2(254, 58, 226, 192),
+	"run1": Rect2(495, 58, 223, 192),
+	"jump": Rect2(737, 19, 218, 229),
+	"attack": Rect2(942, 83, 403, 167),
+	"dodge": Rect2(1317, 113, 210, 136),
+	"horse": Rect2(1230, 288, 301, 230),
+	"elder": Rect2(982, 309, 220, 210),
+	"boar_idle": Rect2(7, 829, 244, 174),
+	"boar_charge": Rect2(258, 850, 221, 153),
+	"boar_hurt": Rect2(493, 809, 171, 194),
+	"boar_down": Rect2(657, 887, 263, 117)
+}
+const PROP_REGIONS := {
+ "practice_dummy":Rect2(0,0,1024,1024),
+	"grass": Rect2(208, 74, 151, 160),
+	"dirt": Rect2(559, 83, 136, 153),
+	"rock": Rect2(838, 374, 153, 125),
+	"yurt": Rect2(19, 304, 389, 302),
+	"tree": Rect2(399, 247, 250, 386),
+	"reeds": Rect2(650, 336, 194, 289),
+	"fence": Rect2(994, 345, 221, 163),
+	"crate": Rect2(1313, 525, 135, 113),
+	"banner": Rect2(1215, 295, 141, 349),
+	"left": Rect2(39, 661, 148, 151),
+	"right": Rect2(193, 661, 150, 151),
+	"attack": Rect2(351, 661, 148, 151),
+	"jump": Rect2(505, 661, 150, 151),
+	"dodge": Rect2(664, 661, 148, 151),
+	"heart": Rect2(1185, 674, 117, 113),
+	"empty_heart": Rect2(1311, 674, 118, 113),
+	"portrait": Rect2(1287, 790, 211, 199)
+}
+
+# Clean alpha halos once, then cache tight, ground-anchored regions.
+static var prepared: Dictionary = {}
+var use_baked:=true
+const Land=preload("res://scripts/landform.gd")
+var landscape_chapter := 1
+const DRY_PANORAMA := preload("res://art/animation/sand-steppe.png")
+const MEADOW_PANORAMA := preload("res://art/animation/ayagoz-meadow.png")
+const MEADOW_TERRAIN := preload("res://art/animation/ayagoz-terrain.png")
+
+func _is_meadow(chapter: int) -> bool:
+ return chapter == 2 or chapter == 3
+
+func _surface_texture(chapter: int) -> Texture2D:
+ return MEADOW_TERRAIN if _is_meadow(chapter) else SURFACE_TEXTURE
+
+func _grass_color(chapter: int) -> Color:
+ return Color("#8c9c58") if _is_meadow(chapter) else Color("#c7aa73")
+
+func _asset(name: String, character: bool = false) -> Dictionary:
+ var key := ("sprite/" if character else "prop/") + name
+ if not prepared.has(key):
+  var baked:="res://art/props-baked/"+("sprite-" if character else "")+name+".res"
+  if use_baked and ResourceLoader.exists(baked):
+   var texture:Texture2D=load(baked)
+   prepared[key]={"texture":texture,"bounds":texture.get_meta("bounds",Rect2(0,0,texture.get_width(),texture.get_height())),"region":texture.get_meta("region",Rect2(0,0,texture.get_width(),texture.get_height()))}
+   return prepared[key]
+  var source: Texture2D = load(CHARACTERS_PATH) if character else OBJECTS
+  var alias:String={"dead_tree":"tree","tumbleweed":"grass_tuft","secret_door":"crate","golden_man":"banner","kumys":"crate"}.get(name,name)
+  var region: Rect2 = REGIONS[name] if character else TERRAIN_REGIONS[alias] if TERRAIN_REGIONS.has(alias) else PROP_REGIONS[alias]
+  if not character and NEW_PROPS.has(name) and ResourceLoader.exists("res://art/animation/steppe-objects.png"):
+   source=load("res://art/animation/steppe-objects.png")
+   var cell:=source.get_size()/Vector2(3,2)
+   region=Rect2(Vector2(NEW_PROPS[name])*cell,cell)
+  if not character and TERRAIN_REGIONS.has(name) and not NEW_PROPS.has(name):
+   source = TERRAIN
+   region = TERRAIN_REGIONS[name]
+  if name=="practice_dummy":
+   source=load("res://art/animation/practice-dummy.png")
+   region=Rect2(Vector2.ZERO,source.get_size())
+  var image := source.get_image().get_region(Rect2i(region))
+  if not character and name in ["rock","tree","reeds","grass_tuft","flying","banner","crate"]:
+   image = _main_shape(image)
+  for y in range(image.get_height()):
+   for x in range(image.get_width()):
+    var pixel := image.get_pixel(x, y)
+    if name in ["flying","rock"] and pixel.g>pixel.r*1.05 and pixel.g>pixel.b*1.25:
+     var light:=maxf(pixel.r,pixel.g)
+     pixel=Color(light*0.94,light*0.78,light*0.40,pixel.a)
+     image.set_pixel(x,y,pixel)
+    if pixel.a < 0.30:
+     image.set_pixel(x, y, Color.TRANSPARENT)
+  var bounds := image.get_used_rect()
+  if not character and name in ["practice_dummy","rock", "yurt", "tree", "dead_tree","secret_door","golden_man","kumys","reeds", "fence", "banner", "crate"]:
+   # Ignore translucent drop shadows and isolated atlas specks below the feet.
+   var foot := bounds.end.y - 1
+   for y in range(bounds.end.y - 1, bounds.position.y - 1, -1):
+    var solid := 0
+    for x in range(bounds.position.x, bounds.end.x):
+     if image.get_pixel(x,y).a >= 0.82:
+      solid += 1
+    if solid >= maxi(3, int(bounds.size.x * 0.025)):
+     foot = y
+     break
+   bounds.size.y = foot - bounds.position.y + 1
+  prepared[key] = {"texture": ImageTexture.create_from_image(image.get_region(bounds)), "bounds": Rect2(bounds), "region": region}
+ return prepared[key]
+
+func icon(name: String) -> Texture2D:
+ return _asset(name).texture
+
+func sprite(node: Node2D, name: String, at: Vector2, scale_factor: float, direction: float = 1, tint := Color.WHITE) -> void:
+ var asset := _asset(name, true)
+ var region: Rect2 = asset.region
+ var bounds: Rect2 = asset.bounds
+ var pivot := region.size.x * 0.5
+ if name == "attack":
+  pivot = 102
+ elif name == "idle":
+  pivot = 85
+ elif name == "dodge":
+  pivot = 105
+ node.draw_set_transform(at.round(), 0, Vector2(direction * scale_factor, scale_factor))
+ node.draw_texture_rect(asset.texture, Rect2(Vector2(bounds.position.x - pivot, -bounds.size.y), bounds.size), false, tint)
+ node.draw_set_transform(Vector2.ZERO)
+
+func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Color.WHITE) -> void:
+ if not Engine.is_editor_hint() and (at.x+size.x*0.6< -80 or at.x-size.x*0.6>node.get_viewport_rect().size.x+80):return
+ if name in ["grass_tuft","reeds"]:
+  for i in range(7):
+   var x:=at.x+(i-3)*size.x/9
+   var h:=size.y*(0.35+0.08*(i*3%5))
+   var grass := _grass_color(landscape_chapter)
+   node.draw_polyline(PackedVector2Array([Vector2(x,at.y+2),Vector2(x+(i%3-1)*3,at.y-h*.6),Vector2(x+(i%3-1)*7,at.y-h)]),grass.darkened(0.14) if i%2 else grass.lightened(0.14),1.5,true)
+  return
+ var asset := _asset(name)
+ var grounded := name in ["practice_dummy","rock", "yurt", "tree", "dead_tree","secret_door","golden_man","kumys","reeds", "grass_tuft", "fence", "banner"] or (name == "crate" and size.x >= 40)
+ var embed := 7.0 if name in ["tree", "dead_tree","reeds"] else 4.0
+ var surface := at.round()
+ var base := surface + Vector2(0, embed if grounded else 0)
+ var contact_width := size.x * (0.23 if name == "tree" else 0.38 if name == "reeds" else 0.42)
+ if grounded:
+  var points := PackedVector2Array()
+  for i in range(24):
+   var angle := TAU * i / 24
+   points.append(surface + Vector2(cos(angle) * contact_width, sin(angle) * 3 + 2))
+  node.draw_colored_polygon(points, Color(0.04, 0.07, 0.025, 0.40))
+ if name=="yurt":
+  var source_size:Vector2=asset.texture.get_size()
+  node.draw_texture_rect_region(asset.texture,Rect2(surface-Vector2(size.x*.5,size.y-3),size),Rect2(Vector2.ZERO,source_size*Vector2(1,0.94)),tint)
+ else:
+  node.draw_texture_rect(asset.texture, Rect2(base - Vector2(size.x * 0.5, size.y), size), false, tint)
+ if grounded:
+  # Short scattered roots overlap the feet without a rectangular pedestal.
+  for i in range(6):
+   var px:=surface.x-contact_width+i*contact_width*0.4
+   var length:=2+_grain(int(at.x),i)%4
+   node.draw_line(Vector2(px-2,surface.y+2),Vector2(px+1,surface.y-length),Color("b99b69"),1,true)
+
+func supply(node: Node2D, at: Vector2, time: float) -> void:
+ if not Engine.is_editor_hint() and (at.x < -50 or at.x > node.get_viewport_rect().size.x + 50):
+  return
+ prop(node, "kumys", at, Vector2(38, 53))
+ var pin := at + Vector2(0, -65 + sin(time * 3.5) * 3)
+ var shape := PackedVector2Array([pin + Vector2(0, -7), pin + Vector2(7, 0), pin + Vector2(0, 7), pin + Vector2(-7, 0)])
+ node.draw_colored_polygon(shape, Color("#286f69"))
+ shape.append(shape[0])
+ node.draw_polyline(shape, Color("#ffe4a8"), 2, true)
+
+func background(node:Node2D,camera:float,size:Vector2,chapter:int=1)->void:
+ landscape_chapter=chapter
+ var tex := MEADOW_PANORAMA if _is_meadow(chapter) else DRY_PANORAMA
+ var tint := _light_tint(chapter)
+ var tile:=2400.0
+ var scroll:=camera*0.12
+ for i in range(floori(scroll/tile),ceili((size.x+scroll)/tile)):
+  var x:=i*tile-scroll
+  node.draw_set_transform(Vector2(x+(tile if i%2!=0 else 0),0),0,Vector2(-1 if i%2!=0 else 1,1))
+  node.draw_texture_rect(tex,Rect2(0,-10,tile,570),false,tint)
+  # Continue the same bottom edge behind water and the terrain cutaway.
+  node.draw_texture_rect_region(tex,Rect2(0,560,tile,340),Rect2(0,tex.get_height()-1,tex.get_width(),1),tint)
+ node.draw_set_transform(Vector2.ZERO)
+ for i in range(int(size.x/160)+2):
+  var wx:float=floor(camera*0.45/160)*160+i*160
+  var x:=wx-camera*0.45
+  node.draw_line(Vector2(x,546),Vector2(x+8,539),_grass_color(chapter)*tint,1.5)
+
+func _main_shape(image: Image) -> Image:
+ image.convert(Image.FORMAT_RGBA8)
+ var data := image.get_data()
+ var width := image.get_width()
+ var height := image.get_height()
+ var seen := PackedByteArray()
+ seen.resize(width*height)
+ var best := PackedInt32Array()
+ for start in range(width*height):
+  if seen[start]!=0 or data[start*4+3]<96:
+   continue
+  var queue := PackedInt32Array([start])
+  seen[start] = 1
+  var cursor := 0
+  while cursor<queue.size():
+   var pixel := queue[cursor]
+   cursor+=1
+   var y := pixel/width
+   var x := pixel-y*width
+   for ny in range(maxi(0,y-1),mini(height-1,y+1)+1):
+    for nx in range(maxi(0,x-1),mini(width-1,x+1)+1):
+     var next := ny*width+nx
+     if seen[next]==0 and data[next*4+3]>=96:
+      seen[next]=1
+      queue.append(next)
+  if queue.size()>best.size():
+   best=queue
+ var output := PackedByteArray()
+ output.resize(data.size())
+ for pixel in best:
+  for channel in range(4):
+   output[pixel*4+channel]=data[pixel*4+channel]
+ return Image.create_from_data(width,height,false,Image.FORMAT_RGBA8,output)
+
+func birds(node: Node2D, camera: float, size: Vector2, time: float) -> void:
+ if eagle_texture==null and ResourceLoader.exists("res://art/animation/eagle-v2.png"):
+  eagle_texture = load("res://art/animation/eagle-v2.png")
+ if eagle_texture==null:
+  return
+ var cell := Vector2(eagle_texture.get_width()/4.0,eagle_texture.get_height()/2.0)
+ for i in range(4):
+  var distance := 0.08 if i<3 else 0.35
+  var x := fposmod(i*383.0+time*(23 if i<3 else 52)-camera*distance,size.x+220)-110
+  var y := 85+i*34+sin(time*0.35+i)*14
+  var frame := int(time*(5 if i<3 else 7)+i*2)%8
+  var source := Rect2(Vector2(frame%4,frame/4)*cell,cell)
+  var width := 48.0 if i<3 else 98.0
+  node.draw_texture_rect_region(eagle_texture,Rect2(Vector2(x,y),Vector2(width,width*cell.y/cell.x)),source,Color("b9b9b1") if i<3 else Color.WHITE)
+
+func _grain(world_cell: int, salt: int) -> int:
+ # Integer hash: the pattern stays attached to the world as the camera moves.
+ var value := absi(world_cell * 374761 + salt * 6689 + 92821)
+ value = (value ^ (value >> 7)) * 127
+ return absi(value ^ (value >> 11))
+
+func _terrain_palette()->Dictionary:
+ return {"earth":Color("b9a074"),"deep":Color("7c6848"),"grass":Color("c7b184"),"light":Color("e5cea0"),"dry":Color("ab925f")}
+
+func _inside_gap(x: float, gaps: Array, margin: float = 0.0) -> bool:
+ for gap in gaps:
+  if x > gap.x - margin and x < gap.y + margin:
+   return true
+ return false
+
+func scenic_rock(node: Node2D, rect: Rect2, camera: float, floor_y: float) -> void:
+ prop(node,"rock",Vector2(rect.get_center().x-camera,floor_y),rect.size*0.76,Color("bcaa90"))
+
+var terrain_camera := 0.0
+
+func ground(node:Node2D,camera:float,width:float,floor_y:float,gaps:Array=[],ravines:Array=[])->void:
+ terrain_camera=camera
+ var land:=ravines.duplicate()
+ if land.is_empty():
+  for gap in gaps:land.append({"span":gap,"depth":175.0})
+ for r in land:
+  if r.span.y>=camera-120 and r.span.x<=camera+width+120 and r.depth>0:
+   ravine(node,r.span,camera,floor_y,r.depth)
+ var points:=PackedVector2Array()
+ var uvs:=PackedVector2Array()
+ var bottom:=floor_y+700
+ for offset in range(-12,int(width)+25,12):
+  var wx:float=camera+offset
+  var y:float=Land.surface(wx,land,floor_y)
+  if y>10000:y=bottom
+  points.append(Vector2(offset,y))
+  uvs.append(Vector2(wx/512.0,y/512.0))
+ points.append(Vector2(width+24,bottom));uvs.append(Vector2((camera+width+24)/512.0,bottom/512.0))
+ points.append(Vector2(-12,bottom));uvs.append(Vector2((camera-12)/512.0,bottom/512.0))
+ node.texture_repeat=CanvasItem.TEXTURE_REPEAT_MIRROR
+ var tint := _light_tint(landscape_chapter)
+ var soil_tint := Color("#967d66") if _is_meadow(landscape_chapter) else Color.WHITE
+ node.draw_colored_polygon(points,soil_tint*tint,uvs,preload("res://art/animation/sand-ground.png"))
+ _surface_strip(node,camera,width,floor_y,land)
+
+# Cached world chunks keep UVs and cracks fixed while the camera moves.
+# Every strip vertex follows the SAME support curve used by actor collisions.
+var _surface_meshes:Dictionary={}
+const SURFACE_TEXTURE=preload("res://art/animation/steppe-terrain-strip.png")
+func _light_tint(chapter: int) -> Color:
+ match chapter:
+  3: return Color("#d4e2e4")
+  4: return Color("#d5b79b")
+  5: return Color("#c0bbad")
+  _: return Color.WHITE
+
+func _surface_strip(node:Node2D,camera:float,width:float,floor_y:float,land:Array)->void:
+ var signature:=hash(land)
+ for chunk in range(floori(camera/1920),ceili((camera+width)/1920)):
+  var key:=str(signature)+":"+str(chunk)
+  if not _surface_meshes.has(key):
+   var vertices:=PackedVector3Array()
+   var uvs:=PackedVector2Array()
+   var indices:=PackedInt32Array()
+   for step in range(160):
+    var x:=chunk*1920.0+step*12
+    var left:=Land.surface(x,land,floor_y)
+    var right:=Land.surface(x+12,land,floor_y)
+    if left>10000 or right>10000:continue
+    var index:=vertices.size()
+    for corner in range(4):
+     var wx:=x+(12 if corner%2==1 else 0)
+     var surface_y:=right if corner%2==1 else left
+     var below:=corner>=2
+     vertices.append(Vector3(wx,surface_y+(235 if below else -85),0))
+     var u:=fposmod(wx/960,2.0)
+     if u>1:u=2-u
+     uvs.append(Vector2(u,1 if below else 0))
+    indices.append_array(PackedInt32Array([index,index+1,index+2,index+2,index+1,index+3]))
+   var arrays:=[]
+   arrays.resize(Mesh.ARRAY_MAX)
+   arrays[Mesh.ARRAY_VERTEX]=vertices
+   arrays[Mesh.ARRAY_TEX_UV]=uvs
+   arrays[Mesh.ARRAY_INDEX]=indices
+   var mesh:=ArrayMesh.new()
+   if not vertices.is_empty():mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+   _surface_meshes[key]=mesh
+  if node!=null:node.draw_mesh(_surface_meshes[key],_surface_texture(landscape_chapter),Transform2D(0,Vector2(-camera,0)),_light_tint(landscape_chapter))
+
+func _ground_bed(node:Node2D,rect:Rect2,palette:Dictionary)->void:
+ if rect.size.x>0:node.draw_rect(rect,palette.earth)
+
+var _ravine_meshes:Dictionary={}
+func ravine(node:Node2D,span:Vector2,camera:float,floor_y:float,depth:float=175)->void:
+ if depth<=0:return
+ var key:=str(span)+":"+str(depth)
+ if not _ravine_meshes.has(key):
+  var vertices:=PackedVector3Array()
+  var uvs:=PackedVector2Array()
+  var colors:=PackedColorArray()
+  var indices:=PackedInt32Array()
+  var count:=maxi(20,ceili((span.y-span.x)/24.0))
+  var land:Array=[{"span":span,"depth":depth}]
+  for step in range(count):
+   var index:=vertices.size()
+   for corner in range(4):
+    var t:=float(step+(1 if corner%2==1 else 0))/count
+    var x:=lerpf(span.x,span.y,t)
+    var lower:=corner>=2
+    var y:=Land.surface(x,land,floor_y)+7 if lower else floor_y-25*sin(t*PI)-5*sin(t*PI*3)
+    vertices.append(Vector3(x,y,0))
+    var u:=fposmod(x/960,2.0)
+    uvs.append(Vector2(u if u<=1 else 2-u,0.30+clampf((y-floor_y)/depth,0,1)*0.68))
+    colors.append(Color("907a55") if lower else Color("ddd0ae"))
+   indices.append_array(PackedInt32Array([index,index+1,index+2,index+2,index+1,index+3]))
+  var arrays:=[]
+  arrays.resize(Mesh.ARRAY_MAX)
+  arrays[Mesh.ARRAY_VERTEX]=vertices
+  arrays[Mesh.ARRAY_TEX_UV]=uvs
+  arrays[Mesh.ARRAY_COLOR]=colors
+  arrays[Mesh.ARRAY_INDEX]=indices
+  var mesh:=ArrayMesh.new()
+  mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+  _ravine_meshes[key]=mesh
+ node.draw_mesh(_ravine_meshes[key],_surface_texture(landscape_chapter),Transform2D(0,Vector2(-camera,0)),_light_tint(landscape_chapter))
+
+func platform(node:Node2D,world_rect:Rect2,camera:float,style_chapter:int=1)->void:
+ if not Engine.is_editor_hint() and (world_rect.end.x<camera-70 or world_rect.position.x>camera+node.get_viewport_rect().size.x+70):return
+ var p:=world_rect.position-Vector2(camera,0)
+ var w:=world_rect.size.x
+ var local:=PackedVector2Array([Vector2(5,1),Vector2(w*.22,-1),Vector2(w*.51,1),Vector2(w-7,0),Vector2(w,9),Vector2(w-9,24),Vector2(w*.84,32),Vector2(w*.76,43),Vector2(w*.59,39),Vector2(w*.47,52),Vector2(w*.27,42),Vector2(14,31),Vector2(0,12)])
+ var points:=PackedVector2Array()
+ var uvs:=PackedVector2Array()
+ for v in local:
+  points.append(p+v)
+  var u:=0.10+v.x/maxf(w,1)*0.80
+  uvs.append(Vector2(u,0.267+v.y/320.0))
+ var tint:=_light_tint(style_chapter)
+ node.draw_colored_polygon(points,tint,uvs,_surface_texture(style_chapter))
+ for i in range(3):
+  var x:=p.x+w*(0.22+0.29*i)
+  node.draw_polyline(PackedVector2Array([Vector2(x-4,p.y-5),Vector2(x,p.y+1),Vector2(x+2,p.y-9)]),_grass_color(style_chapter)*tint,1,true)
+
+func embedded_door(node:Node2D,p:Vector2,camera:=Vector2.ZERO)->void:
+ # A shallow niche lies in the rear wall; the door never grows a separate pedestal.
+ var center:=p+Vector2(0,-71)
+ for ring in range(7,0,-1):
+  var radius:=float(ring)/7.0
+  var outline:=PackedVector2Array()
+  for i in range(32):
+   var a:=i*TAU/32
+   outline.append(center+Vector2(cos(a)*(55+28*radius),sin(a)*(72+19*radius)))
+  node.draw_colored_polygon(outline,Color(0.14,0.105,0.06,0.035))
+ var opening:=PackedVector2Array([p+Vector2(-46,3),p+Vector2(-49,-79),p+Vector2(-32,-128),p+Vector2(0,-144),p+Vector2(33,-125),p+Vector2(50,-77),p+Vector2(46,3)])
+ node.draw_colored_polygon(opening,Color("51432e"))
+ prop(node,"secret_door",p+Vector2(0,2),Vector2(88,136),Color("c3b49b"))
+ node.draw_polyline(PackedVector2Array([p+Vector2(-55,3),p+Vector2(-20,5),p+Vector2(24,4),p+Vector2(54,2)]),Color("a48b60"),5,true)
+
+func spikes(node:Node2D,span:Vector2,camera:float,floor_y:float)->void:
+ if not Engine.is_editor_hint() and (span.y<camera-50 or span.x>camera+1330):return
+ for i in range(ceili((span.y-span.x)/24)):
+  var p:=Vector2(span.x-camera+12+i*24,floor_y+2)
+  for branch in range(5):
+   var dx:float=(branch-2)*6
+   var tip:=p+Vector2(dx*1.4,-22-absf(dx)*.4)
+   node.draw_polyline(PackedVector2Array([p,p+Vector2(dx*.5,-12),tip]),Color("734735"),3,true)
+   node.draw_line(tip,tip+Vector2(-5,-5),Color("d49571"),2,true)
+   node.draw_line(tip+Vector2(0,6),tip+Vector2(5,2),Color("ecc591"),1.5,true)
+  node.draw_circle(p+Vector2(-9,-18),2.5,Color("d48166"))
+
+func _spike_base()->StyleBoxFlat:
+ var box:=StyleBoxFlat.new()
+ box.bg_color=Color("6f3c35")
+ box.border_color=Color("e3ac72")
+ box.set_border_width_all(1)
+ box.set_corner_radius_all(3)
+ return box
+
+func coin(node:Node2D,p:Vector2,time:float)->void:
+ if p.x< -30 or p.x>node.get_viewport_rect().size.x+30:return
+ node.draw_set_transform(p,0,Vector2(0.78+absf(cos(time*1.8))*.22,1))
+ node.draw_circle(Vector2(0,2),14,Color("85532a"))
+ node.draw_circle(Vector2.ZERO,13,Color("e8b34e"))
+ node.draw_circle(Vector2(-1,-1),10.5,Color("ffdf8c"))
+ node.draw_circle(Vector2.ZERO,8.5,Color("277a7e"))
+ for i in range(8):
+  var a:=i*TAU/8
+  var center:=Vector2(cos(a),sin(a))*4.8
+  node.draw_colored_polygon(PackedVector2Array([center+Vector2(0,-2.5),center+Vector2(2,0),center+Vector2(0,2.5),center+Vector2(-2,0)]),Color("f4c96a"))
+ node.draw_circle(Vector2.ZERO,2.2,Color("fff1bc"))
+ node.draw_arc(Vector2.ZERO,11,-2.9,-1.0,12,Color("fff5c7"),2,true)
+ node.draw_set_transform(Vector2.ZERO)
+
+func arrow(node:Node2D,p:Vector2,dir:float) -> void:
+ node.draw_set_transform(p,0,Vector2(dir,1))
+ node.draw_line(Vector2(-40,1),Vector2(3,1),Color("4e3528"),3)
+ node.draw_line(Vector2(-39,0),Vector2(3,0),Color("c8a271"),1)
+ node.draw_colored_polygon(PackedVector2Array([Vector2(10,0),Vector2(0,-4),Vector2(2,0),Vector2(0,4)]),Color("b7c7c1"))
+ for y in [-1,1]:
+  node.draw_colored_polygon(PackedVector2Array([Vector2(-38,0),Vector2(-47,y*6),Vector2(-34,y*5),Vector2(-28,0)]),Color("e5d6a9"))
+ node.draw_set_transform(Vector2.ZERO)

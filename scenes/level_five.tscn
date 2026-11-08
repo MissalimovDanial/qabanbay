@@ -1,0 +1,4131 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/level_two.gd" id="1"]
+
+[ext_resource type="Script" path="res://scripts/editor/level_layout.gd" id="2"]
+
+[ext_resource type="Script" path="res://scripts/editor/level_item.gd" id="3"]
+
+[node name="Level5" type="Node2D"]
+
+script = ExtResource("1")
+
+chapter_number = 5
+
+
+
+
+[node name="Layout" type="Node2D" parent="."]
+
+script = ExtResource("2")
+
+chapter_number = 5
+
+world_length = 72000.0
+
+arena_start = 70000.0
+
+exit_x = 71550.0
+
+
+
+
+[node name="Rocks" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Gaps" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Platforms" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Spikes" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Guards" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Charms" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Scenery" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Checkpoints" type="Node2D" parent="Layout"]
+
+
+
+
+[node name="Hero_Spawn001" type="Marker2D" parent="Layout"]
+
+position = Vector2(180, 550)
+
+script = ExtResource("3")
+
+kind = "hero_spawn"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Elder001" type="Marker2D" parent="Layout"]
+
+position = Vector2(390, 550)
+
+script = ExtResource("3")
+
+kind = "elder"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Boss_Spawn001" type="Marker2D" parent="Layout"]
+
+position = Vector2(70650, 550)
+
+script = ExtResource("3")
+
+kind = "boss_spawn"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Gap001" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(4150.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1100, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Spikes001" type="Marker2D" parent="Layout/Spikes"]
+
+position = Vector2(6400, 550)
+
+script = ExtResource("3")
+
+kind = "spikes"
+
+dimensions = Vector2(100, 25)
+
+
+
+
+[node name="Gap002" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(9850.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Decor001" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(12000, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(280, 210)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Gap003" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(15350.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1100, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Gap004" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(21050.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Spikes003" type="Marker2D" parent="Layout/Spikes"]
+
+position = Vector2(28800, 550)
+
+script = ExtResource("3")
+
+kind = "spikes"
+
+dimensions = Vector2(100, 25)
+
+
+
+
+[node name="Gap005" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(32250.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Decor003" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(34400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(280, 210)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Gap006" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(37750.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1100, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Spikes004" type="Marker2D" parent="Layout/Spikes"]
+
+position = Vector2(40000, 550)
+
+script = ExtResource("3")
+
+kind = "spikes"
+
+dimensions = Vector2(100, 25)
+
+
+
+
+[node name="Gap007" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(43450.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Decor004" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(45600, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(280, 210)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Gap008" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(48950.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1100, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Spikes005" type="Marker2D" parent="Layout/Spikes"]
+
+position = Vector2(51200, 550)
+
+script = ExtResource("3")
+
+kind = "spikes"
+
+dimensions = Vector2(100, 25)
+
+
+
+
+[node name="Gap009" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(54650.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Decor005" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(56800, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(280, 210)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Gap010" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(60150.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1100, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Spikes006" type="Marker2D" parent="Layout/Spikes"]
+
+position = Vector2(62400, 550)
+
+script = ExtResource("3")
+
+kind = "spikes"
+
+dimensions = Vector2(100, 25)
+
+
+
+
+[node name="Gap011" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(65850.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1300, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Gap012" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(17800.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1400, 165)
+
+ravine_depth = 165.0
+
+
+
+
+[node name="Gap013" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(30500.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1000, 175)
+
+ravine_depth = 175.0
+
+
+
+
+[node name="Rock001" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(30180, 725)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(90, 48)
+
+
+
+
+[node name="Gap014" type="Marker2D" parent="Layout/Gaps"]
+
+position = Vector2(25700.0, 550)
+
+script = ExtResource("3")
+
+kind = "gap"
+
+dimensions = Vector2(1400, 175)
+
+ravine_depth = 175.0
+
+
+
+
+[node name="Secret001" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(25340, 725)
+
+script = ExtResource("3")
+
+kind = "secret"
+
+dimensions = Vector2(110, 140)
+
+
+
+
+[node name="Passage001" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(12600, 550)
+
+script = ExtResource("3")
+
+kind = "passage"
+
+dimensions = Vector2(420, 295)
+
+
+
+
+[node name="Platform001" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(3908.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(154.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm001" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(3908.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform002" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(4392.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm002" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(4392.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform003" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(9564.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm003" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(9564.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform004" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(10136.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm004" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(10136.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform005" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(15108.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(154.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm005" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(15108.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform006" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(15592.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm006" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(15592.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform007" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(20764.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm007" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(20764.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform008" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(21336.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm008" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(21336.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform009" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(31964.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm009" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(31964.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform010" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(32536.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm010" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(32536.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform011" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(37508.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(154.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm011" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(37508.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform012" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(37992.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm012" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(37992.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform013" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(43164.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm013" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(43164.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform014" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(43736.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm014" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(43736.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform015" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(48708.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(154.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm015" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(48708.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform016" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(49192.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm016" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(49192.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform017" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(54364.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm017" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(54364.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform018" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(54936.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm018" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(54936.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform019" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(59908.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(154.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm019" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(59908.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform020" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(60392.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm020" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(60392.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform021" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(65564.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(182.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm021" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(65564.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform022" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(66136.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm022" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(66136.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform023" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(17492.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(196.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm023" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(17492.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform024" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(18108.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm024" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(18108.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform025" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(30280.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(140.0, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm025" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(30280.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform026" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(30720.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm026" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(30720.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform027" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(25392.0, 495)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(196.00000000000003, 0)
+
+period = 3.6
+
+motion_phase = 0.0
+
+
+
+
+[node name="Charm027" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(25392.0, 430)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Platform028" type="Marker2D" parent="Layout/Platforms"]
+
+position = Vector2(26008.0, 485)
+
+script = ExtResource("3")
+
+kind = "platform"
+
+dimensions = Vector2(300, 22)
+
+travel = Vector2(0, 65)
+
+period = 3.6
+
+motion_phase = 1.7
+
+
+
+
+[node name="Charm028" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(26008.0, 420)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Camp001" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(2600, 550)
+
+script = ExtResource("3")
+
+kind = "camp"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 5
+
+
+
+
+[node name="Guard001" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(11714, 550)
+
+script = ExtResource("3")
+
+kind = "guard"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 4
+
+
+
+
+[node name="Camp002" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(22679, 550)
+
+script = ExtResource("3")
+
+kind = "camp"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 5
+
+
+
+
+[node name="Guard002" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(30500, 550)
+
+script = ExtResource("3")
+
+kind = "guard"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 4
+
+
+
+
+[node name="Camp003" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(39057, 550)
+
+script = ExtResource("3")
+
+kind = "camp"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 5
+
+
+
+
+[node name="Guard003" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(50391, 550)
+
+script = ExtResource("3")
+
+kind = "guard"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 4
+
+
+
+
+[node name="Camp004" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(57286, 550)
+
+script = ExtResource("3")
+
+kind = "camp"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 5
+
+
+
+
+[node name="Guard004" type="Marker2D" parent="Layout/Guards"]
+
+position = Vector2(67510, 550)
+
+script = ExtResource("3")
+
+kind = "guard"
+
+dimensions = Vector2(120, 145)
+
+enemy_count = 4
+
+
+
+
+[node name="Decor006" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(2400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock002" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(2510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor007" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(2150, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm029" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(2400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm030" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(2438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm031" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(2476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor008" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(5400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock003" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(5510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm032" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(5400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm033" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(5438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm034" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(5476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor009" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(6900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock004" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(7010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor010" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(6650, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm035" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(6900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm036" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(6938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm037" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(6976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor011" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(8400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock005" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(8510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm038" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(8400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm039" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(8438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm040" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(8476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor012" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(11400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock006" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(11510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor013" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(11150, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm041" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(11400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm042" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(11438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm043" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(11476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor014" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(12900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock007" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(13010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm044" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(12900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm045" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(12938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm046" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(12976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor015" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(14400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock008" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(14510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm047" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(14400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm048" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(14438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm049" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(14476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor016" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(18900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock009" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(19010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm050" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(18900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm051" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(18938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm052" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(18976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor017" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(21900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock010" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(22010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm053" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(21900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm054" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(21938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm055" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(21976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor018" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(23400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock011" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(23510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm056" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(23400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm057" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(23438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm058" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(23476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor019" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(27900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock012" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(28010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm059" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(27900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm060" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(27938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm061" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(27976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor020" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(29400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock013" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(29510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor021" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(29150, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm062" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(29400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm063" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(29438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm064" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(29476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor022" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(33900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock014" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(34010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor023" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(33650, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm065" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(33900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm066" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(33938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm067" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(33976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor024" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(35400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock015" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(35510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm068" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(35400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm069" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(35438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm070" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(35476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor025" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(36900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock016" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(37010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm071" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(36900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm072" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(36938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm073" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(36976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor026" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(39900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Charm074" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(39900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm075" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(39938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm076" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(39976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor027" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(41400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock018" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(41510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm077" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(41400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm078" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(41438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm079" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(41476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor028" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(44400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock019" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(44510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm080" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(44400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm081" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(44438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm082" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(44476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor029" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(45900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock020" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(46010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm083" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(45900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm084" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(45938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm085" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(45976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor030" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(47400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock021" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(47510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor031" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(47150, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm086" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(47400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm087" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(47438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm088" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(47476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor032" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(50400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock022" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(50510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm089" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(50400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm090" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(50438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm091" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(50476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor033" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(51900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock023" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(52010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor034" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(51650, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm092" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(51900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm093" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(51938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm094" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(51976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor035" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(53400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock024" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(53510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm095" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(53400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm096" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(53438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm097" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(53476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor036" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(56400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock025" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(56510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor037" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(56150, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm098" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(56400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm099" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(56438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm100" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(56476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor038" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(57900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock026" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(58010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm101" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(57900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm102" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(57938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm103" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(57976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor039" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(59400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock027" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(59510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm104" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(59400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm105" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(59438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm106" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(59476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor040" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(60900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock028" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(61010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Decor041" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(60650, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(160, 235)
+
+prop_name = "dead_tree"
+
+
+
+
+[node name="Charm107" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(60900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm108" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(60938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm109" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(60976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor042" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(62400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Charm110" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(62400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm111" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(62438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm112" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(62476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor043" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(63900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock030" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(64010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm113" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(63900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm114" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(63938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm115" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(63976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor044" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(66900, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock031" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(67010, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm116" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(66900, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm117" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(66938, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm118" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(66976, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Decor045" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(68400, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(50, 32)
+
+prop_name = "grass_tuft"
+
+
+
+
+[node name="Rock032" type="Marker2D" parent="Layout/Rocks"]
+
+position = Vector2(68510, 550)
+
+script = ExtResource("3")
+
+kind = "rock"
+
+dimensions = Vector2(85, 45)
+
+
+
+
+[node name="Charm119" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(68400, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm120" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(68438, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Charm121" type="Marker2D" parent="Layout/Charms"]
+
+position = Vector2(68476, 490)
+
+script = ExtResource("3")
+
+kind = "charm"
+
+dimensions = Vector2(22, 22)
+
+
+
+
+[node name="Checkpoint001" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(9000, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor046" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(8850, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint002" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(18800, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor047" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(18650, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint003" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(27000, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor048" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(26850, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint004" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(36000, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor049" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(35850, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint005" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(45000, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor050" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(44850, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint006" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(55600, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor051" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(55450, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Checkpoint007" type="Marker2D" parent="Layout/Checkpoints"]
+
+position = Vector2(63000, 550)
+
+script = ExtResource("3")
+
+kind = "checkpoint"
+
+dimensions = Vector2(80, 50)
+
+
+
+
+[node name="Decor052" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(62850, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(240, 185)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Decor053" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(390, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(300, 230)
+
+prop_name = "yurt"
+
+
+
+
+[node name="Decor054" type="Marker2D" parent="Layout/Scenery"]
+
+position = Vector2(71620, 550)
+
+script = ExtResource("3")
+
+kind = "decor"
+
+dimensions = Vector2(310, 235)
+
+prop_name = "yurt"
+
+
+
+[node name="CavePassageExtra" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(54340, 715)
+script = ExtResource("3")
+kind = "secret"
+dimensions = Vector2(110, 140)
+exit_offset = 1020.0
+
+[node name="SteppeDetailRock01" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(5711, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass01" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(5671, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock02" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(7448, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass02" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(7408, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock03" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(10772, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass03" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(10732, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock04" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(19307, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass04" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(19267, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock05" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(24368, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass05" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(24328, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock06" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(31166, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass06" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(31126, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock07" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(36227, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass07" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(36187, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock08" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(39701, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass08" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(39661, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock09" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(46499, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass09" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(46459, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock10" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(48236, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass10" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(48196, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock11" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(49823, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass11" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(49783, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SteppeDetailRock12" type="Marker2D" parent="Layout/Rocks"]
+position = Vector2(58358, 550)
+script = ExtResource("3")
+kind = "rock"
+dimensions = Vector2(46, 24)
+
+[node name="SteppeDetailGrass12" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(58318, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(32, 21)
+prop_name = "grass_tuft"
+
+[node name="SupplyLedgeLow" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(16300, 460)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(220, 26)
+
+[node name="SupplyFlaskLow" type="Marker2D" parent="Layout/Charms"]
+position = Vector2(16300, 460)
+script = ExtResource("3")
+kind = "supply"
+dimensions = Vector2(38, 53)
+
+[node name="SupplyLedgeMoving" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42275, 483)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(190, 26)
+travel = Vector2(28, 0)
+period = 4.5
+
+[node name="SupplyLedgeHigh" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42500, 374)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(170, 26)
+
+[node name="SupplyFlaskHigh" type="Marker2D" parent="Layout/Charms"]
+position = Vector2(42500, 374)
+script = ExtResource("3")
+kind = "supply"
+dimensions = Vector2(38, 53)
+trial_platform = NodePath("../../Platforms/SupplyLedgeMoving")
+
+[node name="ExtraPatrol01" type="Marker2D" parent="Layout/Guards"]
+position = Vector2(8000, 550)
+script = ExtResource("3")
+kind = "guard"
+dimensions = Vector2(120, 145)
+enemy_count = 3
+archer_first = true
+
+[node name="ExtraPatrol02" type="Marker2D" parent="Layout/Guards"]
+position = Vector2(34300, 550)
+script = ExtResource("3")
+kind = "guard"
+dimensions = Vector2(120, 145)
+enemy_count = 3
+archer_first = false
+
+[node name="ExtraPatrol03" type="Marker2D" parent="Layout/Guards"]
+position = Vector2(61850, 550)
+script = ExtResource("3")
+kind = "guard"
+dimensions = Vector2(120, 145)
+enemy_count = 4
+archer_first = true
