@@ -31,6 +31,11 @@ jobs:
       - name: Verify the browser export
         run: |
           test -s index.html
+          if [ ! -f index.pck ]; then
+            cat index.pck.part-* > index.pck
+            sha256sum --check index.pck.sha256
+            rm index.pck.part-* index.pck.sha256
+          fi
           test -s index.pck
           test -s index.wasm
       - uses: actions/upload-pages-artifact@v4
