@@ -42,8 +42,8 @@
 
 ![Пещера под степью](docs/screenshots/explore-cave-amber-hall.png)
 
-
 ## Публикация браузерной версии
 
-В настройках репозитория выберите **Settings → Pages → Source → GitHub Actions**. Затем откройте **Actions → Publish game to GitHub Pages → Run workflow**. После успешной сборки адрес игры появится в **Settings → Pages**.
+[Играть в браузере](https://missalimovdanial.github.io/qabanbay/)
 
+GitHub Pages публикует готовый Web-экспорт из ветки `web-build`. После изменения игры экспортируйте проект с пресетом **Web** в Godot 4.7.2 и обновите файлы в этой ветке. Затем откройте **Actions → Publish game to GitHub Pages → Run workflow** и выберите ветку `main`.

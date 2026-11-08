@@ -13,52 +13,29 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: read
-    env:
-      GODOT_VERSION: 4.7.2
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/configure-pages@v5
-      - name: Install Godot and its Web export template
-        shell: bash
-        run: |
-          release="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
-          engine="Godot_v${GODOT_VERSION}-stable_linux.x86_64"
-          curl --fail --location --retry 3 "$release/$engine.zip" -o "$RUNNER_TEMP/godot.zip"
-          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP"
-          chmod +x "$RUNNER_TEMP/$engine"
-          curl --fail --location --retry 3 "$release/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" -o "$RUNNER_TEMP/templates.tpz"
-          template_dir="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
-          mkdir -p "$template_dir"
-          unzip -j "$RUNNER_TEMP/templates.tpz" 'templates/web_nothreads_release.zip' -d "$template_dir"
-          echo "GODOT=$RUNNER_TEMP/$engine" >> "$GITHUB_ENV"
-      - name: Export the campaign
-        shell: bash
-        run: |
-          "$GODOT" --headless --editor --import
-          mkdir -p build/web
-          "$GODOT" --headless --export-release Web build/web/index.html
-          test -s build/web/index.html
-          test -s build/web/index.pck
-          test -s build/web/index.wasm
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: web-build
+          persist-credentials: false
+      - uses: actions/configure-pages@v5
+      - name: Verify the browser export
+        run: |
+          test -s index.html
+          test -s index.pck
+          test -s index.wasm
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
       - id: deployment
         uses: actions/deploy-pages@v4
 
