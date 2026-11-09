@@ -69,17 +69,17 @@ func _input(event:InputEvent)->void:
     message = "Возьми кумыс из тайника, чтобы открыть выход"
  else:
   for entry in game.stage.get("doors",[]):
-   if absf(game.hero.x-entry.at.x)<170 and absf(game.hero.y-entry.at.y)<100:
+   if entry.kind == "passage" and absf(game.hero.x-entry.at.x)<170 and absf(game.hero.y-entry.at.y)<100:
     var box:=Rect2(entry.at-Vector2(game.camera_x+70,game.camera_y+130),Vector2(140,150))
     if at.x<0 or box.has_point(at):enter(entry);return
 
-func enter(entry:Dictionary)->void:
+func enter(entry:Dictionary, falling := false)->void:
  inside=true
  room=entry
  room_x=200
- room_y=570
- room_vy=0
- room_grounded = true
+ room_y=185.0 if falling else ROOM_FLOOR
+ room_vy=300.0 if falling else 0.0
+ room_grounded = not falling
  room_camera_x = 0.0
  room_safe_x = room_x
  room_jump=false
@@ -93,16 +93,18 @@ func enter(entry:Dictionary)->void:
   var zones := [Vector2(275, 730), Vector2(1130, 1580), Vector2(1995, 2325), Vector2(2480, 2725)]
   var gates := [835.0, 1675.0, 2410.0, 2800.0]
   for index in range(starts.size()):
-   cave_guards.append({"x": starts[index], "zone": zones[index], "gate": gates[index], "hp": 4 if index < 2 else 5, "bow": index == 1, "state": "wait", "timer": 0.55, "hit": 0.0, "down": 0.0})
+   var wildlife: bool = game.chapter_number == 1
+   cave_guards.append({"x": starts[index], "zone": zones[index], "gate": gates[index], "hp": (3 if wildlife else 4) if index < 2 else (4 if wildlife else 5), "bow": not wildlife and index == 1, "wildlife": wildlife, "state": "wait", "timer": 0.55, "hit": 0.0, "down": 0.0})
  statue_hp=0 if cleared.has(str(entry.at.x)) else 4
  drink=false
  drunk=cleared.has(str(entry.at.x))
  game.attack_timer=0
+ game.super_timer=0
  game.air_kick=false
  game._clear_input()
  door_open=0.4
  game.audio.play("gate")
- message="Стражи 0 / 4 · кумыс в дальнем зале" if not cave_guards.is_empty() else "Тайник уже открыт · выход справа" if entry.kind=="secret" else "Золотой человек · разбей сувенир копьём"
+ message="Под землёй · победи соперников, чтобы найти кумыс" if not cave_guards.is_empty() else "Тайник уже открыт · выход справа" if entry.kind=="secret" else "Золотой человек · разбей сувенир копьём"
 
 func leave(right:bool)->void:
  inside=false
@@ -157,6 +159,7 @@ func step(dt:float)->bool:
  if inside:
   game.elapsed+=dt
   game.attack_timer=maxf(0,game.attack_timer-dt)
+  game.super_timer=maxf(0,game.super_timer-dt)
   game.invulnerable=maxf(0,game.invulnerable-dt)
   var movement:=float(game._held("right"))-float(game._held("left"))
   var sprinting: bool = game._wants_to_sprint(movement)
@@ -183,7 +186,7 @@ func step(dt:float)->bool:
    statue_hp-=1
    effect=0.24
    game.audio.play("break" if statue_hp==0 else "hit")
-   if statue_hp==0:drink=true;message="Кумыс · подойди к торсыку"
+   if statue_hp==0:drink=true;message="Торсык с кумысом · подойди, чтобы выпить"
   if guards_clear and drink and absf(room_x-reward_x)<55:
    drink=false;drunk=true
    game.hp=game.MAX_HP
@@ -209,6 +212,10 @@ func step(dt:float)->bool:
 
 func after_motion()->void:
  if inside:return
+ for entry in game.stage.get("doors",[]):
+  if entry.kind == "secret" and not cleared.has(str(entry.at.x)) and absf(game.hero.x - entry.at.x) < 70.0 and game.hero.y > maxf(game.FLOOR_Y + 75.0, entry.at.y - 92.0):
+   enter(entry, true)
+   return
  if game.grounded:
   safe=game.hero
   safe_platform=-1
@@ -227,7 +234,7 @@ func after_motion()->void:
    game.audio.play("water")
    if game.hp==0:
     game.phase=game.Phase.LOST
-    game._show_panel("Отдохни у привала","Дождись платформы и прыгни на её середину. Вода отнимает сердце.","К чекпойнту")
+    game._show_panel("Отдохни у привала","Перепрыгивай между секциями мостков. Вода отнимает сердце.","К чекпойнту")
    break
  for entry in game.stage.get("doors",[]):
   if entry.kind=="passage" and not cleared.has(str(entry.at.x)) and game.hero.x>entry.at.x-95 and game.hero.x<entry.at.x+220:
@@ -264,7 +271,7 @@ func _draw()->void:
  for entry in game.stage.get("doors",[]):
   var p:Vector2=entry.at-offset
   if p.x< -400 or p.x>1600:continue
-  if absf(game.hero.x-entry.at.x)<230 and absf(game.hero.y-entry.at.y)<150:_prompt(p-Vector2(0,65),"Коснись двери · E")
+  if entry.kind == "passage" and absf(game.hero.x-entry.at.x)<230 and absf(game.hero.y-entry.at.y)<150:_prompt(p-Vector2(0,65),"Коснись двери · E")
  for lake in game.stage.get("lakes",[]):
   if lake.y<game.camera_x or lake.x>game.camera_x+1280:continue
   var left:float=maxf(-20,lake.x-game.camera_x)
@@ -285,7 +292,7 @@ func _draw()->void:
   bed.append(Vector2(left, bed_bottom))
   bed_uv.append(Vector2((left+game.camera_x)/512, (bed_bottom+game.camera_y)/512))
   texture_repeat=CanvasItem.TEXTURE_REPEAT_MIRROR
-  var bed_tint := Color("#968772") if game.chapter_number == 2 or game.chapter_number == 3 else Color("#b5a174")
+  var bed_tint := Color("#968772") if game.chapter_number <= 3 else Color("#b5a174")
   draw_colored_polygon(bed,bed_tint,bed_uv,preload("res://art/animation/sand-ground.png"))
   var surface:=PackedVector2Array()
   var shades:=PackedColorArray()
@@ -319,10 +326,10 @@ func _draw_room()->void:
  if room.kind=="passage":
   draw_texture_rect(interior,Rect2(0,0,1280,720),false)
  else:
-  draw_texture_rect(CAVE_ART,Rect2(-room_camera_x,0,CAVE_WIDTH,720),false)
+  draw_texture_rect(CAVE_ART,Rect2(-room_camera_x,0,CAVE_WIDTH,720),false,Color("e9d8c4"))
   _draw_cave_passage()
-  for x in [95.0, CAVE_EXIT]:
-   game.art.prop(self,"secret_door",Vector2(x,ROOM_FLOOR)-camera,Vector2(100,155))
+  game.art.cave_mouth(self, Vector2(103.0, ROOM_FLOOR) - camera)
+  game.art.embedded_door(self, Vector2(CAVE_EXIT, ROOM_FLOOR) - camera)
  var reward_x := (CAVE_REWARD if cavern else 680.0) - room_camera_x
  for guard in cave_guards:_draw_guard(guard)
  for arrow in cave_arrows:
@@ -334,20 +341,21 @@ func _draw_room()->void:
  var clip:="hurt" if game.hp<=0 or game.invulnerable>1.1 and game.invulnerable<1.5 else "kick" if game.attack_timer>0 and game.air_kick else "jump" if not room_grounded else "hurt" if drunk and effect>0 else "super" if game.attack_timer>0 and game.empowered else "attack" if game.attack_timer>0 else "run" if game.stride_moving else "idle"
  var frame:=clampi(int((0.30-game.attack_timer)*20),0,5) if game.attack_timer>0 else int(game.clock*10)%6
  if clip == "run":
-  frame = int(game.run_clock * 13) % 6
+  frame = game._stride_frame()
  if game.hp<=0:
   if game.death_at<0:game.death_at=game.clock
   var fall:=clampf((game.clock-game.death_at)/0.8,0,1)
   game.character_frames.pose(self,"hero","hurt",clampi(int(fall*6),0,5),Vector2(room_x,room_y)-camera,game.facing,Color.WHITE,fall*1.35*game.facing)
  else:
   game.character_frames.pose(self,"hero",clip,frame,Vector2(room_x,room_y)-camera,game.facing)
+ game._draw_super_strike(self, Vector2(room_x, room_y) - camera, false)
  if drunk and effect>0:
   game.art.prop(self,"kumys",Vector2(room_x+game.facing*24,478+sin(game.clock*9)*2)-camera,Vector2(22,34))
  draw_style_box(game._style(Color("173d3df2"),Color("dbbd78")),Rect2(326,35,674,68))
  var hall := "ВХОДНОЙ ЗАЛ" if room_x < CAVE_GAPS[0].x else "СИНЯЯ ГАЛЕРЕЯ" if room_x < CAVE_GAPS[1].x else "ЯНТАРНЫЙ ЗАЛ"
  _label(hall if cavern else "ГОСТЕПРИИМНЫЙ АУЛ",Vector2(350,61),16)
  _label(message,Vector2(350,88),18)
- if room_x<260:_prompt(Vector2(95,430),"Выход · E")
+ if room_x<260:_prompt(Vector2(95,430),"Назад · E")
  elif cavern and drunk and room_x > CAVE_EXIT - 155.0:
   _prompt(Vector2(CAVE_EXIT - room_camera_x, 430), "Выход · E")
  elif not cavern and room_x>980:_prompt(Vector2(1180,430),"Выход · E")
@@ -371,9 +379,9 @@ func _draw_cave_passage() -> void:
   draw_polyline(PackedVector2Array([cut[0], cut[1], cut[2], cut[3]]), Color("#8f704d"), 4.0, true)
   draw_polyline(PackedVector2Array([cut[7], cut[6], cut[5], cut[4]]), Color("#75615f"), 3.0, true)
  var ledge := CAVE_LEDGE.position - Vector2(room_camera_x, 0)
- var rock := PackedVector2Array([ledge, ledge + Vector2(72, 0), ledge + Vector2(66, 15), ledge + Vector2(44, 28), ledge + Vector2(13, 21)])
- draw_colored_polygon(rock, Color("#686069"))
- draw_line(ledge, ledge + Vector2(72, 0), Color("#b1a19a"), 3.0, true)
+ var rock := PackedVector2Array([ledge, ledge + Vector2(72, 0), ledge + Vector2(66, 48), ledge + Vector2(82, 160), ledge + Vector2(12, 180), ledge + Vector2(14, 71)])
+ draw_colored_polygon(rock, Color("#686069"), PackedVector2Array([Vector2(0, 0.22), Vector2(1, 0.22), Vector2(0.90, 0.40), Vector2(1.1, 0.95), Vector2(0.1, 1), Vector2(0.16, 0.55)]), CAVE_STONE)
+ draw_line(ledge, ledge + Vector2(72, 0), Color("#b1a19a"), 3.0)
  for guard in cave_guards:
   if guard.hp <= 0:
    continue
@@ -410,7 +418,7 @@ func _cave_fight(dt:float)->void:
    "wait":
     var reach := 245.0 if guard.bow else 112.0
     if absf(dx) > reach + 10.0:
-     var next_x := move_toward(guard.x, room_x - signf(dx) * reach, dt * 105.0)
+     var next_x := move_toward(guard.x, room_x - signf(dx) * reach, dt * (148.0 if guard.wildlife else 105.0))
      next_x = clampf(next_x, guard.zone.x, guard.zone.y)
      guard.moving = not is_equal_approx(guard.x, next_x)
      guard.x = next_x
@@ -442,7 +450,8 @@ func _cave_fight(dt:float)->void:
  if game.air_kick:
   var top := minf(room_y, game.dive_previous_y) - 5.0
   weapon = Rect2(room_x - 38, top, 76, room_y + 55.0 - top)
- if not weapon.intersects(Rect2(guard.x - 30, 450, 60, 120)):
+ var body := Rect2(guard.x - 39, 495, 78, 75) if guard.wildlife else Rect2(guard.x - 30, 450, 60, 120)
+ if not weapon.intersects(body):
   return
  game.swing_hits[key] = true
  game._register_hit()
@@ -451,7 +460,7 @@ func _cave_fight(dt:float)->void:
  game.audio.play("hit")
  if guard.hp == 0:
   var count := active + 1
-  message = "Все стражи повержены · разбей золотой сувенир" if count == cave_guards.size() else "Стражи %d / %d · проход открыт" % [count, cave_guards.size()]
+  message = "Путь открыт · разбей Золотого человека в дальнем зале" if count == cave_guards.size() else "Соперники %d / %d · проход открыт" % [count, cave_guards.size()]
 
 func _step_cave_arrows(delta: float) -> void:
  for index in range(cave_arrows.size() - 1, -1, -1):
@@ -474,6 +483,11 @@ func _draw_guard(guard:Dictionary)->void:
  if p.x < -120 or p.x > 1400:
   return
  var direction:=1.0 if room_x>=guard.x else -1.0
+ if guard.wildlife:
+  var clip := "down" if guard.hp <= 0 else "hurt" if guard.hit > 0 else "windup" if guard.state == "windup" else "run" if guard.get("moving", false) or guard.state == "strike" else "idle"
+  var frame := clampi(int(guard.down * 9.0), 0, 5) if clip == "down" else step
+  game.character_frames.pose(self, "boar", clip, frame, p, direction, Color("ffc2aa") if guard.hit > 0 else Color("bca88d"), 0.0, 0.62)
+  return
  var atlas := cave_archer if guard.bow else guard_texture
  var cell:=atlas.get_size()/Vector2(6,4)
  var fall:float=clampf(guard.down/0.7,0,1) if guard.hp<=0 else 0.0

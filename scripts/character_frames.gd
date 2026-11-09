@@ -257,7 +257,7 @@ const CLIPS := {
  "horse":{"idle":[0,4],"gallop":[8,8]}
 }
 
-func pose(node: CanvasItem,kind: String,clip: String,step: int,p: Vector2,dir: float=1.0,tint:=Color.WHITE,rotation:float=0.0) -> void:
+func pose(node: CanvasItem,kind: String,clip: String,step: int,p: Vector2,dir: float=1.0,tint:=Color.WHITE,rotation:float=0.0,size_factor:=1.0) -> void:
  if kind=="hero":kind="hero" if hero_age==1 else "hero-adult" if hero_age<=3 else "hero-veteran"
  if not action_banks.has(kind):
   action_banks[kind]=load("res://art/animation/actions/"+kind+".res")
@@ -265,7 +265,7 @@ func pose(node: CanvasItem,kind: String,clip: String,step: int,p: Vector2,dir: f
  if not actions:
   return
  var tex:=actions.get_frame_texture(clip,posmod(step,6))
- var age_scale:=body_scale() if kind.begins_with("hero") else 1.0
+ var age_scale:=(body_scale() if kind.begins_with("hero") else 1.0) * size_factor
  node.draw_set_transform(p.round(),rotation,Vector2(dir*age_scale,age_scale))
  node.draw_texture(tex,Vector2(-195,-185),tint)
  node.draw_set_transform(Vector2.ZERO)

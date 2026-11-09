@@ -16,3 +16,10 @@ static func surface(x:float,ravines:Array,base:float=550.0)->float:
   if x>=b and x<=b+100:
    return base-12*sin((x-b)/100*PI)
  return base
+
+static func collectible_position(at: Vector2, terraces: Array, ravines: Array) -> Vector2:
+ var support := surface(at.x, ravines)
+ for terrace in terraces:
+  if at.x >= terrace.position.x and at.x <= terrace.end.x and absf(at.y - terrace.position.y) < 80:
+   support = minf(support, terrace.position.y)
+ return Vector2(at.x, support - 8.0) if support < 10000.0 else at

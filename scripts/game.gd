@@ -32,8 +32,6 @@ var lesson_target := "right"
 var lesson_arrow: Line2D
 var lesson_hint:Label
 var run_distance := 0.0
-var platform_origins: Array = []
-var platform_time := 0.0
 
 const Art = preload("res://scripts/level_art.gd")
 const Sound = preload("res://scripts/audio.gd")
@@ -96,6 +94,7 @@ var boar_facing := -1.0
 var attack_timer := 0.0
 var attack_cooldown := 0.0
 var super_timer := 0.0
+const SUPER_EFFECT_TIME := 0.48
 var empowered := false
 var super_used := false
 const SUPER_RECOVERY := 4.0
@@ -170,7 +169,6 @@ func _ready() -> void:
  route_depths = stage.get("ravines",[])
  route_rocks = stage.get("rocks", ROCKS).duplicate()
  route_platforms = stage.platforms.duplicate()
- platform_origins = route_platforms.duplicate()
  route_gaps = stage.gaps.duplicate()
  route_charms = CHARMS.duplicate()
  if chapter_number > 1:
@@ -179,9 +177,7 @@ func _ready() -> void:
  route_supplies = stage.get("supplies", [])
  wind_trial.configure(stage.get("wind_trial", {}))
  for i in range(route_charms.size()):
-  for ledge in route_platforms:
-   if route_charms[i].x>=ledge.position.x-10 and route_charms[i].x<=ledge.end.x+10 and route_charms[i].y>ledge.position.y-35:
-    route_charms[i].y=ledge.position.y-45
+  route_charms[i] = preload("res://scripts/landform.gd").collectible_position(route_charms[i], route_platforms, route_depths)
  for name in ["yurt","dead_tree","grass_tuft","rock","heart","empty_heart","practice_dummy","secret_door","golden_man","kumys"]:
   art._asset(name)
  var hero_bank:="hero" if chapter_number==1 else "hero-adult" if chapter_number<=3 else "hero-veteran"
@@ -556,9 +552,7 @@ func _restart(at_encounter: bool) -> void:
   training_stage = 0
   run_distance = 0
   lesson_open = false
-  platform_time = 0
   route_platforms = stage.platforms.duplicate()
-  platform_origins = route_platforms.duplicate()
   attack_count = 0
   collected.clear()
   collected_supplies.clear()
@@ -669,7 +663,7 @@ func _step_stride(delta: float, distance: float, sprinting: bool, on_ground: boo
  if not on_ground:
   return
  if stride_moving:
-  run_clock += distance / SPEED
+  run_clock = fposmod(run_clock + distance / (225.0 if _is_mounted() else 114.0), 1.0)
  if sprinting and stride_moving:
   stamina = maxf(0.0, stamina - STAMINA_DRAIN * delta)
   if stamina == 0.0:
@@ -678,6 +672,9 @@ func _step_stride(delta: float, distance: float, sprinting: bool, on_ground: boo
   stamina = minf(MAX_STAMINA, stamina + STAMINA_RECOVERY * delta)
   if stamina >= STAMINA_RESUME:
    exhausted = false
+
+func _stride_frame() -> int:
+ return floori(run_clock * 6.0)
 
 func _physics_process(delta: float) -> void:
  if not paused:
@@ -710,7 +707,6 @@ func _tick(delta: float) -> void:
   return
  _tutorial_step()
  elapsed += delta
- _tick_platforms(delta)
  if hp < MAX_HP:
   heal_timer += delta
   if heal_timer >= 5.0:
@@ -754,12 +750,12 @@ func _tick(delta: float) -> void:
  _step_stride(delta, absf(hero.x - old_x), sprinting, grounded)
  if is_instance_valid(exploration):
   exploration.after_motion()
-  if exploration.bounce>0:return
+  if exploration.inside or exploration.bounce>0:return
  if phase == Phase.LOST:
   return
  if grounded and absf(hero.x - old_x) > 0.1 and dodge_timer <= 0 and footstep_timer <= 0:
   audio.play("hoof" if _is_mounted() else "step")
-  footstep_timer = (0.14 if sprinting else 0.18) if _is_mounted() else (0.17 if sprinting else 0.24)
+  footstep_timer = (0.14 if sprinting else 0.18) if _is_mounted() else (0.22 if sprinting else 0.30)
   if sprinting and not _is_mounted():
    _burst(hero - Vector2(facing * 13, 3), Color("#c8ad7c"), 2)
  if attack_timer <= 0:
@@ -819,20 +815,13 @@ func _tick(delta: float) -> void:
  if chapter_number == 1 and phase == Phase.FIGHT:
   _tick_boar(delta)
 
-func _coin_position(i:int) -> Vector2:
- var p:Vector2=route_charms[i]
- for index in range(platform_origins.size()):
-  var origin:Rect2=platform_origins[index]
-  if absf(p.x-origin.get_center().x)<8 and absf(p.y-(origin.position.y-65))<5:
-   p+=route_platforms[index].position-origin.position
-   break
- return p
-
 func _pickups() -> void:
  for i in range(route_charms.size()):
-  if not collected.has(i) and hero.distance_to(_coin_position(i)+Vector2(0,45)) < 65:
+  if not collected.has(i) and hero.distance_to(route_charms[i]) < 35:
    collected[i] = true
-   _burst(_coin_position(i), Color("ffe193"), 10)
+   _burst(route_charms[i], Color("f1d6a6"), 7)
+   if collected.size() == 1:
+    _notice("Асык · найденная игральная косточка")
    audio.play("pickup")
  for index in range(route_supplies.size()):
   if collected_supplies.has(index):
@@ -858,16 +847,16 @@ func _attack(power: bool = false) -> void:
  var indoors: bool = is_instance_valid(exploration) and exploration.inside
  air_kick = not power and (not exploration.room_grounded if indoors else not _is_mounted() and not grounded)
  attack_timer = 0.30
- dive_previous_y=hero.y
+ dive_previous_y=exploration.room_y if indoors else hero.y
  if air_kick:
   if exploration.inside:exploration.room_vy=2300.0
   else:vertical_speed=2300.0
  if power:
   super_used = true
   super_hits = 0
-  super_timer = 0
+  super_timer = SUPER_EFFECT_TIME
   audio.play("charge")
-  _burst(hero-Vector2(0,65), Color("f4cf7a"), 16)
+  shake = 5
  attack_count += 1
  swing_hits.clear()
  tutorial.attack = true
@@ -875,7 +864,7 @@ func _attack(power: bool = false) -> void:
  audio.play("spear")
 
 func _register_hit() -> void:
- if not empowered:
+ if not empowered and super_hits < SUPER_HITS_REQUIRED:
   super_hits = mini(SUPER_HITS_REQUIRED,super_hits+1)
   if super_hits==SUPER_HITS_REQUIRED:
    audio.play("pickup")
@@ -908,7 +897,7 @@ func _resolve_attack() -> void:
   boar_hp = maxi(0, boar_hp - (3 if empowered else 1))
   attack_landed = true
   hit_flash = 0.16
-  shake = 3
+  shake = 8 if empowered else 3
   if boar_state == "recover":
    boar_state = "stagger"
    boar_timer = 0.28
@@ -1007,7 +996,7 @@ func _move_hero_step(delta: float, horizontal_speed: float) -> void:
   deaths += 1
   phase = Phase.LOST
   audio.play("hurt")
-  _show_panel("Овраг", "Не спеши: на широкой пропасти используй промежуточные платформы.\n\nШаг — A / D · Бег — K · Прыжок — пробел.\nНайденные припасы сохранятся.", "Повторить путь")
+  _show_panel("Овраг", "Перепрыгивай между каменными уступами.\n\nШаг — A / D · Бег — K · Прыжок — пробел.\nНайденные припасы сохранятся.", "Повторить путь")
 
 func _decor_clear(x: float, half_width: float = 20.0) -> bool:
  for gap in route_gaps:
@@ -1038,7 +1027,7 @@ func _draw_layout_decor() -> bool:
    art.prop(self, entry.name, at - Vector2(camera_x, 0), entry.size)
  for door in stage.get("doors",[]):
   if door.at.x<camera_x-450 or door.at.x>camera_x+1700:continue
-  if door.kind=="secret":art.embedded_door(self,door.at-Vector2(camera_x,0),Vector2(camera_x,0))
+  if door.kind=="secret":art.cave_mouth(self,door.at-Vector2(camera_x,0))
   else:art.prop(self,"yurt",door.at-Vector2(camera_x,0),Vector2(420,295))
  return true
 
@@ -1228,19 +1217,6 @@ func _tutorial_step() -> void:
   training_stage = 6
   _notice("Обучение пройдено · потренируйся на тропе перед боем")
 
-func _tick_platforms(delta: float) -> void:
- platform_time += delta
- for i in range(route_platforms.size()):
-  var old: Rect2 = route_platforms[i]
-  var origin: Rect2 = platform_origins[i]
-  var next := origin
-  var config:Dictionary=stage.get("platform_motion",[])[i] if i<stage.get("platform_motion",[]).size() else {"travel":Vector2(35,0),"period":5.0,"phase":0.0}
-  next.position += config.travel*sin(platform_time*TAU/config.period+config.phase)
-  var carry := absf(hero.y-old.position.y)<1.0 and hero.x+17>old.position.x and hero.x-17<old.end.x and vertical_speed>=0
-  route_platforms[i] = next
-  if carry:
-   hero += next.position-old.position
-
 func _notice(text: String) -> void:
  banner_text = text
  banner_timer = 3.2
@@ -1259,12 +1235,12 @@ func _refresh_ui() -> void:
   lesson_hint.position=Vector2(clampf(target.x-110,5,1055),target.y-153)
   lesson_hint.text="Нажми: "+{"right":"вправо · D","jump":"прыжок · Пробел","attack":"удар · J / G","run":"бег · K","power":"суперудар · L"}[lesson_target]
  hud.text = "ЕРАСЫЛ"
- loot_label.text = "Обереги: %d / 6" % collected.size()
+ loot_label.text = "Асыки: %d / %d" % [collected.size(), route_charms.size()]
  objective.text = "ГЛАВА I  /  Защити табун" if phase == Phase.FIGHT else "ГЛАВА I  /  Найди лошадей у реки >"
  if phase == Phase.FIGHT:
   hint.text = {"approach": "Держи дистанцию. Кабан готовится к броску.", "windup": "СЕЙЧАС БРОСОК! Прыжок — пробел · Бег — K", "charge": "УКЛОНЯЙСЯ!", "recover": "АТАКУЙ СБОКУ! Копьё — J", "stagger": "Есть попадание! Отойди и приготовься к броску."}.get(boar_state, "")
  elif hero.x < 800:
-  hint.text = "Шаг: A / D · Бег: K + направление или стрелки · Суперудар: L · собери золотые обереги"
+  hint.text = "Шаг: A / D · Бег: K + направление · Суперудар: L · собирай асыки"
  elif hero.x < 1200:
   hint.text = "Прыжок: Пробел. Беги вдоль тропы к мишени."
  elif hero.x < 1650:
@@ -1318,7 +1294,7 @@ func _draw() -> void:
  art.background(self, camera_x, size,chapter_number)
  art.ground(self, camera_x, size.x, FLOOR_Y, route_gaps,route_depths)
  for platform_rect in route_platforms:
-  art.platform(self, platform_rect, camera_x, chapter_number)
+  art.platform(self, platform_rect, camera_x, chapter_number, route_depths)
  if not _draw_layout_decor():
   for x in [160.0, 480.0]:
    if not _decor_clear(x, 140):
@@ -1341,7 +1317,7 @@ func _draw() -> void:
 
  for i in range(route_charms.size()):
   if not collected.has(i):
-   art.coin(self,_coin_position(i)-Vector2(camera_x,0),clock+i)
+   art.asyk(self, route_charms[i] - Vector2(camera_x, 0), i)
  if dummy_hp>0:
   art.prop(self,"practice_dummy",Vector2(1410-camera_x,FLOOR_Y),Vector2(105,145))
   if training_stage==3 and not lesson_open:
@@ -1354,6 +1330,7 @@ func _draw() -> void:
  _draw_horse_scene()
  _draw_hero(hero - Vector2(camera_x, 0))
  _draw_boar(boar - Vector2(camera_x, 0))
+ _draw_super_strike(self, hero - Vector2(camera_x, 0), false)
  for particle in particles:
   var p: Vector2 = particle.p - Vector2(camera_x, 0)
   draw_rect(Rect2(p, Vector2(5, 5)), particle.color)
@@ -1396,8 +1373,25 @@ func _draw_hero(p: Vector2) -> void:
   step=clampi(int((0.12-landing_timer)*50),0,5)
  elif stride_moving:
   clip="run"
-  step=int(run_clock*13)%6
+  step=_stride_frame()
  character_frames.pose(self,"hero",clip,step,p+Vector2(0,18 if clip=="kick" else 0),facing,Color("ffe3c9") if invulnerable>1.05 else Color.WHITE)
+
+func _draw_super_strike(canvas: CanvasItem, foot: Vector2, mounted: bool) -> void:
+ if super_timer <= 0.0:
+  return
+ var t := 1.0 - super_timer / SUPER_EFFECT_TIME
+ var center := (foot - Vector2(0, 114 if mounted else 70)).round()
+ var span := 48.0 + 169.0 * ease(t, 0.45)
+ var fade := 1.0 - t
+ var tail := Vector2(span * 0.31, 19.0)
+ var edge := Vector2(span, -12.0 + t * 24.0)
+ canvas.draw_set_transform(center, 0.0, Vector2(facing, 1.0))
+ canvas.draw_colored_polygon(PackedVector2Array([tail, Vector2(span * 0.66, -25), edge, Vector2(span * 0.81, 17)]), Color(0.78, 0.49, 0.21, fade * 0.84))
+ canvas.draw_colored_polygon(PackedVector2Array([Vector2(span * 0.20, 7), Vector2(span * 0.67, -16), edge, Vector2(span * 0.75, 5)]), Color(1.0, 0.91, 0.64, fade))
+ for i in range(7):
+  var point := Vector2(span * (0.46 + i * 0.07), float(i * 13 % 38) - 18.0 + t * (i - 3) * 8.0).round()
+  canvas.draw_rect(Rect2(point, Vector2(5 + i % 3 * 2, 3)), Color(1.0, 0.72, 0.36, fade))
+ canvas.draw_set_transform(Vector2.ZERO)
 
 
 func _draw_boar(p: Vector2) -> void:

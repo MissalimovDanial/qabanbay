@@ -53,16 +53,19 @@ var use_baked:=true
 const Land=preload("res://scripts/landform.gd")
 var landscape_chapter := 1
 const DRY_PANORAMA := preload("res://art/animation/sand-steppe.png")
+const ZAYSAN_PANORAMA := preload("res://art/animation/zaysan-lakeshore.png")
 const MEADOW_PANORAMA := preload("res://art/animation/ayagoz-meadow.png")
 const MEADOW_TERRAIN := preload("res://art/animation/ayagoz-terrain.png")
 
 func _is_meadow(chapter: int) -> bool:
- return chapter == 2 or chapter == 3
+ return chapter <= 3
 
 func _surface_texture(chapter: int) -> Texture2D:
  return MEADOW_TERRAIN if _is_meadow(chapter) else SURFACE_TEXTURE
 
 func _grass_color(chapter: int) -> Color:
+ if chapter == 1:
+  return Color("a4b26b")
  return Color("#8c9c58") if _is_meadow(chapter) else Color("#c7aa73")
 
 func _asset(name: String, character: bool = false) -> Dictionary:
@@ -134,6 +137,9 @@ func sprite(node: Node2D, name: String, at: Vector2, scale_factor: float, direct
 
 func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Color.WHITE) -> void:
  if not Engine.is_editor_hint() and (at.x+size.x*0.6< -80 or at.x-size.x*0.6>node.get_viewport_rect().size.x+80):return
+ if name == "steppe_bloom":
+  _steppe_bloom(node, at, size)
+  return
  if name in ["grass_tuft","reeds"]:
   for i in range(7):
    var x:=at.x+(i-3)*size.x/9
@@ -165,6 +171,19 @@ func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Co
    var length:=2+_grain(int(at.x),i)%4
    node.draw_line(Vector2(px-2,surface.y+2),Vector2(px+1,surface.y-length),Color("b99b69"),1,true)
 
+func _steppe_bloom(node: CanvasItem, at: Vector2, size: Vector2) -> void:
+ for index in range(7):
+  var root := (at + Vector2((index - 3) * size.x / 8.0, 2)).round()
+  var height := roundf(size.y * (0.49 + float(index * 3 % 7) * 0.07))
+  var lean := float(index % 3 - 1) * 5.0
+  var tip := root + Vector2(lean, -height)
+  node.draw_line(root, root.lerp(tip, 0.5), Color("64663b"), 3)
+  node.draw_line(root.lerp(tip, 0.5), tip, Color("8c8c4c"), 2)
+  node.draw_rect(Rect2(root.lerp(tip, 0.53) - Vector2(5, 1), Vector2(8, 3)), Color("a09958"))
+  node.draw_rect(Rect2(tip - Vector2(4, 4), Vector2(9, 6)), Color("795058"))
+  node.draw_rect(Rect2(tip - Vector2(3, 6), Vector2(6, 5)), Color("c57a78"))
+  node.draw_rect(Rect2(tip - Vector2(1, 6), Vector2(2, 3)), Color("f2ca9f"))
+
 func supply(node: Node2D, at: Vector2, time: float) -> void:
  if not Engine.is_editor_hint() and (at.x < -50 or at.x > node.get_viewport_rect().size.x + 50):
   return
@@ -177,7 +196,7 @@ func supply(node: Node2D, at: Vector2, time: float) -> void:
 
 func background(node:Node2D,camera:float,size:Vector2,chapter:int=1)->void:
  landscape_chapter=chapter
- var tex := MEADOW_PANORAMA if _is_meadow(chapter) else DRY_PANORAMA
+ var tex := ZAYSAN_PANORAMA if chapter == 1 else MEADOW_PANORAMA if _is_meadow(chapter) else DRY_PANORAMA
  var tint := _light_tint(chapter)
  var tile:=2400.0
  var scroll:=camera*0.12
@@ -368,22 +387,46 @@ func ravine(node:Node2D,span:Vector2,camera:float,floor_y:float,depth:float=175)
   _ravine_meshes[key]=mesh
  node.draw_mesh(_ravine_meshes[key],_surface_texture(landscape_chapter),Transform2D(0,Vector2(-camera,0)),_light_tint(landscape_chapter))
 
-func platform(node:Node2D,world_rect:Rect2,camera:float,style_chapter:int=1)->void:
+func platform(node:Node2D,world_rect:Rect2,camera:float,style_chapter:int=1,ravines:Array=[])->void:
  if not Engine.is_editor_hint() and (world_rect.end.x<camera-70 or world_rect.position.x>camera+node.get_viewport_rect().size.x+70):return
  var p:=world_rect.position-Vector2(camera,0)
  var w:=world_rect.size.x
- var local:=PackedVector2Array([Vector2(5,1),Vector2(w*.22,-1),Vector2(w*.51,1),Vector2(w-7,0),Vector2(w,9),Vector2(w-9,24),Vector2(w*.84,32),Vector2(w*.76,43),Vector2(w*.59,39),Vector2(w*.47,52),Vector2(w*.27,42),Vector2(14,31),Vector2(0,12)])
+ var floor_y := Land.surface(world_rect.get_center().x, ravines)
+ if floor_y >= 10000.0:
+  _timber_crossing(node, p, w)
+  return
+ var depth := maxf(world_rect.size.y, floor_y - p.y + 15.0)
+ var local:=PackedVector2Array([Vector2(0,0),Vector2(w,0),Vector2(w-5,13),Vector2(w*.89,depth*.36),Vector2(w*.93,depth*.71),Vector2(w+13,depth),Vector2(-12,depth),Vector2(w*.08,depth*.64),Vector2(w*.07,depth*.35),Vector2(8,16)])
+ if floor_y > 555.0 and w >= 300.0:
+  for leg in [0.22, 0.79]:
+   var x: float = w * leg
+   var support := PackedVector2Array([p+Vector2(x-48,20),p+Vector2(x+46,20),p+Vector2(x+26,depth*.58),p+Vector2(x+43,depth),p+Vector2(x-47,depth),p+Vector2(x-29,depth*.62)])
+   node.draw_colored_polygon(support, Color("ac9479") * _light_tint(style_chapter), PackedVector2Array([Vector2(0.2,0.30),Vector2(0.58,0.30),Vector2(0.52,0.51),Vector2(0.60,0.80),Vector2(0.21,0.80),Vector2(0.25,0.54)]), _surface_texture(style_chapter))
+  local = PackedVector2Array([Vector2(0,0),Vector2(w,0),Vector2(w-7,19),Vector2(w*.88,31),Vector2(w*.64,45),Vector2(w*.41,38),Vector2(w*.20,52),Vector2(10,27)])
  var points:=PackedVector2Array()
  var uvs:=PackedVector2Array()
  for v in local:
   points.append(p+v)
   var u:=0.10+v.x/maxf(w,1)*0.80
-  uvs.append(Vector2(u,0.267+v.y/320.0))
+  uvs.append(Vector2(u,0.267+v.y/maxf(320.0,depth*1.5)))
  var tint:=_light_tint(style_chapter)
  node.draw_colored_polygon(points,tint,uvs,_surface_texture(style_chapter))
  for i in range(3):
   var x:=p.x+w*(0.22+0.29*i)
   node.draw_polyline(PackedVector2Array([Vector2(x-4,p.y-5),Vector2(x,p.y+1),Vector2(x+2,p.y-9)]),_grass_color(style_chapter)*tint,1,true)
+
+func _timber_crossing(node: Node2D, at: Vector2, width: float) -> void:
+ var bottom := 660.0
+ for x in [at.x + 16.0, at.x + width - 27.0]:
+  node.draw_rect(Rect2(x, at.y + 8, 12, bottom - at.y), Color("563e30"))
+  node.draw_rect(Rect2(x + 2, at.y + 8, 4, bottom - at.y), Color("a27b51"))
+ node.draw_line(at + Vector2(21, 40), Vector2(at.x + width - 21, minf(bottom, at.y + 114)), Color("735036"), 8)
+ node.draw_rect(Rect2(at, Vector2(width, 19)), Color("543828"))
+ for index in range(ceili(width / 23.0)):
+  var offset := float(index) * 23.0
+  var plank_width := minf(22.0, width - offset)
+  node.draw_rect(Rect2(at + Vector2(offset, 0), Vector2(plank_width, 12)), Color("b58c59") if index % 2 == 0 else Color("a77d4d"))
+  node.draw_rect(Rect2(at + Vector2(offset, 0), Vector2(plank_width, 3)), Color("ddbc84"))
 
 func embedded_door(node:Node2D,p:Vector2,camera:=Vector2.ZERO)->void:
  # A shallow niche lies in the rear wall; the door never grows a separate pedestal.
@@ -399,6 +442,16 @@ func embedded_door(node:Node2D,p:Vector2,camera:=Vector2.ZERO)->void:
  node.draw_colored_polygon(opening,Color("51432e"))
  prop(node,"secret_door",p+Vector2(0,2),Vector2(88,136),Color("c3b49b"))
  node.draw_polyline(PackedVector2Array([p+Vector2(-55,3),p+Vector2(-20,5),p+Vector2(24,4),p+Vector2(54,2)]),Color("a48b60"),5,true)
+
+func cave_mouth(node: CanvasItem, at: Vector2) -> void:
+ var rim := PackedVector2Array([at + Vector2(-87, 6), at + Vector2(-74, -35), at + Vector2(-53, -72), at + Vector2(-14, -91), at + Vector2(21, -85), at + Vector2(53, -67), at + Vector2(73, -25), at + Vector2(84, 6)])
+ node.draw_colored_polygon(rim, Color("766045"))
+ var opening := PackedVector2Array([at + Vector2(-66, 5), at + Vector2(-56, -28), at + Vector2(-36, -58), at + Vector2(-9, -70), at + Vector2(23, -62), at + Vector2(43, -48), at + Vector2(60, -13), at + Vector2(65, 5)])
+ node.draw_colored_polygon(opening, Color("2d2926"))
+ node.draw_polyline(PackedVector2Array([rim[1], rim[2], rim[3], rim[4], rim[5]]), Color("b59668"), 3)
+ for index in range(5):
+  var stone := at + Vector2(-75 + index * 34, 3 - (index * 7 % 3))
+  node.draw_rect(Rect2(stone, Vector2(13, 4)), Color("9e815b"))
 
 func spikes(node:Node2D,span:Vector2,camera:float,floor_y:float)->void:
  if not Engine.is_editor_hint() and (span.y<camera-50 or span.x>camera+1330):return
@@ -420,20 +473,16 @@ func _spike_base()->StyleBoxFlat:
  box.set_corner_radius_all(3)
  return box
 
-func coin(node:Node2D,p:Vector2,time:float)->void:
- if p.x< -30 or p.x>node.get_viewport_rect().size.x+30:return
- node.draw_set_transform(p,0,Vector2(0.78+absf(cos(time*1.8))*.22,1))
- node.draw_circle(Vector2(0,2),14,Color("85532a"))
- node.draw_circle(Vector2.ZERO,13,Color("e8b34e"))
- node.draw_circle(Vector2(-1,-1),10.5,Color("ffdf8c"))
- node.draw_circle(Vector2.ZERO,8.5,Color("277a7e"))
- for i in range(8):
-  var a:=i*TAU/8
-  var center:=Vector2(cos(a),sin(a))*4.8
-  node.draw_colored_polygon(PackedVector2Array([center+Vector2(0,-2.5),center+Vector2(2,0),center+Vector2(0,2.5),center+Vector2(-2,0)]),Color("f4c96a"))
- node.draw_circle(Vector2.ZERO,2.2,Color("fff1bc"))
- node.draw_arc(Vector2.ZERO,11,-2.9,-1.0,12,Color("fff5c7"),2,true)
- node.draw_set_transform(Vector2.ZERO)
+func asyk(node: CanvasItem, p: Vector2, variant: int) -> void:
+ if not Engine.is_editor_hint() and (p.x < -30 or p.x > node.get_viewport_rect().size.x + 30):
+  return
+ var at := p.round()
+ var colors := [Color("c79668"), Color("ca8066"), Color("87ad9d")]
+ node.draw_colored_polygon(PackedVector2Array([at + Vector2(-15, -2), at + Vector2(-11, -11), at + Vector2(-4, -12), at + Vector2(2, -7), at + Vector2(10, -10), at + Vector2(15, -5), at + Vector2(13, 6), at + Vector2(6, 10), at + Vector2(-6, 7), at + Vector2(-13, 9)]), Color("534234"))
+ node.draw_colored_polygon(PackedVector2Array([at + Vector2(-12, -2), at + Vector2(-8, -9), at + Vector2(-4, -9), at + Vector2(2, -4), at + Vector2(9, -7), at + Vector2(12, -4), at + Vector2(10, 5), at + Vector2(5, 7), at + Vector2(-5, 4), at + Vector2(-11, 6)]), colors[variant % colors.size()])
+ node.draw_line(at + Vector2(-8, -7), at + Vector2(-3, -7), Color("f0dec2"), 2)
+ node.draw_line(at + Vector2(4, -3), at + Vector2(9, -5), Color("f0dec2"), 2)
+ node.draw_rect(Rect2(at + Vector2(-3, 1), Vector2(8, 3)), Color("846854"))
 
 func arrow(node:Node2D,p:Vector2,dir:float) -> void:
  node.draw_set_transform(p,0,Vector2(dir,1))

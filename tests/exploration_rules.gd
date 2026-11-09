@@ -17,7 +17,7 @@ func run()->void:
  g.training_stage=6
  g.lesson_open=false
  g.touch_actions.clear()
- assert(g.sectors.size()>0,"Tutorial level includes beginner enemies")
+ assert(g.sectors.is_empty(),"The first chapter contains no Dzungar troops")
  var secret:Dictionary=g.stage.doors.filter(func(d):return d.kind=="secret")[0]
  g.hero=secret.at
  assert(absf(g._floor_at(g.hero.x)-725)<5,"Secret pit has a walkable bottom")
@@ -26,12 +26,11 @@ func run()->void:
  g.camera_y=175
  var tap:=InputEventScreenTouch.new()
  tap.pressed=true
- tap.position=Vector2(500,490)
- g.exploration._input(tap)
- assert(g.exploration.inside,"A screen tap on the door enters the secret")
+ g.exploration.after_motion()
+ assert(g.exploration.inside and not g.exploration.room_grounded,"The sinkhole drops the player into the cave")
  assert(g.exploration.cave_guards.size()==4,"Three halls contain four guards")
  var guards:Array=g.exploration.cave_guards
- assert(guards[1].bow and guards[1].x-guards[0].x>=700,"A bowman guards the next hall")
+ assert(guards.all(func(guard):return guard.wildlife and not guard.bow),"Only wildlife appears in the first chapter cave")
  g.exploration.room_x=350
  var world_position:Vector2=g.hero
  for i in range(100):g.exploration.step(1.0/60)
@@ -49,7 +48,6 @@ func run()->void:
  g.exploration.enter(secret)
  g.hp=6
  g.invulnerable=0
- var saw_arrow := false
  var reached_gallery := false
  for frame in range(2400):
   var cave = g.exploration
@@ -66,11 +64,10 @@ func run()->void:
    if cave.room_grounded and cave.room_x < gap.x and cave.room_x >= gap.x - 27:
     g.touch_actions.jump = true
   cave.step(1.0/60)
-  saw_arrow = saw_arrow or not cave.cave_arrows.is_empty()
   reached_gallery = reached_gallery or cave.room_camera_x > 500.0
   if cave.drunk:
    break
- assert(reached_gallery and saw_arrow, "The actual cave route scrolls and includes a bow attack")
+ assert(reached_gallery, "The actual cave route scrolls through the gallery")
  assert(guards.all(func(guard): return guard.hp==0), "All four guards must be defeated")
  assert(g.hp==6 and g.exploration.drunk,"Kumys instantly restores full health")
  g.exploration.room_x=g.exploration.CAVE_EXIT-10.0
@@ -88,9 +85,9 @@ func run()->void:
  assert(g.hp==6 and g.hero.x==1050,"Death returns to activated checkpoint")
  var lake:Vector2=g.stage.lakes[0]
  var count:=0
- for p in g.platform_origins:
+ for p in g.route_platforms:
   if p.get_center().x>lake.x and p.get_center().x<lake.y:count+=1
- assert(count==5,"The lake uses exactly five floating supports")
+ assert(count==5,"The lake uses five fixed sections of pier")
  for spike in g.stage.spikes:assert(not (spike.x<lake.y and spike.y>lake.x),"No spikes over water")
  var first_platform:=-1
  for i in range(g.route_platforms.size()):
@@ -117,6 +114,10 @@ func run()->void:
  assert(g.phase==g.Phase.FIGHT and g.boar_hp==g.boss_max_hp,"Boss checkpoint resumes the actual fight")
  g.free()
  var mounted=make_scene("level_two")
+ var later_cave:Dictionary=mounted.stage.doors.filter(func(d):return d.kind=="secret")[0]
+ mounted.exploration.enter(later_cave, true)
+ assert(mounted.exploration.cave_guards[1].bow,"An archer guards a cave in the war chapters")
+ mounted.exploration.leave(false)
  mounted.hero=Vector2(2000,550)
  mounted.touch_actions.jump=true
  mounted._tick(0.01)
@@ -128,5 +129,5 @@ func run()->void:
  mounted.exploration.leave(true)
  assert(mounted.hero.x>door.at.x+200,"Pass-through yurt exits on the far side")
  mounted.free()
- print("Exploration passed: four guards, a bow attack, two cave crossings, kumys, checkpoints, water recoil and the yurt passage")
+ print("Exploration passed: drop-in entry, wildlife, later archer, cave crossings, kumys, checkpoints, water and the yurt passage")
  quit()

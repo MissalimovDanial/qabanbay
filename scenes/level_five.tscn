@@ -491,13 +491,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -523,13 +517,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -555,13 +543,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -587,13 +569,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -619,13 +595,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -651,13 +621,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -683,13 +647,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -715,13 +673,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -747,13 +699,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -779,13 +725,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -811,13 +751,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -843,13 +777,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -875,13 +803,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -907,13 +829,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -939,13 +855,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -971,13 +881,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1003,13 +907,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1035,13 +933,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1067,13 +959,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1099,13 +985,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1131,13 +1011,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1163,13 +1037,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1195,13 +1063,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(196.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1227,13 +1089,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1259,13 +1115,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(140.0, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1291,13 +1141,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1323,13 +1167,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(196.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1355,13 +1193,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -4090,9 +3922,6 @@ position = Vector2(42275, 483)
 script = ExtResource("3")
 kind = "platform"
 dimensions = Vector2(190, 26)
-travel = Vector2(28, 0)
-period = 4.5
-
 [node name="SupplyLedgeHigh" type="Marker2D" parent="Layout/Platforms"]
 position = Vector2(42500, 374)
 script = ExtResource("3")

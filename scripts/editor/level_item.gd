@@ -11,7 +11,7 @@ extends Marker2D
  set(value):
   dimensions = Vector2(maxf(1, absf(value.x)), maxf(1, absf(value.y)))
   _changed()
-@export_enum("tree", "grass_tuft", "reeds", "yurt", "crate", "banner", "dead_tree", "tumbleweed") var prop_name: String = "tree":
+@export_enum("tree", "grass_tuft", "reeds", "yurt", "crate", "banner", "dead_tree", "tumbleweed", "steppe_bloom", "rock") var prop_name: String = "tree":
  set(value):
   prop_name = value
   _changed()
@@ -25,9 +25,6 @@ extends Marker2D
   _changed()
 
 @export_range(0,220,1) var ravine_depth := 0.0
-@export var travel := Vector2(0,0)
-@export_range(2,16,0.1) var period := 5.0
-@export var motion_phase := 0.0
 @export_range(1,8) var enemy_count := 2
 @export var archer_first := false
 @export var exit_offset:=0.0

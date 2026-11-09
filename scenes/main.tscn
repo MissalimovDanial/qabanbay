@@ -463,13 +463,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(225, 22)
-
-travel = Vector2(40, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(269, 22)
 
 
 
@@ -495,13 +489,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(225, 22)
-
-travel = Vector2(40, 0)
-
-period = 3.6
-
-motion_phase = 1.25
+dimensions = Vector2(269, 22)
 
 
 
@@ -527,13 +515,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(225, 22)
-
-travel = Vector2(40, 0)
-
-period = 3.6
-
-motion_phase = 2.5
+dimensions = Vector2(269, 22)
 
 
 
@@ -559,13 +541,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(225, 22)
-
-travel = Vector2(40, 0)
-
-period = 3.6
-
-motion_phase = 3.75
+dimensions = Vector2(269, 22)
 
 
 
@@ -591,13 +567,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(225, 22)
-
-travel = Vector2(0, 38)
-
-period = 3.6
-
-motion_phase = 5.0
+dimensions = Vector2(269, 22)
 
 
 
@@ -623,13 +593,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -655,13 +619,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -687,13 +645,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -719,13 +671,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -751,13 +697,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -783,13 +723,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -815,13 +749,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -847,13 +775,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -879,13 +801,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -911,13 +827,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -943,13 +853,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -975,13 +879,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1007,13 +905,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1039,13 +931,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1071,13 +957,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1103,13 +983,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1135,13 +1009,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(154.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1167,13 +1035,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1199,13 +1061,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(182.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1231,13 +1087,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1263,13 +1113,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(196.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1295,13 +1139,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1327,13 +1165,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(196.00000000000003, 0)
-
-period = 3.6
-
-motion_phase = 0.0
+dimensions = Vector2(470, 22)
 
 
 
@@ -1359,13 +1191,7 @@ script = ExtResource("3")
 
 kind = "platform"
 
-dimensions = Vector2(300, 22)
-
-travel = Vector2(0, 65)
-
-period = 3.6
-
-motion_phase = 1.7
+dimensions = Vector2(470, 22)
 
 
 
@@ -1379,96 +1205,6 @@ script = ExtResource("3")
 kind = "charm"
 
 dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Camp001" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(2600, 550)
-
-script = ExtResource("3")
-
-kind = "camp"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
-
-
-
-
-[node name="Guard001" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(19430, 550)
-
-script = ExtResource("3")
-
-kind = "guard"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
-
-
-
-
-[node name="Camp002" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(28120, 550)
-
-script = ExtResource("3")
-
-kind = "camp"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
-
-
-
-
-[node name="Guard002" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(40880, 550)
-
-script = ExtResource("3")
-
-kind = "guard"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
-
-
-
-
-[node name="Camp003" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(56230, 550)
-
-script = ExtResource("3")
-
-kind = "camp"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
-
-
-
-
-[node name="Guard003" type="Marker2D" parent="Layout/Guards"]
-
-position = Vector2(67510, 550)
-
-script = ExtResource("3")
-
-kind = "guard"
-
-dimensions = Vector2(120, 145)
-
-enemy_count = 3
 
 
 
@@ -4187,9 +3923,6 @@ position = Vector2(43835, 483)
 script = ExtResource("3")
 kind = "platform"
 dimensions = Vector2(190, 26)
-travel = Vector2(28, 0)
-period = 4.5
-
 [node name="SupplyLedgeHigh" type="Marker2D" parent="Layout/Platforms"]
 position = Vector2(44060, 374)
 script = ExtResource("3")
@@ -4203,34 +3936,367 @@ kind = "supply"
 dimensions = Vector2(38, 53)
 trial_platform = NodePath("../../Platforms/SupplyLedgeMoving")
 
-[node name="ExtraPatrol01" type="Marker2D" parent="Layout/Guards"]
-position = Vector2(5700, 550)
-script = ExtResource("3")
-kind = "guard"
-dimensions = Vector2(120, 145)
-enemy_count = 2
-archer_first = false
 
-[node name="ExtraPatrol02" type="Marker2D" parent="Layout/Guards"]
-position = Vector2(14300, 550)
+[node name="ZaysanLandmark01" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(625, 550)
 script = ExtResource("3")
-kind = "guard"
-dimensions = Vector2(120, 145)
-enemy_count = 2
-archer_first = true
+kind = "decor"
+dimensions = Vector2(44, 51)
+prop_name = "grass_tuft"
 
-[node name="ExtraPatrol03" type="Marker2D" parent="Layout/Guards"]
-position = Vector2(34800, 550)
+[node name="ZaysanLandmark02" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(679, 550)
 script = ExtResource("3")
-kind = "guard"
-dimensions = Vector2(120, 145)
-enemy_count = 3
-archer_first = false
+kind = "decor"
+dimensions = Vector2(68, 41)
+prop_name = "grass_tuft"
 
-[node name="ExtraPatrol04" type="Marker2D" parent="Layout/Guards"]
-position = Vector2(61500, 550)
+[node name="ZaysanLandmark03" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(769, 550)
 script = ExtResource("3")
-kind = "guard"
-dimensions = Vector2(120, 145)
-enemy_count = 2
-archer_first = true
+kind = "decor"
+dimensions = Vector2(94, 49)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark04" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(706, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(110, 39)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark05" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(1224, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(75, 25)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark06" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(1150, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(92, 59)
+prop_name = "rock"
+
+[node name="ZaysanLandmark07" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(1533, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(75, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark08" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(2150, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(126, 49)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark09" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(2290, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(185, 104)
+prop_name = "rock"
+
+[node name="ZaysanLandmark10" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(2490, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(105, 43)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark11" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(2850, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(137, 235)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark12" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(3115, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(150, 59)
+prop_name = "rock"
+
+[node name="ZaysanLandmark13" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(3370, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(102, 38)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark14" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(41540, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(105, 107)
+prop_name = "reeds"
+
+[node name="ZaysanLandmark15" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(41654, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(85, 75)
+prop_name = "reeds"
+
+[node name="ZaysanLandmark16" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(41731, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(62, 87)
+prop_name = "reeds"
+
+[node name="ZaysanLandmark17" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(43316, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(92, 98)
+prop_name = "reeds"
+
+[node name="ZaysanLandmark18" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(43430, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(74, 64)
+prop_name = "reeds"
+
+[node name="ZaysanLandmark19" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(43605, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(107, 54)
+prop_name = "rock"
+
+[node name="ZaysanLandmark20" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(69045, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(200, 88)
+prop_name = "rock"
+
+[node name="ZaysanLandmark21" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(69304, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(107, 60)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark22" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(69605, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(106, 40)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark23" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(7980, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark24" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(8072, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark25" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(11686, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(146, 86)
+prop_name = "rock"
+
+[node name="ZaysanLandmark26" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(11796, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(73, 37)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark27" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(16028, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark28" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(16105, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 47)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark29" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(19151, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark30" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(19243, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark31" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(22380, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(146, 86)
+prop_name = "rock"
+
+[node name="ZaysanLandmark32" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(22490, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(73, 37)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark33" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(26563, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark34" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(26640, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 47)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark35" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(29686, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark36" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(29778, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark37" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(33180, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(146, 86)
+prop_name = "rock"
+
+[node name="ZaysanLandmark38" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(33290, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(73, 37)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark39" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(36780, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark40" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(36857, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 47)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark41" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(40380, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark42" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(40472, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark43" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(43980, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(146, 86)
+prop_name = "rock"
+
+[node name="ZaysanLandmark44" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(44090, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(73, 37)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark45" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(47686, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark46" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(47763, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 47)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark47" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(51180, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark48" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(51272, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark49" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(58486, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 31)
+prop_name = "steppe_bloom"
+
+[node name="ZaysanLandmark50" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(58563, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(91, 47)
+prop_name = "grass_tuft"
+
+[node name="ZaysanLandmark51" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(61980, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(147, 221)
+prop_name = "dead_tree"
+
+[node name="ZaysanLandmark52" type="Marker2D" parent="Layout/Scenery"]
+position = Vector2(62072, 550)
+script = ExtResource("3")
+kind = "decor"
+dimensions = Vector2(65, 37)
+prop_name = "grass_tuft"

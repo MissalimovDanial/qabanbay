@@ -4,7 +4,7 @@ ROOT=Path(__file__).resolve().parents[1]
 NAMES=['main','level_two','level_three','level_four','level_five']
 LENGTHS=[72000,82000,80000,72000,72000]
 ARENAS=[70000,80000,68000,70000,70000]
-COUNTS=[[2]*6,[3]*10,[2]*4,[4]*5,[4]*8]
+COUNTS=[[],[3]*10,[2]*4,[4]*5,[4]*8]
 for chapter,(name,length,arena) in enumerate(zip(NAMES,LENGTHS,ARENAS),1):
     lines=['[gd_scene load_steps=4 format=3]',
       f'[ext_resource type="Script" path="res://scripts/{"level_two"}.gd" id="1"]',
@@ -25,8 +25,8 @@ for chapter,(name,length,arena) in enumerate(zip(NAMES,LENGTHS,ARENAS),1):
     def gap(a,b,depth=0):
         depth=depth or (95 if b-a<200 else 165)
         gaps.append((a,b,depth)); item('gap',(a+b)/2,w=b-a,h=depth or 380,ravine_depth=float(depth))
-    def platform(x,y,w=185,travel=(0,0),phase=0):
-        platforms.append((x,y)); item('platform',x,y,w,22,travel=f'Vector2({travel[0]}, {travel[1]})',period=3.6,motion_phase=float(phase))
+    def platform(x,y,w):
+        platforms.append((x,y)); item('platform',x,y,w,22)
         item('charm',x,y-65,22,22)
     def clear(x,margin=100):
         return all(not a-margin<x<b+margin for a,b,_ in gaps)
@@ -44,7 +44,7 @@ for chapter,(name,length,arena) in enumerate(zip(NAMES,LENGTHS,ARENAS),1):
             gap(x,x+1300)
         else:
             item('decor',x,w=280,h=210,prop_name='"yurt"')
-    # A timing section: two horizontal ledges, then a lift.
+    # Place a long ravine between the repeating clusters.
     bridge_x=17100 if chapter!=3 else 23300
     # Remove overlap with regular hazards by placing between the repeating clusters.
     if clear(bridge_x,800):
@@ -63,13 +63,13 @@ for chapter,(name,length,arena) in enumerate(zip(NAMES,LENGTHS,ARENAS),1):
         gaps.append((lake,lake+1450,0))
         item('lake',lake+725,w=1450,h=400,group='Gaps')
         for j in range(5):
-            platform(lake+150+j*285,490 if j%2==0 else 460,225,(40,0) if j<4 else (0,38),j*1.25)
+            platform(lake+150+j*285,490 if j%2==0 else 460,269)
     if chapter in (2,4,5):
         item('passage',12600,550,420,295,group='Scenery')
     for a,b,depth in list(gaps):
         if depth>0 and b-a>=400:
-            platform(a+(b-a)*0.28,495,300,((b-a)*0.14,0),0)
-            platform(a+(b-a)*0.72,485,300,(0,65),1.7)
+            platform(a+(b-a)*0.28,495,470)
+            platform(a+(b-a)*0.72,485,470)
     camps=COUNTS[chapter-1]
     for idx,quota in enumerate(camps):
         x=2600+idx*(arena-6200)/max(1,len(camps)-1)

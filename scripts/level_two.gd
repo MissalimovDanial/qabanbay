@@ -23,8 +23,10 @@ var horse_waiting := false
 var horse_x := 0.0
 var objective_strip: Label
 var riders: Texture2D
+var armored_riders: Texture2D
 var rider_collapse:Texture2D
 var rider_bows: Texture2D
+var armored_bows: Texture2D
 var foot_archer: Texture2D
 var foot_melee: Texture2D
 
@@ -34,6 +36,9 @@ func _ready() -> void:
   riders = load("res://art/animation/riders.png")
  rider_collapse=load("res://art/animation/rider-collapse.png")
  rider_bows = load("res://art/animation/riders-bow.png")
+ if _is_mounted():
+  armored_riders = load("res://art/animation/riders-armored.png")
+  armored_bows = load("res://art/animation/riders-bow-armored.png")
  foot_archer = load("res://art/animation/archer.png")
  foot_melee = load("res://art/animation/infantry.png")
  objective_strip = _label(17,Color("ffdf9c"))
@@ -74,7 +79,7 @@ func _advance() -> void:
 
 func _restart(at_checkpoint: bool) -> void:
  death_at=-1.0
- if at_checkpoint and not sectors.is_empty():
+ if at_checkpoint:
   wind_trial.reset(true)
   _reset_stamina()
   hp=MAX_HP
@@ -93,6 +98,7 @@ func _restart(at_checkpoint: bool) -> void:
   vertical_speed=0
   invulnerable=2
   attack_timer=0
+  super_timer=0
   air_kick=false
   panel.hide()
   paused=false
@@ -415,7 +421,12 @@ func _hurt() -> void:
  if hp<=0:
   deaths+=1
   phase=Phase.LOST
-  _show_panel("Отряд рассеян","Попробуй снова. Следи за замахом воина и тетивой лучника. Перепрыгни стрелу или отступи от замаха.","Повторить бой")
+  if exploration.inside:
+   _show_panel("Пещера", "Отступай, когда соперник готовится к атаке. Затем отвечай копьём.", "К привалу")
+  elif chapter_number == 1:
+   _show_panel("Поднимись, Ерасыл", "Перепрыгни бросок кабана и отвечай копьём.", "К привалу")
+  else:
+   _show_panel("Отряд рассеян","Попробуй снова. Следи за замахом воина и тетивой лучника. Перепрыгни стрелу или отступи от замаха.","Повторить бой")
 
 func _win() -> void:
  if chapter_number==1:
@@ -475,7 +486,7 @@ func _draw() -> void:
   _distant_troops(size.x)
  art.ground(self,camera_x,size.x,FLOOR_Y,route_gaps,route_depths)
  for rect in route_platforms:
-  art.platform(self,rect,camera_x,chapter_number)
+  art.platform(self,rect,camera_x,chapter_number,route_depths)
  for rock in route_rocks:
   art.scenic_rock(self,rock,camera_x,FLOOR_Y)
  _draw_layout_decor()
@@ -485,17 +496,18 @@ func _draw() -> void:
   _draw_elder(Vector2(_elder_x()-camera_x,FLOOR_Y))
  for i in range(route_charms.size()):
   if not collected.has(i):
-   art.coin(self,_coin_position(i)-Vector2(camera_x,0),clock+i)
+   art.asyk(self, route_charms[i] - Vector2(camera_x, 0), i)
  _draw_guard_sprites(size.x)
  if chapter_number==3 and duel in ["bows","spears"]:
   _rider(boar-Vector2(camera_x,0),arslan_dir,false,duel_attack_timer>0,duel=="bows",true,_army_color(),clampi(int((0.30-duel_attack_timer)*20),0,5) if duel_attack_timer>0 else -1)
  elif chapter_number==3 and clock-defeated_at<1.3:
   _fallen_rider(boar-Vector2(camera_x,0),arslan_dir,clock-defeated_at)
  if _is_mounted():
-  var ride_frame := int(run_clock * 9) % 6 if stride_moving or not grounded else 0
-  _rider(hero-Vector2(camera_x,0),facing,true,attack_timer>0,chapter_number==3 and duel=="bows",false,Color("ffe3c9") if invulnerable>1.05 else Color.WHITE,ride_frame)
+  var ride_frame := _stride_frame() if stride_moving or not grounded else 0
+  _rider(hero-Vector2(camera_x,0),facing,true,attack_timer>0,chapter_number==3 and duel=="bows",false,Color("ffe3c9") if invulnerable>1.05 else Color.WHITE,ride_frame,true)
  else:
   _draw_hero(hero-Vector2(camera_x,0))
+ _draw_super_strike(self, hero - Vector2(camera_x, 0), _is_mounted())
  for a in arrows:
   var p: Vector2=a.p-Vector2(camera_x,0)
   var dir:=signf(a.v)
@@ -554,13 +566,15 @@ func _companion(p:Vector2,dir:float) -> void:
  _rider(p,dir,true,false,false,false,Color(0.78,0.76,0.60))
  draw_string(ThemeDB.fallback_font,p-Vector2(46,181),"ЖАНИБЕК",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffdb9b"))
 
-func _rider(p: Vector2,dir: float,ally: bool,strike: bool,bow: bool,leader: bool,tint:=Color.WHITE,frame_step:int=-1) -> void:
+func _rider(p: Vector2,dir: float,ally: bool,strike: bool,bow: bool,leader: bool,tint:=Color.WHITE,frame_step:int=-1,armored:=false) -> void:
  var step:=int(clock*12)%6 if frame_step<0 else frame_step
  if strike and ally:
   step=clampi(int((0.30-attack_timer)*20),0,5)
  var factor:=1.10 if leader else 1.0
  _shadow(p,64)
  var atlas := rider_bows if bow and rider_bows else riders
+ if armored:
+  atlas = armored_bows if bow else armored_riders
  if atlas:
   var cell := atlas.get_size()/Vector2(6,4)
   var row := (0 if ally else 2) + int(strike)

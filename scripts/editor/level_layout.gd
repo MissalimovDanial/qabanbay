@@ -9,7 +9,7 @@ const FLOOR_Y := 550.0
 @export var world_length := 72000.0
 @export var arena_start := 70000.0
 @export var exit_x := 71400.0
-const LABELS := {"rock":"КАМЕНЬ", "gap":"ПРОПАСТЬ", "platform":"ПЛАТФОРМА", "guard":"ДОЗОР", "charm":"ОБЕРЕГ", "decor":"", "hero_spawn":"ГЕРОЙ", "elder":"СТАРЕЙШИНА", "boss_spawn":"БОСС", "spikes":"ШИПЫ","camp":"ЮРТА · ПОДКРЕПЛЕНИЕ","checkpoint":"ПРИВАЛ"}
+const LABELS := {"rock":"КАМЕНЬ", "gap":"ПРОПАСТЬ", "platform":"ПЕРЕПРАВА", "guard":"ДОЗОР", "charm":"АСЫК", "decor":"", "hero_spawn":"ГЕРОЙ", "elder":"СТАРЕЙШИНА", "boss_spawn":"БОСС", "spikes":"ШИПЫ","camp":"ЮРТА · ПОДКРЕПЛЕНИЕ","checkpoint":"ПРИВАЛ"}
 
 @export_range(1, 5) var chapter_number := 1:
  set(value):
@@ -60,7 +60,7 @@ func _item_position(item: Node2D) -> Vector2:
  return p
 
 func data() -> Dictionary:
- var result := {"doors":[],"lakes":[],"world_end":world_length,"arena_start":arena_start,"exit_x":exit_x,"ravines":[],"platform_motion":[],"guard_specs":[],"checkpoints":[],"rocks":[], "gaps":[], "platforms":[], "guards":[], "spikes":[], "charms":[], "decor":[], "hero_spawn":Vector2(180,FLOOR_Y), "elder_x":480.0 if chapter_number == 1 else 380.0, "boss_spawn":Vector2(4680,FLOOR_Y)}
+ var result := {"doors":[],"lakes":[],"world_end":world_length,"arena_start":arena_start,"exit_x":exit_x,"ravines":[],"guard_specs":[],"checkpoints":[],"rocks":[], "gaps":[], "platforms":[], "guards":[], "spikes":[], "charms":[], "decor":[], "hero_spawn":Vector2(180,FLOOR_Y), "elder_x":480.0 if chapter_number == 1 else 380.0, "boss_spawn":Vector2(4680,FLOOR_Y)}
  result["supplies"] = []
  var items := _items()
  var platforms := items.filter(func(item): return item.kind == "platform")
@@ -82,7 +82,6 @@ func data() -> Dictionary:
     result.ravines.append({"span":result.gaps.back(),"depth":item.ravine_depth})
    "platform":
     result.platforms.append(Rect2(p-Vector2(size.x/2,0),size))
-    result.platform_motion.append({"travel":item.travel,"period":item.period,"phase":item.motion_phase})
    "guard","camp":
     result.guards.append(p.x)
     result.guard_specs.append({"at":p.x,"count":item.enemy_count,"camp":item.kind=="camp","floor":p.y,"archer_first":item.archer_first})
@@ -121,7 +120,7 @@ func _draw() -> void:
  for lake in layout.lakes:
   draw_rect(Rect2(lake.x,FLOOR_Y+14,lake.y-lake.x,210),Color("287b9d"))
  for entrance in layout.doors:
-  if entrance.kind=="secret":_art.embedded_door(self,entrance.at)
+  if entrance.kind=="secret":_art.cave_mouth(self,entrance.at)
   else:_art.prop(self,"yurt",entrance.at,Vector2(420,295))
  for x in layout.checkpoints:
   draw_arc(Vector2(x,FLOOR_Y-7),15,PI,TAU,20,Color("df7960"),4)
@@ -136,14 +135,14 @@ func _draw() -> void:
  for rect in layout.rocks:
   _art.scenic_rock(self,rect,0,preload("res://scripts/landform.gd").surface(rect.get_center().x,layout.ravines,FLOOR_Y))
  for rect in layout.platforms:
-  _art.platform(self,rect,0,chapter_number)
+  _art.platform(self,rect,0,chapter_number,layout.ravines)
  for p in layout.supplies:
   _art.supply(self, p, 0.0)
  for span in layout.spikes:
   _art.spikes(self,span,0,FLOOR_Y)
- for p in layout.charms:
-  draw_circle(p,10,Color("f2cf75"))
-  draw_arc(p,13,0,TAU,16,Color("fff0b5"),2)
+ for i in range(layout.charms.size()):
+  var at := preload("res://scripts/landform.gd").collectible_position(layout.charms[i], layout.platforms, layout.ravines)
+  _art.asyk(self, at, i)
  for x in layout.guards:
   _preview_actor("enemy",Vector2(x,preload("res://scripts/landform.gd").surface(x,layout.ravines,FLOOR_Y)),-1)
  _preview_actor("hero",layout.hero_spawn,1)
