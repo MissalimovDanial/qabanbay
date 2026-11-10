@@ -15,7 +15,7 @@ func run() -> void:
   game.training_stage = 6
   game.stamina = 1.0
   game.touch_actions = {"run": true, "right": true}
-  for frame in range(10):
+  for frame in range(20):
    game._tick(DT)
   assert(game.exhausted and game.stamina < game.STAMINA_RESUME)
   var walk_start: float = game.hero.x
@@ -23,11 +23,15 @@ func run() -> void:
   var walk_speed: float = 235.0 if game._is_mounted() else game.SPEED
   assert(absf(game.hero.x - walk_start - walk_speed * DT) < 0.05)
   game.touch_actions = {"run": true}
-  for frame in range(180):
+  for frame in range(900):
    game._tick(DT)
   assert(is_equal_approx(game.stamina, game.MAX_STAMINA) and not game.exhausted)
   game._refresh_ui()
   assert(game.player_hud.visible and game.player_hud.stamina_percent == 100)
+  game._step_stride(5.0, 100.0, true, true)
+  assert(is_equal_approx(game.stamina, 80.0), "One lightning bolt lasts five running seconds")
+  game._step_stride(3.0, 0.0, false, true)
+  assert(is_equal_approx(game.stamina, 100.0), "One lightning bolt returns in three seconds")
 
   assert(game.route_supplies.size() == 2)
   var low: Vector2 = game.route_supplies[0]

@@ -249,6 +249,9 @@ func _opaque_bounds(bytes: PackedByteArray, width: int, cell: Rect2i) -> Rect2i:
 
 static var action_banks: Dictionary = {}
 var hero_age:=1
+static func hero_bank(chapter: int) -> String:
+ return "hero" if chapter <= 1 else "hero-adult" if chapter <= 3 else "hero-veteran"
+
 const CLIPS := {
  "hero":{"kick":[16,6],"idle":[8,4],"run":[0,8],"jump":[16,4],"dodge":[20,4],"attack":[24,8],"super":[24,8],"hurt":[12,2],"land":[14,2]},
  "elder":{"idle":[0,8],"talk":[8,8],"point":[16,8],"bless":[24,8]},
@@ -258,20 +261,13 @@ const CLIPS := {
 }
 
 func pose(node: CanvasItem,kind: String,clip: String,step: int,p: Vector2,dir: float=1.0,tint:=Color.WHITE,rotation:float=0.0,size_factor:=1.0) -> void:
- if kind=="hero":kind="hero" if hero_age==1 else "hero-adult" if hero_age<=3 else "hero-veteran"
+ if kind=="hero":kind=hero_bank(hero_age)
  if not action_banks.has(kind):
   action_banks[kind]=load("res://art/animation/actions/"+kind+".res")
  var actions: SpriteFrames=action_banks[kind]
  if not actions:
   return
  var tex:=actions.get_frame_texture(clip,posmod(step,6))
- var age_scale:=(body_scale() if kind.begins_with("hero") else 1.0) * size_factor
- node.draw_set_transform(p.round(),rotation,Vector2(dir*age_scale,age_scale))
+ node.draw_set_transform(p.round(),rotation,Vector2(dir*size_factor,size_factor))
  node.draw_texture(tex,Vector2(-195,-185),tint)
  node.draw_set_transform(Vector2.ZERO)
-
-func body_scale()->float:
- return [1.0,0.97,1.01,1.0,1.04][clampi(hero_age,1,5)-1]
-
-func heart_height()->float:
- return [138.0,180.0,185.0,190.0,196.0][clampi(hero_age,1,5)-1]

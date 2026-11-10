@@ -13,7 +13,7 @@ for number in range(1,7):
     target.mkdir(parents=True,exist_ok=True)
     for item in files:
         relative=item.relative_to(source)
-        if relative.parts[0] in {'tests','tools'}:continue
+        if relative.parts[0] in {'tests','tools'} and relative.as_posix() != 'tools/web_loading.html':continue
         if relative.parts[0]=='scenes' and number<6 and item.stem!=names[number-1]:continue
         result=target/relative
         result.parent.mkdir(parents=True,exist_ok=True)

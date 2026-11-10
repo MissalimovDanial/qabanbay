@@ -113,3 +113,20 @@ Use case: precise-object-edit. Asset type: exact Qabanbay downward kick animatio
 ### zaysan-lakeshore.png
 
 Use case: stylized-concept. Asset type: wide 2:1 repeating pixel art background for a side-scrolling game at Lake Zaysan in eastern Kazakhstan. Real 16-bit pixel art with clean square pixel clusters. View from green lakeshore steppe in late spring, blue-green lake band visible beyond the meadows, silver reeds and green feather grass, distant bluish Altai foothills, sparse low willow thickets and patches of golden dry grass among the dominant sage and fresh yellow-green, clear morning sky. Wide open Kazakh steppe, spacious and natural. Arrange horizon at 54 percent from top, foreground bottom edge is unobstructed flat continuous yellow-green grass over brown loam that will match a grassy game tilemap. Layer depth with restrained contrast and strong clean shapes. Horizontal left/right edges have equivalent horizon height and understated features for seamless mirror tiling. No buildings, no people, no bridges or platforms, no text, no UI.
+
+
+## Возраст Кабанбая и обложки глав
+
+Исходники созданы встроенным imagegen. `art/animation/hero-young-consistent.png` использует тот же юный облик во всех 36 позах. `art/animation/chapter-covers.png` содержит пять сюжетных иллюстраций.
+
+### Обложки
+
+Wide 2.25:1 pixel-art atlas for a Kazakh historical side-scrolling adventure. Precisely 3 columns by 2 rows, six equal landscape cells, edge-to-edge art per cell, no frames or gutters, no objects crossing cells. Use restrained 16-bit hand-placed pixels, teal and amber natural palette, legible silhouettes, no text. TOP LEFT: at green Lake Zaysan, young clean shaven short teenage Erasyl in fur hat and teal coat sees a wild boar approaching a herd of horses, yurts and bright reeds in distance. TOP MIDDLE: adult mustached Qabanbay, teal clothing and dark steel lamellar armor, on a chestnut horse with spear en route to Ayagoz with dust behind. TOP RIGHT: two mounted warriors face each other across Ayagoz meadow, adult Qabanbay teal steel armor and rival Arslan rust brown armor, spears ready. BOTTOM LEFT: mature bearded Qabanbay in teal steel lamellar armor leads a foot advance toward a line of distant archers in a dry steppe at amber afternoon. BOTTOM MIDDLE: mature bearded Qabanbay on horseback with fellow rider retreats into a dry rocky gorge at dusk, bright distant horizon, no modern items. BOTTOM RIGHT: quiet panorama of rolling steppe, no text. Each cell has its own contained cinematic story with clear distinctive mood.
+
+### Правка первой главы
+
+Precisely edit the attached six-panel historical pixel art atlas, preserving the exact 3-column 2-row layout, original dimensions, every other scene and all panel boundaries. In the TOP LEFT panel ONLY, remove the quiver from the boy's back and replace the curved bow in his hand with a plain short Kazakh wooden spear with a small steel point. Boy remains a clean-shaven teenager looking at the wild boar and horses, same clothes, fur hat, face, pose and lakeshore. No bow or arrows in the top left. Preserve original pixel art. No text.
+
+### Юный Ерасыл
+
+Keep exactly six columns and six rows from the original youth atlas. Use the same youthful clean-shaven face, compact proportions, fur hat and teal Kazakh coat throughout the idle, run, jump, attack, hurt and super rows. Preserve the weapon and each pose. Transparent background and isolated cells.

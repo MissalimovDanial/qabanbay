@@ -181,11 +181,57 @@ func _select(index: int) -> void:
  launch_button.disabled = not can_launch(selected)
  queue_redraw()
 
+var loading_chapter := false
+
 func _launch() -> void:
- if can_launch(selected):
-  get_tree().change_scene_to_file("res://scenes/%s.tscn" % SCENES[selected])
+ if loading_chapter or not can_launch(selected):
+  return
+ loading_chapter = true
+ var path := "res://scenes/%s.tscn" % SCENES[selected]
+ var layer := CanvasLayer.new()
+ layer.layer = 30
+ add_child(layer)
+ var loading := preload("res://scripts/ui/chapter_loading.gd").new()
+ loading.chapter_title = Chapters.CHAPTERS[selected].title
+ loading.tip = [
+  "Отталкивайся от края, чтобы перепрыгнуть широкую трещину.",
+  "Беги короткими отрезками, чтобы сохранить выносливость.",
+  "Пропусти стрелу и перепрыгни встречного всадника.",
+  "Подойди к лучнику после того, как он выпустит стрелу.",
+  "Одиннадцать обычных попаданий заряжают суперудар."
+ ][selected]
+ layer.add_child(loading)
+ loading.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+ var tree := get_tree()
+ await tree.process_frame
+ var chapter_scene: PackedScene
+ if OS.has_feature("web"):
+  loading.ratio = -1.0
+  await tree.create_timer(0.65).timeout
+  chapter_scene = load(path) as PackedScene
+ elif ResourceLoader.load_threaded_request(path, "PackedScene") == OK:
+  var started := Time.get_ticks_msec()
+  var progress := []
+  var status := ResourceLoader.load_threaded_get_status(path, progress)
+  while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+   loading.ratio = progress[0] if not progress.is_empty() else 0.0
+   await tree.process_frame
+   status = ResourceLoader.load_threaded_get_status(path, progress)
+  if status == ResourceLoader.THREAD_LOAD_LOADED:
+   chapter_scene = ResourceLoader.load_threaded_get(path) as PackedScene
+  var wait_time := 0.65 - (Time.get_ticks_msec() - started) / 1000.0
+  if wait_time > 0.0:
+   loading.ratio = 1.0 if chapter_scene else 0.0
+   await tree.create_timer(wait_time).timeout
+ if chapter_scene and tree.change_scene_to_packed(chapter_scene) == OK:
+  return
+ layer.queue_free()
+ loading_chapter = false
+ detail_status.text = "Не удалось загрузить главу. Попробуй ещё раз."
 
 func _input(event: InputEvent) -> void:
+ if loading_chapter:
+  return
  if event is InputEventKey and event.pressed and not event.echo:
   var key: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
   if key in [KEY_RIGHT,KEY_D]:
@@ -386,13 +432,7 @@ func _draw() -> void:
  draw_line(Vector2(953,581),Vector2(1214,581),Color("3f6250"),1,true)
  var vignette:=Rect2(953,168,263,62)
  var plate:=preload("res://scripts/chapter_presentation.gd")
- if selected==0:
-  draw_texture_rect_region(plate.STORY_ART,vignette,Rect2(15,526,484,142))
- else:
-  var region:=plate.story_region([0,0,1,3,4][selected])
-  region.position.y+=region.size.y*0.15
-  region.size.y*=0.58
-  draw_texture_rect_region(plate.CAMPAIGN_ART,vignette,region)
+ draw_texture_rect_region(plate.CHAPTER_COVERS,vignette,plate.cover_region(selected,vignette.size))
  draw_rect(vignette,GOLD,false,1)
  for i in range(5):
   var at := Vector2(1138+i*16,565)

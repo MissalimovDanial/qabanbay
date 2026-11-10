@@ -12,7 +12,25 @@ extends Button
 
 func _ready() -> void:
  mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
- tooltip_text = "Копьё: J / G · Суперудар: L"
+ tooltip_text = {"left":"Шаг влево   ·   A / ←","right":"Шаг вправо   ·   D / →","jump":"Прыжок   ·   Пробел","run":"Бег   ·   Удерживай K и направление","attack":"Копьё   ·   J / G","power":"Суперудар   ·   L после 11 попаданий"}.get(action, "")
+
+func _make_custom_tooltip(for_text: String) -> Object:
+ var card := PanelContainer.new()
+ var style := StyleBoxFlat.new()
+ style.bg_color = Color("#102b34")
+ style.border_color = Color("#d7b374")
+ style.set_border_width_all(2)
+ style.set_corner_radius_all(8)
+ style.content_margin_left = 15
+ style.content_margin_right = 15
+ style.content_margin_top = 9
+ style.content_margin_bottom = 9
+ card.add_theme_stylebox_override("panel", style)
+ var caption := Label.new()
+ caption.text = for_text
+ caption.add_theme_color_override("font_color", Color("#fff0cc"))
+ card.add_child(caption)
+ return card
 
 func charged_polygon() -> PackedVector2Array:
  var circle := PackedVector2Array()

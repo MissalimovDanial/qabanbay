@@ -2,7 +2,7 @@ extends Control
 
 const GOLD := Color("#d7b374")
 const INK := Color("#102b34")
-const LIGHT := Color("#ffe8b8")
+const BOLT := [Vector2(12,0),Vector2(26,0),Vector2(18,11),Vector2(26,11),Vector2(7,32),Vector2(12,18),Vector2(3,18)]
 
 var portrait: Texture2D
 var portrait_region: Rect2
@@ -45,9 +45,12 @@ func _draw() -> void:
  for index in range(6):
   var icon := heart if index < health else empty_heart
   draw_texture_rect(icon, Rect2(95 + index * 30, 11, 24, 22), false)
- draw_string(ThemeDB.fallback_font, Vector2(95, 59), "ВЫНОСЛИВОСТЬ", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, LIGHT)
- draw_string(ThemeDB.fallback_font, Vector2(234, 59), "%d%%" % stamina_percent, HORIZONTAL_ALIGNMENT_RIGHT, 40, 13, LIGHT)
- var track := Rect2(95, 67, 178, 13)
- draw_rect(track, Color("#071d24"))
- draw_rect(Rect2(track.position, Vector2(track.size.x * stamina_percent / 100.0, track.size.y)), Color("#dba264") if exhausted else Color("#62c8b4"))
- draw_rect(track, Color("#8da39a"), false, 1)
+ for index in range(5):
+  var fill := clampf((stamina_percent - index * 20) / 20.0, 0.0, 1.0)
+  var origin := Vector2(96 + index * 35, 47)
+  var points := PackedVector2Array()
+  for point in BOLT:
+   points.append(origin + point)
+  draw_colored_polygon(points, Color("#183742").lerp(Color("#68ccff"), fill))
+  points.append(points[0])
+  draw_polyline(points, Color("#427184").lerp(Color("#b4e9ff"), fill), 1.5)

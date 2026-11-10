@@ -455,7 +455,7 @@ func _cave_fight(dt:float)->void:
   return
  game.swing_hits[key] = true
  game._register_hit()
- guard.hp = maxi(0, guard.hp - (3 if game.empowered else 1))
+ guard.hp = maxi(0, guard.hp - game._strike_damage())
  guard.hit = 0.2
  game.audio.play("hit")
  if guard.hp == 0:

@@ -3,7 +3,7 @@ extends SceneTree
 ## Small changes of compression and lean bridge the original key poses.
 const Frames = preload("res://scripts/character_frames.gd")
 const HERO_SHEETS := {
- "hero": "hero-young",
+ "hero": "hero-young-consistent",
  "hero-adult": "hero-adult-armored",
  "hero-veteran": "hero-veteran-armored"
 }
@@ -35,11 +35,11 @@ func _initialize() -> void:
      var row: int = {"kick":0,"idle":0,"run":1,"jump":2,"attack":3,"hurt":4,"super":5,"land":2,"dodge":1}[clip]
      var rows := 6
      var opacity_cut := 0.74 if kind == "hero-veteran" else 0.55
-     if clip in ["run", "kick"]:
-      sheet_name = "hero-run-cycle" if clip == "run" else "hero-down-kick-armored"
+     if clip == "kick":
+      sheet_name = "hero-down-kick" if kind == "hero" else "hero-down-kick-armored"
       rows = 3
       row = HERO_SHEETS.keys().find(kind)
-      opacity_cut = 0.92 if clip == "run" else 0.55
+      opacity_cut = 0.55
      var atlas: Image = load("res://art/animation/" + sheet_name + ".png").get_image()
      var cell := Vector2i(atlas.get_width() / 6, atlas.get_height() / rows)
      var left := atlas.get_width() * step / 6
@@ -63,7 +63,7 @@ func _initialize() -> void:
       if solid>=5:
        bounds.size.y=y-bounds.position.y+1
        break
-     anchor=cell.x*(0.48 if clip != "run" else 0.51)-bounds.position.x
+     anchor=cell.x*0.48-bounds.position.x
      img=img.get_region(bounds)
     if model=="elder":
      var atlas:Image=load("res://art/animation/elder-staff.png").get_image()

@@ -4,11 +4,8 @@ extends Control
 signal start_requested
 signal map_requested
 
-const STORY_ART = preload("res://art/source/05-menus-story.png")
-const OPENING_ART=preload("res://art/animation/steppe-opening.png")
-const CAMPAIGN_ART = preload("res://art/animation/campaign-story.png")
+const CHAPTER_COVERS := preload("res://art/animation/chapter-covers.png")
 const ROMAN := ["I", "II", "III", "IV", "V"]
-const COVERS := [Rect2(5,481,502,256),Rect2(1028,481,502,256),Rect2(1028,754,502,260),Rect2(517,481,502,256),Rect2(517,754,502,260)]
 const PALETTES := [Color("5b9277"),Color("b47b55"),Color("6b8397"),Color("b28a63"),Color("7b809b")]
 const TAGLINES := ["БЕРЕГ ЗАЙСАНА","БАТА ПЕРЕД ПОХОДОМ","ВЫЗОВ НА КОНЯХ","ПЕШИЙ СТРОЙ","ПРИКРЫТЬ ОТХОД"]
 var chapter := 1
@@ -31,7 +28,7 @@ var hero_frames=preload("res://scripts/character_frames.gd").new()
 func _ready() -> void:
  set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
  mouse_filter = Control.MOUSE_FILTER_STOP
- texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+ texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
  if not _built:
   _build_ui()
  _refresh()
@@ -141,10 +138,7 @@ func _draw() -> void:
   draw_colored_polygon(PackedVector2Array([inset,inset+Vector2(direction.x*11,0),inset+Vector2(0,direction.y*11)]),Color("967a49"))
  var illustration := Rect2(553,150,663,344)
  draw_rect(Rect2(illustration.position-Vector2(7,7),illustration.size+Vector2(14,14)),Color("031820"))
- draw_texture_rect(preload("res://art/animation/sand-steppe.png"),illustration,false)
- scene_art.prop(self,"yurt",Vector2(1040,494),Vector2(225,172))
- hero_frames.hero_age=chapter
- hero_frames.pose(self,"hero","idle",0,Vector2(790,494))
+ draw_texture_rect_region(CHAPTER_COVERS, illustration, cover_region(chapter - 1, illustration.size))
  draw_rect(illustration,Color("c3a46b"),false,2)
  draw_line(Vector2(553,497),Vector2(1216,497),accent,3)
  # Chapter seal is a native, readable overlay rather than text painted into art.
@@ -159,9 +153,15 @@ func _draw() -> void:
   var p := Vector2(1178-i*14,572)
   draw_colored_polygon(PackedVector2Array([p+Vector2(0,-4),p+Vector2(4,0),p+Vector2(0,4),p+Vector2(-4,0)]),Color("d4b77e") if i<chapter else Color("3b5556"))
 
-static func story_region(index:int) -> Rect2:
- var cell:=CAMPAIGN_ART.get_size()/Vector2(2,3)
- return Rect2(Vector2(index%2,floori(index/2.0))*cell+Vector2(3,3),cell-Vector2(6,6))
+static func cover_region(index: int, target_size: Vector2) -> Rect2:
+ var cell := CHAPTER_COVERS.get_size() / Vector2(3, 2)
+ var crop := cell
+ var aspect := target_size.x / target_size.y
+ if cell.x / cell.y < aspect:
+  crop.y = cell.x / aspect
+ else:
+  crop.x = cell.y * aspect
+ return Rect2(Vector2(index % 3, floori(index / 3.0)) * cell + (cell - crop) * 0.5, crop)
 
 func draw_story(node:Node2D,index:int,time:float,first:bool) -> void:
  node.draw_rect(Rect2(0,0,1280,720),Color("182b2b"))

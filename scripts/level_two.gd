@@ -382,7 +382,7 @@ func _resolve_attack() -> void:
  if chapter_number==3 and duel=="spears" and _can_hit(Rect2(boar.x-40,FLOOR_Y-175,80,175),"arslan"):
   swing_hits.arslan=true
   _register_hit()
-  boar_hp=maxi(0,boar_hp-(3 if empowered else 1))
+  boar_hp=maxi(0,boar_hp-_strike_damage())
   hit_flash=0.16
   audio.play("hit")
   if boar_hp==0:
@@ -396,7 +396,7 @@ func _resolve_attack() -> void:
   if g.hp>0 and _can_hit(Rect2(g.x-35,g.floor-(170 if g.mounted else 125),70,170),key):
    swing_hits[key]=true
    _register_hit()
-   g.hp=maxi(0,g.hp-(3 if empowered else 1))
+   g.hp=maxi(0,g.hp-_strike_damage())
    g.hit=0.20
    _burst(Vector2(g.x,g.floor-75),Color("eac28a"),7)
    audio.play("hit")

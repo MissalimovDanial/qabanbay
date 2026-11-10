@@ -44,9 +44,10 @@ var ARENA_START := 70000.0
 const SPEED := 185.0
 const RUN_SPEED := 265.0
 const MAX_STAMINA := 100.0
-const STAMINA_DRAIN := 8.0
-const STAMINA_RECOVERY := 38.0
-const STAMINA_RESUME := 36.0
+const STAMINA_SEGMENT := MAX_STAMINA / 5.0
+const STAMINA_DRAIN := STAMINA_SEGMENT / 5.0
+const STAMINA_RECOVERY := STAMINA_SEGMENT / 3.0
+const STAMINA_RESUME := STAMINA_SEGMENT
 var stamina := MAX_STAMINA
 var exhausted := false
 var stride_moving := false
@@ -95,6 +96,7 @@ var attack_timer := 0.0
 var attack_cooldown := 0.0
 var super_timer := 0.0
 const SUPER_EFFECT_TIME := 0.48
+const SUPER_DAMAGE := 5
 var empowered := false
 var super_used := false
 const SUPER_RECOVERY := 4.0
@@ -132,7 +134,8 @@ var banner_timer := 0.0
 var particles: Array[Dictionary] = []
 var qa_enabled := false
 var art = Art.new()
-var character_frames = preload("res://scripts/character_frames.gd").new()
+const CharacterFrames = preload("res://scripts/character_frames.gd")
+var character_frames := CharacterFrames.new()
 var defeated_at := 0.0
 var death_at:=-1.0
 var audio: Node
@@ -180,7 +183,7 @@ func _ready() -> void:
   route_charms[i] = preload("res://scripts/landform.gd").collectible_position(route_charms[i], route_platforms, route_depths)
  for name in ["yurt","dead_tree","grass_tuft","rock","heart","empty_heart","practice_dummy","secret_door","golden_man","kumys"]:
   art._asset(name)
- var hero_bank:="hero" if chapter_number==1 else "hero-adult" if chapter_number<=3 else "hero-veteran"
+ var hero_bank := CharacterFrames.hero_bank(chapter_number)
  for kind in [hero_bank,"elder","boar","horse"]:
   if not character_frames.action_banks.has(kind):character_frames.action_banks[kind]=load("res://art/animation/actions/"+kind+".res")
  art._surface_strip(null,0,WORLD_END,FLOOR_Y,route_depths)
@@ -292,7 +295,7 @@ func _build_ui() -> void:
  player_hud.size = Vector2(285, 91)
  player_hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
  root.add_child(player_hud)
- var hero_bank := "hero" if chapter_number == 1 else "hero-adult" if chapter_number <= 3 else "hero-veteran"
+ var hero_bank := CharacterFrames.hero_bank(chapter_number)
  player_hud.configure(character_frames.action_banks[hero_bank], chapter_number, art.icon("heart"), art.icon("empty_heart"))
  hud = _label(22)
  hud.position = Vector2(25, 18)
@@ -330,12 +333,12 @@ func _build_ui() -> void:
  controls.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
  controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
  root.add_child(controls)
- _add_action("left", "A / <", Vector2(30, -122), false)
- _add_action("right", "D / >", Vector2(144, -122), false)
- _add_action("power", "СУПЕР / L", Vector2(-476, -122), true)
- _add_action("jump", "ПРОБЕЛ", Vector2(-368, -122), true)
- _add_action("run", "БЕГ / K", Vector2(-250, -122), true)
- _add_action("attack", "J / G", Vector2(-132, -122), true)
+ _add_action("left", Vector2(30, -115), false)
+ _add_action("right", Vector2(144, -115), false)
+ _add_action("power", Vector2(-476, -115), true)
+ _add_action("jump", Vector2(-368, -115), true)
+ _add_action("run", Vector2(-250, -115), true)
+ _add_action("attack", Vector2(-132, -115), true)
  panel = PanelContainer.new()
  panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
  panel.position = Vector2(-380, -265)
@@ -394,7 +397,7 @@ func _build_ui() -> void:
  chapter_screen.start_requested.connect(_advance)
  chapter_screen.map_requested.connect(_open_campaign_map)
 
-func _add_action(action: String, text: String, offset: Vector2, right_side: bool) -> void:
+func _add_action(action: String, offset: Vector2, right_side: bool) -> void:
  var button: Button = AttackButton.new()
  button.action = action
  if action=="power":
@@ -412,12 +415,6 @@ func _add_action(action: String, text: String, offset: Vector2, right_side: bool
   _queue_attack(action))
  button.button_up.connect(func(): touch_actions[action] = false)
  controls.add_child(button)
- var caption := _label(14)
- caption.text = text
- caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
- caption.position = Vector2(0, 96)
- caption.size.x = 100
- button.add_child(caption)
  action_buttons[action] = button
 
 func _show_panel(title: String, text: String, action: String) -> void:
@@ -869,6 +866,9 @@ func _register_hit() -> void:
   if super_hits==SUPER_HITS_REQUIRED:
    audio.play("pickup")
 
+func _strike_damage() -> int:
+ return SUPER_DAMAGE if empowered else 1
+
 func _weapon_rect() -> Rect2:
  if air_kick:return Rect2(hero.x-38,minf(dive_previous_y,hero.y)-5,76,absf(hero.y-dive_previous_y)+65)
  var reach := 235.0 if empowered else 175.0 if _is_mounted() else 150.0
@@ -894,7 +894,7 @@ func _resolve_attack() -> void:
  if phase == Phase.FIGHT and boar_hp > 0 and _can_hit(Rect2(boar.x - 48, FLOOR_Y - 105, 96, 105), "boss"):
   swing_hits.boss = true
   _register_hit()
-  boar_hp = maxi(0, boar_hp - (3 if empowered else 1))
+  boar_hp = maxi(0, boar_hp - _strike_damage())
   attack_landed = true
   hit_flash = 0.16
   shake = 8 if empowered else 3
@@ -1386,8 +1386,12 @@ func _draw_super_strike(canvas: CanvasItem, foot: Vector2, mounted: bool) -> voi
  var tail := Vector2(span * 0.31, 19.0)
  var edge := Vector2(span, -12.0 + t * 24.0)
  canvas.draw_set_transform(center, 0.0, Vector2(facing, 1.0))
+ canvas.draw_colored_polygon(PackedVector2Array([Vector2(span * 0.15, 19), Vector2(span * 0.60, -42), edge + Vector2(6, 0), Vector2(span * 0.83, 29)]), Color(1.0, 0.63, 0.22, fade * 0.29))
  canvas.draw_colored_polygon(PackedVector2Array([tail, Vector2(span * 0.66, -25), edge, Vector2(span * 0.81, 17)]), Color(0.78, 0.49, 0.21, fade * 0.84))
- canvas.draw_colored_polygon(PackedVector2Array([Vector2(span * 0.20, 7), Vector2(span * 0.67, -16), edge, Vector2(span * 0.75, 5)]), Color(1.0, 0.91, 0.64, fade))
+ canvas.draw_colored_polygon(PackedVector2Array([Vector2(span * 0.20, 7), Vector2(span * 0.67, -16), edge, Vector2(span * 0.75, 5)]), Color(1.0, 0.96, 0.77, fade))
+ var flare := edge.round()
+ canvas.draw_rect(Rect2(flare - Vector2(2, 11), Vector2(4, 22)), Color(1.0, 0.91, 0.61, fade))
+ canvas.draw_rect(Rect2(flare - Vector2(9, 2), Vector2(18, 4)), Color(1.0, 0.91, 0.61, fade))
  for i in range(7):
   var point := Vector2(span * (0.46 + i * 0.07), float(i * 13 % 38) - 18.0 + t * (i - 3) * 8.0).round()
   canvas.draw_rect(Rect2(point, Vector2(5 + i % 3 * 2, 3)), Color(1.0, 0.72, 0.36, fade))
