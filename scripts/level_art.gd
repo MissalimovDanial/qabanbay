@@ -54,8 +54,10 @@ const Land=preload("res://scripts/landform.gd")
 var landscape_chapter := 1
 const DRY_PANORAMA := preload("res://art/animation/ayagoz-ridges.png")
 const ZAYSAN_PANORAMA := preload("res://art/animation/zaysan-aul.png")
-const ZAYSAN_TERRAIN := preload("res://art/animation/zaysan-grass-bank.png")
+const ZAYSAN_TERRAIN := preload("res://art/animation/zaysan-trail-bank.png")
 const ZAYSAN_WILLOW := preload("res://art/animation/zaysan-willow.png")
+const LAKESIDE_REEDS := preload("res://art/animation/lakeside-reeds.png")
+const CAVE_MOUTH := preload("res://art/animation/cave-sinkhole-mouth.png")
 const MEADOW_PANORAMA := preload("res://art/animation/ayagoz-meadow.png")
 const MEADOW_TERRAIN := preload("res://art/animation/ayagoz-terrain.png")
 
@@ -154,7 +156,7 @@ func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Co
    var grass := _grass_color(landscape_chapter)
    node.draw_polyline(PackedVector2Array([Vector2(x,at.y+2),Vector2(x+(i%3-1)*3,at.y-h*.6),Vector2(x+(i%3-1)*7,at.y-h)]),grass.darkened(0.14) if i%2 else grass.lightened(0.14),1.5,true)
   return
- var asset := _asset("willow" if name=="tree" and landscape_chapter==1 else name)
+ var asset := _asset("willow" if name=="tree" else name)
  var grounded := name in ["practice_dummy","rock", "yurt", "tree", "dead_tree","secret_door","golden_man","kumys","reeds", "grass_tuft", "fence", "banner"] or (name == "crate" and size.x >= 40)
  var embed := 7.0 if name in ["tree", "dead_tree","reeds"] else 4.0
  var surface := at.round()
@@ -170,7 +172,7 @@ func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Co
   var source_size:Vector2=asset.texture.get_size()
   node.draw_texture_rect_region(asset.texture,Rect2(surface-Vector2(size.x*.5,size.y-3),size),Rect2(Vector2.ZERO,source_size*Vector2(1,0.94)),tint)
  else:
-  var extent := Vector2(size.x, size.x*0.70) if name=="tree" and landscape_chapter==1 else size
+  var extent := Vector2(size.x,maxf(size.y,size.x)) if name=="tree" else size*0.66 if name=="rock" else size
   node.draw_texture_rect(asset.texture, Rect2(base - Vector2(extent.x * 0.5, extent.y), extent), false, tint)
  if grounded:
   # Short scattered roots overlap the feet without a rectangular pedestal.
@@ -220,6 +222,24 @@ func background(node:Node2D,camera:float,size:Vector2,chapter:int=1)->void:
   var wx:float=floor(camera*0.45/160)*160+i*160
   var x:=wx-camera*0.45
   node.draw_line(Vector2(x,546),Vector2(x+8,539),_grass_color(chapter)*tint,1.5)
+
+func lakeside(node: Node2D, lakes: Array, camera: float, time: float) -> void:
+ if landscape_chapter==1:
+  return # The Zaysan panorama already contains the full lake.
+ for area in lakes:
+  var lake: Rect2 = area
+  if not Engine.is_editor_hint() and (lake.end.x<camera or lake.position.x>camera+node.get_viewport_rect().size.x):
+   continue
+  var p := lake.position-Vector2(camera,0)
+  var width := lake.size.x
+  var h := lake.size.y
+  var tex_size := LAKESIDE_REEDS.get_size()
+  node.draw_texture_rect_region(LAKESIDE_REEDS,Rect2(p,lake.size),Rect2(0,tex_size.y*.24,tex_size.x,tex_size.y*.70),_light_tint(landscape_chapter))
+  for i in range(18):
+   var fraction := 0.23+float(i*17%35)/65.0
+   var x := p.x+width*fraction
+   var y := p.y+h*(0.33+float(i*23%29)/100.0)+sin(time*1.7+i)*2
+   node.draw_rect(Rect2(roundf(x),roundf(y),17+i%6*8,1),Color(0.76,0.91,0.90,0.12+0.09*sin(time+i)))
 
 func _main_shape(image: Image) -> Image:
  image.convert(Image.FORMAT_RGBA8)
@@ -286,7 +306,7 @@ func _inside_gap(x: float, gaps: Array, margin: float = 0.0) -> bool:
  return false
 
 func scenic_rock(node: Node2D, rect: Rect2, camera: float, floor_y: float) -> void:
- prop(node,"rock",Vector2(rect.get_center().x-camera,floor_y),rect.size*0.76,Color("bcaa90"))
+ prop(node,"rock",Vector2(rect.get_center().x-camera,floor_y),rect.size*0.78,Color("bcaa90"))
 
 var terrain_camera := 0.0
 
@@ -356,6 +376,12 @@ func _surface_strip(node:Node2D,camera:float,width:float,floor_y:float,land:Arra
      if u>1:u=2-u
      uvs.append(Vector2(u,1 if below else 0))
     indices.append_array(PackedInt32Array([index,index+1,index+2,index+2,index+1,index+3]))
+    var bed := vertices.size()
+    for corner in range(4):
+     var edge := index + 2 + corner % 2
+     vertices.append(vertices[edge]+Vector3(0,410.0 if corner>=2 else 0.0,0))
+     uvs.append(Vector2(uvs[edge].x,0.73 if corner>=2 else 1.0))
+    indices.append_array(PackedInt32Array([bed,bed+1,bed+2,bed+2,bed+1,bed+3]))
    var arrays:=[]
    arrays.resize(Mesh.ARRAY_MAX)
    arrays[Mesh.ARRAY_VERTEX]=vertices
@@ -386,12 +412,12 @@ func ravine(node:Node2D,span:Vector2,camera:float,floor_y:float,depth:float=175)
     var t:=float(step+(1 if corner%2==1 else 0))/count
     var x:=lerpf(span.x,span.y,t)
     var lower:=corner>=2
-    var y:=Land.surface(x,land,floor_y)+7 if lower else floor_y-25*sin(t*PI)-5*sin(t*PI*3)
+    var y:=Land.surface(x,land,floor_y)+7 if lower else floor_y+2+9*sin(t*PI)
     vertices.append(Vector3(x,y,0))
     var u:=fposmod(x/960,2.0)
     var top := 0.38 if landscape_chapter==1 else 0.30
     uvs.append(Vector2(u if u<=1 else 2-u,top+clampf((y-floor_y)/depth,0,1)*(0.98-top)))
-    colors.append(Color("907a55") if lower else Color("ddd0ae"))
+    colors.append(Color("66513a") if lower else Color("a08c74"))
    indices.append_array(PackedInt32Array([index,index+1,index+2,index+2,index+1,index+3]))
   var arrays:=[]
   arrays.resize(Mesh.ARRAY_MAX)
@@ -476,14 +502,9 @@ func embedded_door(node:Node2D,p:Vector2,camera:=Vector2.ZERO)->void:
  node.draw_polyline(PackedVector2Array([p+Vector2(-55,3),p+Vector2(-20,5),p+Vector2(24,4),p+Vector2(54,2)]),Color("a48b60"),5,true)
 
 func cave_mouth(node: CanvasItem, at: Vector2) -> void:
- var rim := PackedVector2Array([at + Vector2(-87, 6), at + Vector2(-74, -35), at + Vector2(-53, -72), at + Vector2(-14, -91), at + Vector2(21, -85), at + Vector2(53, -67), at + Vector2(73, -25), at + Vector2(84, 6)])
- node.draw_colored_polygon(rim, Color("766045"))
- var opening := PackedVector2Array([at + Vector2(-66, 5), at + Vector2(-56, -28), at + Vector2(-36, -58), at + Vector2(-9, -70), at + Vector2(23, -62), at + Vector2(43, -48), at + Vector2(60, -13), at + Vector2(65, 5)])
- node.draw_colored_polygon(opening, Color("2d2926"))
- node.draw_polyline(PackedVector2Array([rim[1], rim[2], rim[3], rim[4], rim[5]]), Color("b59668"), 3)
- for index in range(5):
-  var stone := at + Vector2(-75 + index * 34, 3 - (index * 7 % 3))
-  node.draw_rect(Rect2(stone, Vector2(13, 4)), Color("9e815b"))
+ var size := Vector2(318,212)
+ var tint := Color("bdad93") if _is_meadow(landscape_chapter) else Color("e1cba9")
+ node.draw_texture_rect(CAVE_MOUTH,Rect2(at-size*Vector2(0.5,0.78),size),false,tint*_light_tint(landscape_chapter))
 
 func spikes(node:Node2D,span:Vector2,camera:float,floor_y:float)->void:
  if not Engine.is_editor_hint() and (span.y<camera-50 or span.x>camera+1330):return

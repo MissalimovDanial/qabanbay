@@ -39,20 +39,15 @@ func run() -> void:
   game.hp = 4
   game.stamina = 20.0
   game._pickups()
-  assert(game.collected_supplies.is_empty(), "Walking under supplies must not collect them")
-  game.vertical_speed = -715.0 if game._is_mounted() else -690.0
-  for frame in range(60):
-   game._move_hero(DT, 0.0)
-   game._pickups()
   assert(game.collected_supplies.has(0) and game.hp == 5 and game.stamina == 100.0)
   game._pickups()
   assert(game.hp == 5, "Each flask is collected once")
 
   var high: Vector2 = game.route_supplies[1]
-  var moving_step: Rect2 = game.route_platforms[game.route_platforms.size() - 2]
   var wind = game.wind_trial
-  assert(wind.approach == game.route_platforms.size() - 2)
-  var start: Vector2 = wind._mark(0, moving_step)
+  assert(wind.ground_course and game.route_platforms.is_empty())
+  var track: Rect2 = wind._route_ledge(game.route_platforms)
+  var start: Vector2 = wind._mark(0, track)
   wind.step(start, game.route_platforms, DT)
   assert(wind.progress == 1 and wind.seconds_left == 12.0)
   assert(wind.step(start, game.route_platforms, 12.0) == wind.Result.EXPIRED)
@@ -60,17 +55,17 @@ func run() -> void:
   assert(wind.progress == 0, "An expired trial waits for the player to leave the start marker")
   wind.step(start - Vector2(65, 0), game.route_platforms, DT)
   wind.step(start, game.route_platforms, DT)
-  wind.step(wind._mark(1, moving_step), game.route_platforms, DT)
+  wind.step(wind._mark(1, track), game.route_platforms, DT)
   assert(wind.progress == 2)
 
-  game.hero = Vector2(moving_step.end.x - 3, moving_step.position.y)
+  game.hero = Vector2(high.x - 80.0, game.FLOOR_Y)
   game.grounded = true
-  game.vertical_speed = -715.0 if game._is_mounted() else -690.0
+  game.vertical_speed = 0.0
   for frame in range(60):
    game._move_hero(DT, walk_speed if game.hero.x < high.x + 44.0 else 0.0)
    game._pickups()
    wind.step(game.hero, game.route_platforms, DT)
-  assert(game.collected_supplies.has(1), "The upper flask must be reachable from the moving step")
+  assert(game.collected_supplies.has(1), "The second flask is reachable from the trail")
   assert(wind.progress == wind.MARKS and wind.seconds_left == 0.0)
   assert(wind.step(game.hero, game.route_platforms, DT) == wind.Result.NONE)
   game.free()

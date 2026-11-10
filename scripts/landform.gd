@@ -11,10 +11,6 @@ static func surface(x:float,ravines:Array,base:float=550.0)->float:
   if x>a and x<b:
    var t:=clampf(minf(x-a,b-x)/rim,0,1)
    return base+r.depth*(t*t*(3-2*t))+sin((x-a)*0.019)*4*t*t
-  if x>=a-100 and x<=a:
-   return base-12*sin((x-a+100)/100*PI)
-  if x>=b and x<=b+100:
-   return base-12*sin((x-b)/100*PI)
  return base
 
 static func collectible_position(at: Vector2, terraces: Array, ravines: Array) -> Vector2:

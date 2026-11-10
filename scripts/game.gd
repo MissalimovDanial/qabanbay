@@ -186,8 +186,7 @@ func _ready() -> void:
   route_charms[i] = preload("res://scripts/landform.gd").collectible_position(route_charms[i], route_platforms, route_depths)
  for name in ["yurt","dead_tree","grass_tuft","rock","heart","empty_heart","practice_dummy","secret_door","golden_man","kumys"]:
   art._asset(name)
- if chapter_number==1:
-  art._asset("willow")
+ art._asset("willow")
  var hero_bank := CharacterFrames.hero_bank(chapter_number)
  for kind in [hero_bank,"elder","boar","horse"]:
   if not character_frames.action_banks.has(kind):character_frames.action_banks[kind]=load("res://art/animation/actions/"+kind+".res")
@@ -666,7 +665,8 @@ func _step_stride(delta: float, distance: float, sprinting: bool, on_ground: boo
  if not on_ground:
   return
  if stride_moving:
-  run_clock = fposmod(run_clock + distance / (225.0 if _is_mounted() else 114.0), 1.0)
+  var mounted: bool = _is_mounted() and not exploration.inside
+  run_clock = fposmod(run_clock + distance / (140.0 if mounted else 114.0), 1.0)
  if sprinting and stride_moving:
   stamina = maxf(0.0, stamina - STAMINA_DRAIN * delta)
   if stamina == 0.0:
@@ -678,6 +678,9 @@ func _step_stride(delta: float, distance: float, sprinting: bool, on_ground: boo
 
 func _stride_frame() -> int:
  return floori(run_clock * 6.0)
+
+func _air_frame(speed: float, takeoff: float) -> int:
+ return clampi(floori((speed + takeoff) * 3.0 / takeoff), 0, 5)
 
 func _physics_process(delta: float) -> void:
  if not paused:
@@ -1040,7 +1043,7 @@ func _draw_layout_decor() -> bool:
  for door in stage.get("doors",[]):
   if door.at.x<camera_x-450 or door.at.x>camera_x+1700:continue
   if door.kind=="secret":art.cave_mouth(self,door.at-Vector2(camera_x,0))
-  else:art.prop(self,"yurt",door.at-Vector2(camera_x,0),Vector2(420,295))
+  else:art.prop(self,"yurt",Vector2(door.at.x-camera_x,_floor_at(door.at.x)),Vector2(420,295))
  return true
 
 func _draw_scenic_rocks() -> void:
@@ -1312,6 +1315,7 @@ func _draw() -> void:
  var offset := Vector2(sin(clock * 70), cos(clock * 53)) * shake
  draw_set_transform(offset)
  art.background(self, camera_x, size,chapter_number)
+ art.lakeside(self,stage.get("scenic_lakes",[]),camera_x,clock)
  art.ground(self, camera_x, size.x, FLOOR_Y, route_gaps,route_depths)
  for platform_rect in route_platforms:
   art.platform(self, platform_rect, camera_x, chapter_number, route_depths)
@@ -1383,7 +1387,7 @@ func _draw_hero(p: Vector2) -> void:
   step=clampi(int((1.0-attack_timer/0.30)*6),0,5)
  elif not grounded:
   clip="jump"
-  step=clampi(int((vertical_speed+700)/235),0,5)
+  step=_air_frame(vertical_speed,690.0)
  elif invulnerable>1.15:
   clip="hurt"
   step=clampi(int((1.4-invulnerable)*24),0,5)

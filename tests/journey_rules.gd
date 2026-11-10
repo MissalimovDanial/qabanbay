@@ -36,7 +36,7 @@ func run()->void:
   var h:int=frames.get_frame_texture("idle",i).get_image().get_used_rect().size.y
   if height<0:height=h
   assert(abs(h-height)<10,"Idle height must stay stable")
- assert(g.WORLD_END>=64000 and g.route_platforms.size()>10)
+ assert(g.WORLD_END>=64000 and g.route_platforms.is_empty())
  g.free()
  var map=load("res://scenes/campaign_map.tscn").instantiate()
  root.add_child(map)

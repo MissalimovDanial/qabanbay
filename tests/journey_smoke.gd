@@ -14,6 +14,7 @@ func run()->void:
   var frame:=0
   var last_x:float=game.hero.x
   var stalled:=0
+  var simultaneous := 0
   while frame<42000 and game.phase not in [game.Phase.OUTRO,game.Phase.LOST]:
    game.touch_actions={"run":true}
    if game.lesson_open:
@@ -23,15 +24,20 @@ func run()->void:
    else:
     drive(game,chapter)
     game._tick(DT)
+    if chapter==2:
+     simultaneous=maxi(simultaneous,game.guards.filter(func(guard):return guard.hp>0).size())
    game.clock+=DT
    frame+=1
-   if absf(game.hero.x-last_x)<0.02:stalled+=1
+   var current_x: float = game.exploration.room_x if game.exploration.inside else game.hero.x
+   if absf(current_x-last_x)<0.02:stalled+=1
    else:stalled=0
-   last_x=game.hero.x
+   last_x=current_x
    if stalled>1500:
     print("STALLED ",chapter," ",game.hero," phase ",game.phase," training ",game.training_stage)
     break
   var ok:bool=game.completed and game.phase==game.Phase.OUTRO and game.elapsed>=230 and game.elapsed<=500
+  if chapter==2:
+   ok=ok and simultaneous==1
   print("Journey ",chapter," passed=",ok," seconds=",snappedf(game.elapsed,0.1)," x=",game.hero.x," hp=",game.hp," frames=",frame)
   if not ok:
    failures+=1
@@ -54,9 +60,6 @@ func drive(g,c:int)->void:
    g.touch_actions.left=cave.room_x>destination+6
    g.touch_actions.attack=cave.room_grounded and absf(cave.room_x-destination)<18
    g.touch_actions.power=g.touch_actions.attack
-   for gap in cave.CAVE_GAPS:
-    if cave.room_grounded and cave.room_x<gap.x and cave.room_x>=gap.x-27:
-     g.touch_actions.jump=true
    if cave.drunk and cave.room_x>cave.CAVE_EXIT-90:
     cave.leave(true)
    return

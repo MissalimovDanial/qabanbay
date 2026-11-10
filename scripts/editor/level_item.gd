@@ -3,7 +3,7 @@ extends Marker2D
 ## Drag a marker in 2D; resize it with Dimensions in the Inspector.
 ## Runtime reads these nodes as data, while the Layout draws the editor preview.
 
-@export_enum("rock", "gap", "platform", "guard", "charm", "decor", "hero_spawn", "elder", "boss_spawn", "spikes", "camp", "checkpoint", "secret", "passage", "lake", "supply") var kind: String = "decor":
+@export_enum("rock", "gap", "platform", "guard", "charm", "decor", "hero_spawn", "elder", "boss_spawn", "spikes", "camp", "checkpoint", "secret", "passage", "lake", "scenic_lake", "supply") var kind: String = "decor":
  set(value):
   kind = value
   _changed()
@@ -35,6 +35,7 @@ extends Marker2D
 @export var platform_index := -1
 @export var platform_offset := 0.0
 @export_node_path("Marker2D") var trial_platform: NodePath
+@export var ground_trial := false
 
 func _ready() -> void:
  if Engine.is_editor_hint():

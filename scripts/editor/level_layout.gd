@@ -62,6 +62,7 @@ func _item_position(item: Node2D) -> Vector2:
 func data() -> Dictionary:
  var result := {"doors":[],"lakes":[],"world_end":world_length,"arena_start":arena_start,"exit_x":exit_x,"ravines":[],"guard_specs":[],"checkpoints":[],"rocks":[], "gaps":[], "platforms":[], "guards":[], "spikes":[], "charms":[], "decor":[], "hero_spawn":Vector2(180,FLOOR_Y), "elder_x":480.0 if chapter_number == 1 else 380.0, "boss_spawn":Vector2(4680,FLOOR_Y)}
  result["supplies"] = []
+ result["scenic_lakes"] = []
  var items := _items()
  var platforms := items.filter(func(item): return item.kind == "platform")
  for item in items:
@@ -76,6 +77,8 @@ func data() -> Dictionary:
     result.gaps.append(span)
     var shallow := size.y <= 60.0
     result.ravines.append({"span":span,"depth":size.y if shallow else 0.0,"water":true})
+   "scenic_lake":
+    result.scenic_lakes.append(Rect2(p-Vector2(size.x*0.5,size.y+25),size))
    "rock":
     result.rocks.append(Rect2(p-Vector2(size.x/2,size.y),size))
    "gap":
@@ -86,7 +89,7 @@ func data() -> Dictionary:
    "guard","camp":
     result.guards.append(p.x)
     result.guard_specs.append({"at":p.x,"count":item.enemy_count,"camp":item.kind=="camp","floor":p.y,"archer_first":item.archer_first})
-    if item.kind=="camp":
+    if item.kind=="camp" and chapter_number==1:
      result.decor.append({"name":"yurt","at":p+Vector2(230,0),"size":Vector2(290,214),"clearance":110})
    "checkpoint":
     result.checkpoints.append(p.x)
@@ -96,7 +99,9 @@ func data() -> Dictionary:
     result.charms.append(p)
    "supply":
     result.supplies.append(p)
-    if not item.trial_platform.is_empty():
+    if item.ground_trial:
+     result["wind_trial"] = {"target":p,"ground_start":p-Vector2(2100,0)}
+    elif not item.trial_platform.is_empty():
      var approach := platforms.find(item.get_node_or_null(item.trial_platform))
      if approach >= 0:
       result["wind_trial"] = {"target": p, "approach": approach}
@@ -118,6 +123,7 @@ func _draw() -> void:
  var layout := data()
  var home_spans := preload("res://scripts/landform.gd").yurt_clearance(layout.decor,layout.doors)
  _art.background(self,0,Vector2(world_length,720),chapter_number)
+ _art.lakeside(self,layout.scenic_lakes,0,0)
  _art.ground(self,0,world_length,FLOOR_Y,layout.gaps,layout.ravines)
  for lake in layout.lakes:
   draw_rect(Rect2(lake.x,FLOOR_Y+14,lake.y-lake.x,210),Color("287b9d"))

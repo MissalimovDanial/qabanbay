@@ -27,6 +27,8 @@ var armored_riders: Texture2D
 var rider_collapse:Texture2D
 var rider_bows: Texture2D
 var armored_bows: Texture2D
+var standing_riders: Texture2D
+var standing_bows: Texture2D
 var foot_archer: Texture2D
 var foot_melee: Texture2D
 
@@ -39,6 +41,8 @@ func _ready() -> void:
  if _is_mounted():
   armored_riders = load("res://art/animation/riders-armored.png")
   armored_bows = load("res://art/animation/riders-bow-armored.png")
+  standing_riders = load("res://art/animation/riders-standing.png")
+  standing_bows = load("res://art/animation/riders-bow-standing.png")
  foot_archer = load("res://art/animation/archer.png")
  foot_melee = load("res://art/animation/infantry.png")
  objective_strip = _label(17,Color("ffdf9c"))
@@ -156,7 +160,7 @@ func _deploy(sector:Dictionary) -> void:
   sector.triggered=true
  elif sector.sent==1 and not active.is_empty():
   return
- if active.size()>=3:
+ if active.size()>=(1 if chapter_number==2 else 3):
   return
  var rank:int=sector.sent
  var spawn_x:float=sector.home-80 if rank==0 else sector.home+230 if sector.camp else sector.zone.y
@@ -240,8 +244,8 @@ func _guard_step(g: Dictionary,dt: float) -> void:
   var destination:float=clampf(hero.x+250,g.zone.x,g.zone.y)
   var old_x:float=g.x
   g.x=move_toward(g.x,destination,dt*(245 if g.mounted else 190))
-  g.facing=signf(destination-old_x)
-  g.moving=true
+  g.moving=absf(g.x-old_x)>0.05
+  if g.moving:g.facing=signf(g.x-old_x)
   if g.x>=g.zone.x and g.x<=g.zone.y and (not sectors[g.id].camp or g.age>0.55):
    g.state="patrol"
   return
@@ -482,6 +486,7 @@ func _draw() -> void:
   return
  var size := get_viewport_rect().size
  art.background(self,camera_x,size,chapter_number)
+ art.lakeside(self,stage.get("scenic_lakes",[]),camera_x,clock)
  if chapter_number>=4:
   _distant_troops(size.x)
  art.ground(self,camera_x,size.x,FLOOR_Y,route_gaps,route_depths)
@@ -498,12 +503,14 @@ func _draw() -> void:
    art.asyk(self, route_charms[i] - Vector2(camera_x, 0), i)
  _draw_guard_sprites(size.x)
  if chapter_number==3 and duel in ["bows","spears"]:
-  _rider(boar-Vector2(camera_x,0),arslan_dir,false,duel_attack_timer>0,duel=="bows",true,_army_color(),clampi(int((0.30-duel_attack_timer)*20),0,5) if duel_attack_timer>0 else -1)
+  var moving := duel=="bows" or duel_mode in ["approach","thrust"]
+  _rider(boar-Vector2(camera_x,0),arslan_dir,false,duel_attack_timer>0,duel=="bows",true,_army_color(),-1,false,moving,duel_attack_timer)
  elif chapter_number==3 and clock-defeated_at<1.3:
   _fallen_rider(boar-Vector2(camera_x,0),arslan_dir,clock-defeated_at)
  if _is_mounted():
-  var ride_frame := _stride_frame() if stride_moving or not grounded else 0
-  _rider(hero-Vector2(camera_x,0),facing,true,attack_timer>0,chapter_number==3 and duel=="bows",false,Color("ffe3c9") if invulnerable>1.05 else Color.WHITE,ride_frame,true)
+  var ride_frame := _stride_frame() if grounded else _air_frame(vertical_speed,715.0)
+  var pitch := 0.0 if grounded else clampf(vertical_speed / 715.0, -1.0, 1.0) * 0.14
+  _rider(hero-Vector2(camera_x,0),facing,true,attack_timer>0,chapter_number==3 and duel=="bows",false,Color("ffe3c9") if invulnerable>1.05 else Color.WHITE,ride_frame,true,stride_moving or not grounded,attack_timer,pitch)
  else:
   _draw_hero(hero-Vector2(camera_x,0))
  _draw_super_strike(self, hero - Vector2(camera_x, 0), _is_mounted())
@@ -528,7 +535,7 @@ func _draw_guard_sprites(width:float) -> void:
   if g.mounted and g.hp<=0:
    _fallen_rider(p,g.facing,g.down)
   elif g.mounted:
-   _rider(p,g.facing,false,state=="strike",g.bow,false,_army_color(),clampi(int((0.24-g.timer)*25),0,5) if state=="strike" else -1)
+   _rider(p,g.facing,false,state=="strike",g.bow,false,_army_color(),-1,false,g.moving,g.timer * 1.25)
   elif foot_archer and foot_melee:
    _infantry(p,g)
   else:
@@ -541,7 +548,7 @@ func _draw_guard_sprites(width:float) -> void:
 func _infantry(p:Vector2,g:Dictionary) -> void:
  var atlas:Texture2D=foot_archer if g.bow else foot_melee
  var clip_row:=3 if g.state=="strike" else 2 if g.state=="aim" else 1 if g.moving else 0
- var step:=int(clock*(12 if g.moving else 5))%6
+ var step:=int(clock*(15 if g.moving else 6))%6
  if g.state=="aim":
   var windup:float=0.56 if g.bow else 0.40
   step=clampi(int((windup-g.timer)/windup*6),0,5)
@@ -565,19 +572,21 @@ func _companion(p:Vector2,dir:float) -> void:
  _rider(p,dir,true,false,false,false,Color(0.78,0.76,0.60))
  draw_string(ThemeDB.fallback_font,p-Vector2(46,181),"ЖАНИБЕК",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffdb9b"))
 
-func _rider(p: Vector2,dir: float,ally: bool,strike: bool,bow: bool,leader: bool,tint:=Color.WHITE,frame_step:int=-1,armored:=false) -> void:
- var step:=int(clock*12)%6 if frame_step<0 else frame_step
- if strike and ally:
-  step=clampi(int((0.30-attack_timer)*20),0,5)
+func _rider(p: Vector2,dir: float,ally: bool,strike: bool,bow: bool,leader: bool,tint:=Color.WHITE,frame_step:int=-1,armored:=false,moving:=true,strike_left:=0.0,pitch:=0.0) -> void:
+ var step:=int(clock*15)%6 if frame_step<0 else frame_step
  var factor:=1.10 if leader else 1.0
  _shadow(p,64)
  var atlas := rider_bows if bow and rider_bows else riders
  if armored:
   atlas = armored_bows if bow else armored_riders
+ var standing := standing_bows if bow else standing_riders
+ if not moving and standing:
+  atlas = standing
+  step = clampi(int((0.30-strike_left)*20.0),0,5) if strike else 0
  if atlas:
   var cell := atlas.get_size()/Vector2(6,4)
   var row := (0 if ally else 2) + int(strike)
-  draw_set_transform(p,0,Vector2(dir*factor,factor))
+  draw_set_transform(p,pitch*dir,Vector2(dir*factor,factor))
   draw_texture_rect_region(atlas,Rect2(-122,-183,244,200),Rect2(Vector2(step,row)*cell,cell),tint)
   draw_set_transform(Vector2.ZERO)
  else:

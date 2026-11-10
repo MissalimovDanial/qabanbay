@@ -6,6 +6,8 @@ const MARKS := 3
 
 var approach := -1
 var target := Vector2.ZERO
+var ground_start := Vector2.ZERO
+var ground_course := false
 var progress := 0
 var seconds_left := 0.0
 var start_armed := true
@@ -13,6 +15,8 @@ var start_armed := true
 func configure(data: Dictionary) -> void:
  approach = data.get("approach", -1)
  target = data.get("target", Vector2.ZERO)
+ ground_course = data.has("ground_start")
+ ground_start = data.get("ground_start",Vector2.ZERO)
  reset(false)
 
 func reset(keep_completed: bool) -> void:
@@ -26,10 +30,15 @@ func _mark(index: int, ledge: Rect2) -> Vector2:
   return target + Vector2(44, 0)
  return Vector2(ledge.position.x + ledge.size.x * (0.20 if index == 0 else 0.80), ledge.position.y)
 
+func _route_ledge(platforms: Array) -> Rect2:
+ if ground_course:
+  return Rect2(ground_start,Vector2(1320,1))
+ return platforms[approach] if approach>=0 and approach<platforms.size() else Rect2()
+
 func step(hero: Vector2, platforms: Array, delta: float) -> Result:
- if approach < 0 or approach >= platforms.size() or progress == MARKS:
+ var ledge := _route_ledge(platforms)
+ if not ledge.has_area() or progress == MARKS:
   return Result.NONE
- var ledge: Rect2 = platforms[approach]
  var start := _mark(0, ledge)
  var near_start := absf(hero.x - start.x) < 23.0 and absf(hero.y - start.y) < 23.0
  if not near_start:
@@ -55,10 +64,10 @@ func step(hero: Vector2, platforms: Array, delta: float) -> Result:
  return Result.NONE
 
 func draw(node: Node2D, platforms: Array, camera: float, time: float) -> void:
- if approach < 0 or approach >= platforms.size() or progress == MARKS:
+ var ledge := _route_ledge(platforms)
+ if not ledge.has_area() or progress == MARKS:
   return
- var ledge: Rect2 = platforms[approach]
- if ledge.end.x - camera < -360 or ledge.position.x - camera > node.get_viewport_rect().size.x + 360:
+ if maxf(ledge.end.x, target.x + 44.0) - camera < -360 or ledge.position.x - camera > node.get_viewport_rect().size.x + 360:
   return
  for index in range(progress, MARKS):
   var at := _mark(index, ledge) - Vector2(camera, 0)

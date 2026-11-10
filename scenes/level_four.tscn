@@ -152,21 +152,6 @@ ravine_depth = 166.0
 
 
 
-[node name="Decor001" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(12000, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(280, 210)
-
-prop_name = "yurt"
-
-
-
-
 [node name="Gap003" type="Marker2D" parent="Layout/Gaps"]
 
 position = Vector2(15350.0, 550)
@@ -193,21 +178,6 @@ kind = "gap"
 dimensions = Vector2(174, 138)
 
 ravine_depth = 138.0
-
-
-
-
-[node name="Decor002" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(23200, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(280, 210)
-
-prop_name = "yurt"
 
 
 
@@ -255,21 +225,6 @@ ravine_depth = 154.0
 
 
 
-[node name="Decor003" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(34400, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(280, 210)
-
-prop_name = "yurt"
-
-
-
-
 [node name="Gap007" type="Marker2D" parent="Layout/Gaps"]
 
 position = Vector2(37750.0, 550)
@@ -294,21 +249,6 @@ script = ExtResource("3")
 kind = "spikes"
 
 dimensions = Vector2(100, 25)
-
-
-
-
-[node name="Decor004" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(45600, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(280, 210)
-
-prop_name = "yurt"
 
 
 
@@ -349,24 +289,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(196, 165)
+dimensions = Vector2(560, 220)
 
-ravine_depth = 165.0
-
-
-
-
-[node name="Decor005" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(56800, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(280, 210)
-
-prop_name = "yurt"
+ravine_depth = 220.0
 
 
 
@@ -446,7 +371,7 @@ ravine_depth = 175.0
 
 [node name="Rock001" type="Marker2D" parent="Layout/Rocks"]
 
-position = Vector2(30180, 725)
+position = Vector2(29958, 725)
 
 script = ExtResource("3")
 
@@ -583,7 +508,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -616,7 +541,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm034" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(2476, 490)
+position = Vector2(2548, 490)
 
 script = ExtResource("3")
 
@@ -683,7 +608,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm037" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(5476, 490)
+position = Vector2(5548, 490)
 
 script = ExtResource("3")
 
@@ -732,7 +657,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -765,7 +690,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm040" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(6976, 490)
+position = Vector2(7048, 490)
 
 script = ExtResource("3")
 
@@ -832,7 +757,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm043" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(8476, 490)
+position = Vector2(8548, 490)
 
 script = ExtResource("3")
 
@@ -881,7 +806,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -914,7 +839,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm046" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(11476, 490)
+position = Vector2(11548, 490)
 
 script = ExtResource("3")
 
@@ -981,7 +906,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm049" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(12976, 490)
+position = Vector2(13048, 490)
 
 script = ExtResource("3")
 
@@ -1048,7 +973,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm052" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(14476, 490)
+position = Vector2(14548, 490)
 
 script = ExtResource("3")
 
@@ -1115,7 +1040,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm055" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(18976, 490)
+position = Vector2(19048, 490)
 
 script = ExtResource("3")
 
@@ -1182,7 +1107,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm058" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(21976, 490)
+position = Vector2(22048, 490)
 
 script = ExtResource("3")
 
@@ -1249,7 +1174,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm061" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(23476, 490)
+position = Vector2(23548, 490)
 
 script = ExtResource("3")
 
@@ -1298,7 +1223,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -1331,7 +1256,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm064" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(24976, 490)
+position = Vector2(25048, 490)
 
 script = ExtResource("3")
 
@@ -1398,7 +1323,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm067" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(27976, 490)
+position = Vector2(28048, 490)
 
 script = ExtResource("3")
 
@@ -1447,7 +1372,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -1480,7 +1405,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm070" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(29476, 490)
+position = Vector2(29548, 490)
 
 script = ExtResource("3")
 
@@ -1529,7 +1454,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -1562,7 +1487,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm073" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(33976, 490)
+position = Vector2(34048, 490)
 
 script = ExtResource("3")
 
@@ -1629,7 +1554,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm076" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(35476, 490)
+position = Vector2(35548, 490)
 
 script = ExtResource("3")
 
@@ -1696,7 +1621,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm079" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(36976, 490)
+position = Vector2(37048, 490)
 
 script = ExtResource("3")
 
@@ -1737,7 +1662,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm081" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(39938, 490)
+position = Vector2(39866, 490)
 
 script = ExtResource("3")
 
@@ -1750,7 +1675,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm082" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(39976, 490)
+position = Vector2(40090, 490)
 
 script = ExtResource("3")
 
@@ -1817,7 +1742,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm085" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(41476, 490)
+position = Vector2(41548, 490)
 
 script = ExtResource("3")
 
@@ -1884,7 +1809,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm088" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(44476, 490)
+position = Vector2(44548, 490)
 
 script = ExtResource("3")
 
@@ -1951,7 +1876,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm091" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(45976, 490)
+position = Vector2(46048, 490)
 
 script = ExtResource("3")
 
@@ -2000,7 +1925,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -2033,7 +1958,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm094" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(47476, 490)
+position = Vector2(47548, 490)
 
 script = ExtResource("3")
 
@@ -2100,7 +2025,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm097" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(50476, 490)
+position = Vector2(50548, 490)
 
 script = ExtResource("3")
 
@@ -2149,7 +2074,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -2182,7 +2107,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm100" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(51976, 490)
+position = Vector2(52048, 490)
 
 script = ExtResource("3")
 
@@ -2249,7 +2174,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm103" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(53476, 490)
+position = Vector2(53548, 490)
 
 script = ExtResource("3")
 
@@ -2298,7 +2223,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -2331,7 +2256,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm106" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(56476, 490)
+position = Vector2(56548, 490)
 
 script = ExtResource("3")
 
@@ -2398,7 +2323,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm109" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(57976, 490)
+position = Vector2(58048, 490)
 
 script = ExtResource("3")
 
@@ -2465,7 +2390,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm112" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(59476, 490)
+position = Vector2(59548, 490)
 
 script = ExtResource("3")
 
@@ -2514,7 +2439,7 @@ kind = "decor"
 
 dimensions = Vector2(160, 235)
 
-prop_name = "dead_tree"
+prop_name = "tree"
 
 
 
@@ -2547,7 +2472,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm115" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(60976, 490)
+position = Vector2(61048, 490)
 
 script = ExtResource("3")
 
@@ -2575,7 +2500,7 @@ prop_name = "grass_tuft"
 
 [node name="Charm116" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(62400, 490)
+position = Vector2(62490, 490)
 
 script = ExtResource("3")
 
@@ -2588,7 +2513,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm117" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(62438, 490)
+position = Vector2(62528, 490)
 
 script = ExtResource("3")
 
@@ -2601,7 +2526,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm118" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(62476, 490)
+position = Vector2(62566, 490)
 
 script = ExtResource("3")
 
@@ -2668,7 +2593,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm121" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(63976, 490)
+position = Vector2(64048, 490)
 
 script = ExtResource("3")
 
@@ -2735,7 +2660,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm124" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(66976, 490)
+position = Vector2(67048, 490)
 
 script = ExtResource("3")
 
@@ -2802,7 +2727,7 @@ dimensions = Vector2(22, 22)
 
 [node name="Charm127" type="Marker2D" parent="Layout/Charms"]
 
-position = Vector2(68476, 490)
+position = Vector2(68548, 490)
 
 script = ExtResource("3")
 
@@ -2826,21 +2751,6 @@ dimensions = Vector2(80, 50)
 
 
 
-[node name="Decor048" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(8850, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
-
-
-
-
 [node name="Checkpoint002" type="Marker2D" parent="Layout/Checkpoints"]
 
 position = Vector2(18800, 550)
@@ -2850,21 +2760,6 @@ script = ExtResource("3")
 kind = "checkpoint"
 
 dimensions = Vector2(80, 50)
-
-
-
-
-[node name="Decor049" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(18650, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
 
 
 
@@ -2882,21 +2777,6 @@ dimensions = Vector2(80, 50)
 
 
 
-[node name="Decor050" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(27250, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
-
-
-
-
 [node name="Checkpoint004" type="Marker2D" parent="Layout/Checkpoints"]
 
 position = Vector2(36000, 550)
@@ -2906,21 +2786,6 @@ script = ExtResource("3")
 kind = "checkpoint"
 
 dimensions = Vector2(80, 50)
-
-
-
-
-[node name="Decor051" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(35850, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
 
 
 
@@ -2938,21 +2803,6 @@ dimensions = Vector2(80, 50)
 
 
 
-[node name="Decor052" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(44850, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
-
-
-
-
 [node name="Checkpoint006" type="Marker2D" parent="Layout/Checkpoints"]
 
 position = Vector2(55600, 550)
@@ -2962,21 +2812,6 @@ script = ExtResource("3")
 kind = "checkpoint"
 
 dimensions = Vector2(80, 50)
-
-
-
-
-[node name="Decor053" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(55450, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
 
 
 
@@ -2994,56 +2829,12 @@ dimensions = Vector2(80, 50)
 
 
 
-[node name="Decor054" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(62850, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(240, 185)
-
-prop_name = "yurt"
-
-
-
-
-[node name="Decor055" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(390, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(300, 230)
-
-prop_name = "yurt"
-
-
-
-
-[node name="Decor056" type="Marker2D" parent="Layout/Scenery"]
-
-position = Vector2(71620, 550)
-
-script = ExtResource("3")
-
-kind = "decor"
-
-dimensions = Vector2(310, 235)
-
-prop_name = "yurt"
-
-
-
 [node name="CavePassageExtra" type="Marker2D" parent="Layout/Scenery"]
-position = Vector2(54340, 715)
+position = Vector2(54340, 770)
 script = ExtResource("3")
 kind = "secret"
 dimensions = Vector2(110, 140)
-exit_offset = 174.0
+exit_offset = 340.0
 
 [node name="SteppeDetailRock01" type="Marker2D" parent="Layout/Rocks"]
 position = Vector2(5711, 550)
@@ -3201,35 +2992,18 @@ kind = "decor"
 dimensions = Vector2(32, 21)
 prop_name = "grass_tuft"
 
-[node name="SupplyLedgeLow" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(13950, 460)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(220, 26)
-
 [node name="SupplyFlaskLow" type="Marker2D" parent="Layout/Charms"]
-position = Vector2(13950, 460)
+position = Vector2(13950, 550)
 script = ExtResource("3")
 kind = "supply"
 dimensions = Vector2(38, 53)
-
-[node name="SupplyLedgeMoving" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(43815, 483)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(190, 26)
-[node name="SupplyLedgeHigh" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(44040, 374)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(170, 26)
 
 [node name="SupplyFlaskHigh" type="Marker2D" parent="Layout/Charms"]
-position = Vector2(44040, 374)
+position = Vector2(44040, 550)
 script = ExtResource("3")
 kind = "supply"
 dimensions = Vector2(38, 53)
-trial_platform = NodePath("../../Platforms/SupplyLedgeMoving")
+ground_trial = true
 
 [node name="ExtraPatrol01" type="Marker2D" parent="Layout/Guards"]
 position = Vector2(8700, 550)
@@ -3255,86 +3029,8 @@ dimensions = Vector2(120, 145)
 enemy_count = 3
 archer_first = true
 
-[node name="ShallowLake" type="Marker2D" parent="Layout/Gaps"]
+[node name="LakeView" type="Marker2D" parent="Layout/Gaps"]
 position = Vector2(42525, 550)
 script = ExtResource("3")
-kind = "lake"
-dimensions = Vector2(1450, 34)
-
-[node name="ShoreStone01" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(41873, 542)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(103, 19)
-
-[node name="ShoreStone02" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42018, 530)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(117, 19)
-
-[node name="ShoreAsyk02" type="Marker2D" parent="Layout/Charms"]
-position = Vector2(42018, 521)
-script = ExtResource("3")
-kind = "charm"
-dimensions = Vector2(22, 22)
-
-[node name="ShoreStone03" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42163, 536)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(96, 19)
-
-[node name="ShoreStone04" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42308, 526)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(108, 19)
-
-[node name="ShoreStone05" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42453, 542)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(126, 19)
-
-[node name="ShoreAsyk05" type="Marker2D" parent="Layout/Charms"]
-position = Vector2(42453, 533)
-script = ExtResource("3")
-kind = "charm"
-dimensions = Vector2(22, 22)
-
-[node name="ShoreStone06" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42598, 530)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(103, 19)
-
-[node name="ShoreStone07" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42743, 536)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(117, 19)
-
-[node name="ShoreStone08" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(42888, 526)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(96, 19)
-
-[node name="ShoreAsyk08" type="Marker2D" parent="Layout/Charms"]
-position = Vector2(42888, 517)
-script = ExtResource("3")
-kind = "charm"
-dimensions = Vector2(22, 22)
-
-[node name="ShoreStone09" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(43033, 542)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(108, 19)
-
-[node name="ShoreStone10" type="Marker2D" parent="Layout/Platforms"]
-position = Vector2(43178, 530)
-script = ExtResource("3")
-kind = "platform"
-dimensions = Vector2(126, 19)
+kind = "scenic_lake"
+dimensions = Vector2(1450, 202)

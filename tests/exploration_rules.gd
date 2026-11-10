@@ -19,14 +19,21 @@ func run()->void:
  g.touch_actions.clear()
  assert(g.sectors.is_empty(),"The first chapter contains no Dzungar troops")
  var secret:Dictionary=g.stage.doors.filter(func(d):return d.kind=="secret")[0]
- g.hero=secret.at
- assert(absf(g._floor_at(g.hero.x)-725)<5,"Secret pit has a walkable bottom")
+ var shaft: Dictionary = g.route_depths.filter(func(r): return r.span.x < secret.at.x and r.span.y > secret.at.x)[0]
+ assert(shaft.span.y - shaft.span.x >= 550 and shaft.depth >= 210,"The cave entrance is a broad shaft")
+ g.hero=Vector2(shaft.span.x-12,g.FLOOR_Y)
  g.hp=1
  g.camera_x=secret.at.x-500
  g.camera_y=175
  var tap:=InputEventScreenTouch.new()
  tap.pressed=true
- g.exploration.after_motion()
+ g.touch_actions = {"right":true,"run":true,"jump":true}
+ for i in range(240):
+  g._tick(1.0/60)
+  g.touch_actions.jump=false
+  if g.exploration.inside:
+   break
+ g.touch_actions.clear()
  assert(g.exploration.inside and not g.exploration.room_grounded,"The sinkhole drops the player into the cave")
  assert(g.exploration.cave_guards.size()==4,"Three halls contain four guards")
  var guards:Array=g.exploration.cave_guards
@@ -60,9 +67,6 @@ func run()->void:
   g.touch_actions.right = cave.room_x < target - 3
   g.touch_actions.left = cave.room_x > target + 6
   g.touch_actions.attack = cave.room_grounded and absf(cave.room_x - target) < 17 and cave.statue_hp > 0
-  for gap in cave.CAVE_GAPS:
-   if cave.room_grounded and cave.room_x < gap.x and cave.room_x >= gap.x - 27:
-    g.touch_actions.jump = true
   cave.step(1.0/60)
   reached_gallery = reached_gallery or cave.room_camera_x > 500.0
   if cave.drunk:
@@ -83,28 +87,11 @@ func run()->void:
  g.phase=g.Phase.LOST
  g._retry()
  assert(g.hp==6 and g.hero.x==1050,"Death returns to activated checkpoint")
- var lake:Vector2=g.stage.lakes[0]
- var count:=0
- for p in g.route_platforms:
-  if p.get_center().x>lake.x and p.get_center().x<lake.y:count+=1
- assert(count==10,"The lake uses separate stepping stones")
- for spike in g.stage.spikes:assert(not (spike.x<lake.y and spike.y>lake.x),"No spikes over water")
- var first_platform:=-1
- for i in range(g.route_platforms.size()):
-  if g.route_platforms[i].get_center().x>lake.x and g.route_platforms[i].get_center().x<lake.y:
-   first_platform=i
-   break
- var support:Rect2=g.route_platforms[first_platform]
- g.hero=Vector2(support.get_center().x,support.position.y)
- g.grounded=true
- g.exploration.after_motion()
- assert(g.exploration.safe_platform==first_platform,"Water remembers the actual support, not another platform at the same height")
- g.exploration.safe_platform=-1
- g.exploration.safe=Vector2(lake.x-80,550)
- g.hero=Vector2(lake.x+120,580)
- g.grounded=false
- g.exploration.after_motion()
- assert(g.hp==6 and g.exploration.bounce==0,"The shallows can be crossed without taking damage")
+ var lake: Rect2 = g.stage.scenic_lakes[0]
+ assert(g.stage.lakes.is_empty() and g.route_platforms.is_empty(),"The lake is behind the trail")
+ for i in range(100):
+  var trail_x := lerpf(lake.position.x, lake.end.x, i/99.0)
+  assert(is_equal_approx(g._floor_at(trail_x), g.FLOOR_Y),"The shore is passable on foot")
  g.checkpoint_x=g.ARENA_START+80
  g.hp=0
  g.phase=g.Phase.LOST
@@ -127,5 +114,5 @@ func run()->void:
  mounted.exploration.leave(true)
  assert(mounted.hero.x>door.at.x+200,"Pass-through yurt exits on the far side")
  mounted.free()
- print("Exploration passed: drop-in entry, wildlife, archer, cave crossings, kumys, checkpoints, shallow water and yurt passage")
+ print("Exploration passed: unavoidable drop, wildlife, archer, level cave floor, kumys, checkpoints, lakeside trail and yurt passage")
  quit()

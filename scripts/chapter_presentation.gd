@@ -169,7 +169,8 @@ func draw_story(node:Node2D,index:int,time:float,first:bool) -> void:
  node.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
  scene_art.background(node,time*10,Vector2(1280,720),chapter)
  scene_art.ground(node,0,1280,550,[],[])
- scene_art.prop(node,"yurt",Vector2(995,550),Vector2(310,230))
+ if chapter==1:
+  scene_art.prop(node,"yurt",Vector2(995,550),Vector2(310,230))
  hero_frames.hero_age=chapter
  hero_frames.pose(node,"hero","idle",int(time*4)%6,Vector2(720,550))
  for i in range(20):
