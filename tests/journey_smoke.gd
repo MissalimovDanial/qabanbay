@@ -43,6 +43,23 @@ func run()->void:
 
 func drive(g,c:int)->void:
  if g.exploration.inside:
+  var cave = g.exploration
+  if cave.room.kind=="secret":
+   var destination: float = cave.CAVE_EXIT-30 if cave.drunk else cave.CAVE_REWARD-104 if cave.statue_hp>0 else cave.CAVE_REWARD
+   for guard in cave.cave_guards:
+    if guard.hp>0:
+     destination=guard.x-104
+     break
+   g.touch_actions.right=cave.room_x<destination-3
+   g.touch_actions.left=cave.room_x>destination+6
+   g.touch_actions.attack=cave.room_grounded and absf(cave.room_x-destination)<18
+   g.touch_actions.power=g.touch_actions.attack
+   for gap in cave.CAVE_GAPS:
+    if cave.room_grounded and cave.room_x<gap.x and cave.room_x>=gap.x-27:
+     g.touch_actions.jump=true
+   if cave.drunk and cave.room_x>cave.CAVE_EXIT-90:
+    cave.leave(true)
+   return
   var target:=580.0 if g.exploration.statue_hp>0 else 680.0 if g.exploration.drink else 1150.0
   g.touch_actions.right=g.exploration.room_x<target-6
   g.touch_actions.left=g.exploration.room_x>target+6
@@ -128,6 +145,11 @@ func drive(g,c:int)->void:
    current=i
    edge=p.end.x
  for r in g.route_depths:
+  if r.get("water",false):
+   continue
+  if r.depth>60 and r.span.y-r.span.x<240 and g.hero.x>=r.span.x-16 and g.hero.x<r.span.x+4:
+   g.touch_actions.jump=true
+   return
   if r.depth>0 and g.hero.x>r.span.x and g.hero.x<r.span.y and current<0:
    if g.hero.y>g.FLOOR_Y+145 and g.hero.x>r.span.y-300:
     var low:Rect2=Rect2()

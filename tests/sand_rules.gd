@@ -16,12 +16,12 @@ func run()->void:
  assert(ResourceLoader.exists("res://art/audio/chapter1/hit.res"))
  assert(ResourceLoader.exists("res://art/props-baked/yurt.res"))
  for r in g.route_depths:
-  if r.depth<=0 or r.span.y-r.span.x<400:continue
+  if r.depth<=60:continue
   var count:=0
   for p in g.route_platforms:
    if p.get_center().x>r.span.x and p.get_center().x<r.span.y:
     count+=1
-  assert(count==2,"Each dry ravine has two rock shelves")
+  assert(count==0,"Dry ravines have no crossing platforms")
   var previous:float=g._floor_at(r.span.x-100)
   for i in range(1,300):
    var x:=lerpf(r.span.x-100,r.span.y+100,i/300.0)

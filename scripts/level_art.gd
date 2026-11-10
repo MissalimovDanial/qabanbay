@@ -52,8 +52,10 @@ static var prepared: Dictionary = {}
 var use_baked:=true
 const Land=preload("res://scripts/landform.gd")
 var landscape_chapter := 1
-const DRY_PANORAMA := preload("res://art/animation/sand-steppe.png")
-const ZAYSAN_PANORAMA := preload("res://art/animation/zaysan-lakeshore.png")
+const DRY_PANORAMA := preload("res://art/animation/ayagoz-ridges.png")
+const ZAYSAN_PANORAMA := preload("res://art/animation/zaysan-aul.png")
+const ZAYSAN_TERRAIN := preload("res://art/animation/zaysan-grass-bank.png")
+const ZAYSAN_WILLOW := preload("res://art/animation/zaysan-willow.png")
 const MEADOW_PANORAMA := preload("res://art/animation/ayagoz-meadow.png")
 const MEADOW_TERRAIN := preload("res://art/animation/ayagoz-terrain.png")
 
@@ -61,7 +63,7 @@ func _is_meadow(chapter: int) -> bool:
  return chapter <= 3
 
 func _surface_texture(chapter: int) -> Texture2D:
- return MEADOW_TERRAIN if _is_meadow(chapter) else SURFACE_TEXTURE
+ return ZAYSAN_TERRAIN if chapter == 1 else MEADOW_TERRAIN if _is_meadow(chapter) else SURFACE_TEXTURE
 
 func _grass_color(chapter: int) -> Color:
  if chapter == 1:
@@ -78,7 +80,12 @@ func _asset(name: String, character: bool = false) -> Dictionary:
    return prepared[key]
   var source: Texture2D = load(CHARACTERS_PATH) if character else OBJECTS
   var alias:String={"dead_tree":"tree","tumbleweed":"grass_tuft","secret_door":"crate","golden_man":"banner","kumys":"crate"}.get(name,name)
-  var region: Rect2 = REGIONS[name] if character else TERRAIN_REGIONS[alias] if TERRAIN_REGIONS.has(alias) else PROP_REGIONS[alias]
+  var region: Rect2
+  if name=="willow":
+   source=ZAYSAN_WILLOW
+   region=Rect2(Vector2.ZERO,source.get_size())
+  else:
+   region=REGIONS[name] if character else TERRAIN_REGIONS[alias] if TERRAIN_REGIONS.has(alias) else PROP_REGIONS[alias]
   if not character and NEW_PROPS.has(name) and ResourceLoader.exists("res://art/animation/steppe-objects.png"):
    source=load("res://art/animation/steppe-objects.png")
    var cell:=source.get_size()/Vector2(3,2)
@@ -99,10 +106,10 @@ func _asset(name: String, character: bool = false) -> Dictionary:
      var light:=maxf(pixel.r,pixel.g)
      pixel=Color(light*0.94,light*0.78,light*0.40,pixel.a)
      image.set_pixel(x,y,pixel)
-    if pixel.a < 0.30:
+    if pixel.a < (0.70 if name=="willow" else 0.30):
      image.set_pixel(x, y, Color.TRANSPARENT)
   var bounds := image.get_used_rect()
-  if not character and name in ["practice_dummy","rock", "yurt", "tree", "dead_tree","secret_door","golden_man","kumys","reeds", "fence", "banner", "crate"]:
+  if not character and name in ["practice_dummy","rock", "yurt", "tree", "willow","dead_tree","secret_door","golden_man","kumys","reeds", "fence", "banner", "crate"]:
    # Ignore translucent drop shadows and isolated atlas specks below the feet.
    var foot := bounds.end.y - 1
    for y in range(bounds.end.y - 1, bounds.position.y - 1, -1):
@@ -147,7 +154,7 @@ func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Co
    var grass := _grass_color(landscape_chapter)
    node.draw_polyline(PackedVector2Array([Vector2(x,at.y+2),Vector2(x+(i%3-1)*3,at.y-h*.6),Vector2(x+(i%3-1)*7,at.y-h)]),grass.darkened(0.14) if i%2 else grass.lightened(0.14),1.5,true)
   return
- var asset := _asset(name)
+ var asset := _asset("willow" if name=="tree" and landscape_chapter==1 else name)
  var grounded := name in ["practice_dummy","rock", "yurt", "tree", "dead_tree","secret_door","golden_man","kumys","reeds", "grass_tuft", "fence", "banner"] or (name == "crate" and size.x >= 40)
  var embed := 7.0 if name in ["tree", "dead_tree","reeds"] else 4.0
  var surface := at.round()
@@ -163,7 +170,8 @@ func prop(node: CanvasItem, name: String, at: Vector2, size: Vector2, tint := Co
   var source_size:Vector2=asset.texture.get_size()
   node.draw_texture_rect_region(asset.texture,Rect2(surface-Vector2(size.x*.5,size.y-3),size),Rect2(Vector2.ZERO,source_size*Vector2(1,0.94)),tint)
  else:
-  node.draw_texture_rect(asset.texture, Rect2(base - Vector2(size.x * 0.5, size.y), size), false, tint)
+  var extent := Vector2(size.x, size.x*0.70) if name=="tree" and landscape_chapter==1 else size
+  node.draw_texture_rect(asset.texture, Rect2(base - Vector2(extent.x * 0.5, extent.y), extent), false, tint)
  if grounded:
   # Short scattered roots overlap the feet without a rectangular pedestal.
   for i in range(6):
@@ -199,13 +207,14 @@ func background(node:Node2D,camera:float,size:Vector2,chapter:int=1)->void:
  var tex := ZAYSAN_PANORAMA if chapter == 1 else MEADOW_PANORAMA if _is_meadow(chapter) else DRY_PANORAMA
  var tint := _light_tint(chapter)
  var tile:=2400.0
- var scroll:=camera*0.12
+ var scroll:=camera*0.12 + (660.0 if chapter==1 else 0.0)
+ var painted_height := tex.get_height()*(0.93 if chapter==1 else 1.0)
  for i in range(floori(scroll/tile),ceili((size.x+scroll)/tile)):
   var x:=i*tile-scroll
   node.draw_set_transform(Vector2(x+(tile if i%2!=0 else 0),0),0,Vector2(-1 if i%2!=0 else 1,1))
-  node.draw_texture_rect(tex,Rect2(0,-10,tile,570),false,tint)
+  node.draw_texture_rect_region(tex,Rect2(0,-10,tile,570),Rect2(0,0,tex.get_width(),painted_height),tint)
   # Continue the same bottom edge behind water and the terrain cutaway.
-  node.draw_texture_rect_region(tex,Rect2(0,560,tile,340),Rect2(0,tex.get_height()-1,tex.get_width(),1),tint)
+  node.draw_texture_rect_region(tex,Rect2(0,560,tile,340),Rect2(0,painted_height-1,tex.get_width(),1),tint)
  node.draw_set_transform(Vector2.ZERO)
  for i in range(int(size.x/160)+2):
   var wx:float=floor(camera*0.45/160)*160+i*160
@@ -287,7 +296,7 @@ func ground(node:Node2D,camera:float,width:float,floor_y:float,gaps:Array=[],rav
  if land.is_empty():
   for gap in gaps:land.append({"span":gap,"depth":175.0})
  for r in land:
-  if r.span.y>=camera-120 and r.span.x<=camera+width+120 and r.depth>0:
+  if r.span.y>=camera-120 and r.span.x<=camera+width+120 and r.depth>0 and not r.get("water",false):
    ravine(node,r.span,camera,floor_y,r.depth)
  var points:=PackedVector2Array()
  var uvs:=PackedVector2Array()
@@ -305,6 +314,12 @@ func ground(node:Node2D,camera:float,width:float,floor_y:float,gaps:Array=[],rav
  var soil_tint := Color("#967d66") if _is_meadow(landscape_chapter) else Color.WHITE
  node.draw_colored_polygon(points,soil_tint*tint,uvs,preload("res://art/animation/sand-ground.png"))
  _surface_strip(node,camera,width,floor_y,land)
+ for r in land:
+  if r.depth < 85 or r.span.y < camera or r.span.x > camera+width:
+   continue
+  for bank in [0.29, 0.71]:
+   var x := lerpf(r.span.x,r.span.y,bank)
+   _thorn_cluster(node,Vector2(x-camera,Land.surface(x,land,floor_y)),0.74,false)
 
 # Cached world chunks keep UVs and cracks fixed while the camera moves.
 # Every strip vertex follows the SAME support curve used by actor collisions.
@@ -318,7 +333,8 @@ func _light_tint(chapter: int) -> Color:
   _: return Color.WHITE
 
 func _surface_strip(node:Node2D,camera:float,width:float,floor_y:float,land:Array)->void:
- var signature:=hash(land)
+ var signature:=hash([land,landscape_chapter])
+ var lip := 115.0 if landscape_chapter==1 else 85.0
  for chunk in range(floori(camera/1920),ceili((camera+width)/1920)):
   var key:=str(signature)+":"+str(chunk)
   if not _surface_meshes.has(key):
@@ -335,7 +351,7 @@ func _surface_strip(node:Node2D,camera:float,width:float,floor_y:float,land:Arra
      var wx:=x+(12 if corner%2==1 else 0)
      var surface_y:=right if corner%2==1 else left
      var below:=corner>=2
-     vertices.append(Vector3(wx,surface_y+(235 if below else -85),0))
+     vertices.append(Vector3(wx,surface_y+((320.0 if below else 0.0)-lip),0))
      var u:=fposmod(wx/960,2.0)
      if u>1:u=2-u
      uvs.append(Vector2(u,1 if below else 0))
@@ -356,7 +372,7 @@ func _ground_bed(node:Node2D,rect:Rect2,palette:Dictionary)->void:
 var _ravine_meshes:Dictionary={}
 func ravine(node:Node2D,span:Vector2,camera:float,floor_y:float,depth:float=175)->void:
  if depth<=0:return
- var key:=str(span)+":"+str(depth)
+ var key:=str(span)+":"+str(depth)+":"+str(landscape_chapter)
  if not _ravine_meshes.has(key):
   var vertices:=PackedVector3Array()
   var uvs:=PackedVector2Array()
@@ -373,7 +389,8 @@ func ravine(node:Node2D,span:Vector2,camera:float,floor_y:float,depth:float=175)
     var y:=Land.surface(x,land,floor_y)+7 if lower else floor_y-25*sin(t*PI)-5*sin(t*PI*3)
     vertices.append(Vector3(x,y,0))
     var u:=fposmod(x/960,2.0)
-    uvs.append(Vector2(u if u<=1 else 2-u,0.30+clampf((y-floor_y)/depth,0,1)*0.68))
+    var top := 0.38 if landscape_chapter==1 else 0.30
+    uvs.append(Vector2(u if u<=1 else 2-u,top+clampf((y-floor_y)/depth,0,1)*(0.98-top)))
     colors.append(Color("907a55") if lower else Color("ddd0ae"))
    indices.append_array(PackedInt32Array([index,index+1,index+2,index+2,index+1,index+3]))
   var arrays:=[]
@@ -391,6 +408,10 @@ func platform(node:Node2D,world_rect:Rect2,camera:float,style_chapter:int=1,ravi
  if not Engine.is_editor_hint() and (world_rect.end.x<camera-70 or world_rect.position.x>camera+node.get_viewport_rect().size.x+70):return
  var p:=world_rect.position-Vector2(camera,0)
  var w:=world_rect.size.x
+ for basin in ravines:
+  if basin.get("water",false) and basin.depth>0 and basin.span.x<world_rect.get_center().x and basin.span.y>world_rect.get_center().x:
+   _shore_stone(node,p,w,int(world_rect.get_center().x))
+   return
  var floor_y := Land.surface(world_rect.get_center().x, ravines)
  if floor_y >= 10000.0:
   _timber_crossing(node, p, w)
@@ -408,7 +429,7 @@ func platform(node:Node2D,world_rect:Rect2,camera:float,style_chapter:int=1,ravi
  for v in local:
   points.append(p+v)
   var u:=0.10+v.x/maxf(w,1)*0.80
-  uvs.append(Vector2(u,0.267+v.y/maxf(320.0,depth*1.5)))
+  uvs.append(Vector2(u,(0.36 if style_chapter==1 else 0.267)+v.y/maxf(320.0,depth*1.5)))
  var tint:=_light_tint(style_chapter)
  node.draw_colored_polygon(points,tint,uvs,_surface_texture(style_chapter))
  for i in range(3):
@@ -427,6 +448,17 @@ func _timber_crossing(node: Node2D, at: Vector2, width: float) -> void:
   var plank_width := minf(22.0, width - offset)
   node.draw_rect(Rect2(at + Vector2(offset, 0), Vector2(plank_width, 12)), Color("b58c59") if index % 2 == 0 else Color("a77d4d"))
   node.draw_rect(Rect2(at + Vector2(offset, 0), Vector2(plank_width, 3)), Color("ddbc84"))
+
+func _shore_stone(node: Node2D, p: Vector2, w: float, seed: int) -> void:
+ var base := 598.0-p.y
+ var left := 8+seed%11
+ var right := 6+seed%13
+ var outline := PackedVector2Array([p+Vector2(0,9+seed%8),p+Vector2(left,0),p+Vector2(w-right,0),p+Vector2(w,12+seed%7),p+Vector2(w-4,base*0.77),p+Vector2(w*.71,base),p+Vector2(w*.24,base),p+Vector2(4,base*.71)])
+ node.draw_colored_polygon(outline,Color("515b53"))
+ node.draw_colored_polygon(PackedVector2Array([outline[0],outline[1],outline[2],outline[3],p+Vector2(w*.76,15),p+Vector2(w*.22,14)]),Color("a4a68d") if seed%3 else Color("9d9d88"))
+ node.draw_colored_polygon(PackedVector2Array([p+Vector2(4,16),p+Vector2(w*.25,15),p+Vector2(w*.42,31),p+Vector2(w*.31,base),outline[6],outline[7]]),Color("737a66"))
+ node.draw_rect(Rect2(p+Vector2(w*.29,3),Vector2(w*.37,3)),Color("c4c3a6"))
+ node.draw_rect(Rect2(p+Vector2(w*.63,9),Vector2(w*.20,3)),Color("909569"))
 
 func embedded_door(node:Node2D,p:Vector2,camera:=Vector2.ZERO)->void:
  # A shallow niche lies in the rear wall; the door never grows a separate pedestal.
@@ -455,23 +487,23 @@ func cave_mouth(node: CanvasItem, at: Vector2) -> void:
 
 func spikes(node:Node2D,span:Vector2,camera:float,floor_y:float)->void:
  if not Engine.is_editor_hint() and (span.y<camera-50 or span.x>camera+1330):return
- for i in range(ceili((span.y-span.x)/24)):
-  var p:=Vector2(span.x-camera+12+i*24,floor_y+2)
-  for branch in range(5):
-   var dx:float=(branch-2)*6
-   var tip:=p+Vector2(dx*1.4,-22-absf(dx)*.4)
-   node.draw_polyline(PackedVector2Array([p,p+Vector2(dx*.5,-12),tip]),Color("734735"),3,true)
-   node.draw_line(tip,tip+Vector2(-5,-5),Color("d49571"),2,true)
-   node.draw_line(tip+Vector2(0,6),tip+Vector2(5,2),Color("ecc591"),1.5,true)
-  node.draw_circle(p+Vector2(-9,-18),2.5,Color("d48166"))
+ var count := maxi(1, ceili((span.y-span.x)/29.0))
+ for index in range(count):
+  var x := lerpf(span.x, span.y, (index+0.5)/count)
+  _thorn_cluster(node,Vector2(x-camera,floor_y),0.82+0.11*(index%3),true)
 
-func _spike_base()->StyleBoxFlat:
- var box:=StyleBoxFlat.new()
- box.bg_color=Color("6f3c35")
- box.border_color=Color("e3ac72")
- box.set_border_width_all(1)
- box.set_corner_radius_all(3)
- return box
+func _thorn_cluster(node: Node2D, at: Vector2, size_factor: float, on_trail: bool) -> void:
+ var p := at.round()+Vector2(0,3)
+ var wood := Color("703f40") if on_trail else Color("72564b")
+ var tip_color := Color("f1a177") if on_trail else Color("b89772")
+ for index in range(6):
+  var dx := float(index * 9 - 22)
+  var branch := p + Vector2(dx,-18-index%3*8)*size_factor
+  var bend := p + Vector2(dx*0.36,-11)*size_factor
+  node.draw_polyline(PackedVector2Array([p+Vector2(dx*0.31,0),bend,branch]),wood,3)
+  var thorn := branch.lerp(bend,0.38)
+  node.draw_colored_polygon(PackedVector2Array([thorn,thorn+Vector2(signf(dx)*10,-6)*size_factor,thorn+Vector2(-2,3)*size_factor]),tip_color)
+  node.draw_rect(Rect2(branch-Vector2(1,2),Vector2(3,4)),tip_color)
 
 func asyk(node: CanvasItem, p: Vector2, variant: int) -> void:
  if not Engine.is_editor_hint() and (p.x < -30 or p.x > node.get_viewport_rect().size.x + 30):

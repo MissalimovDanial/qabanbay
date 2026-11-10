@@ -74,7 +74,8 @@ func data() -> Dictionary:
     var span:=Vector2(p.x-size.x/2,p.x+size.x/2)
     result.lakes.append(span)
     result.gaps.append(span)
-    result.ravines.append({"span":span,"depth":0.0})
+    var shallow := size.y <= 60.0
+    result.ravines.append({"span":span,"depth":size.y if shallow else 0.0,"water":true})
    "rock":
     result.rocks.append(Rect2(p-Vector2(size.x/2,size.y),size))
    "gap":
@@ -115,6 +116,7 @@ func _draw() -> void:
  if _art == null:
   _art = Art.new()
  var layout := data()
+ var home_spans := preload("res://scripts/landform.gd").yurt_clearance(layout.decor,layout.doors)
  _art.background(self,0,Vector2(world_length,720),chapter_number)
  _art.ground(self,0,world_length,FLOOR_Y,layout.gaps,layout.ravines)
  for lake in layout.lakes:
@@ -126,6 +128,8 @@ func _draw() -> void:
   draw_arc(Vector2(x,FLOOR_Y-7),15,PI,TAU,20,Color("df7960"),4)
  for decor in layout.decor:
   var at:Vector2=decor.at
+  if decor.name in ["rock","tree","dead_tree"] and not preload("res://scripts/landform.gd").clear_of_yurts(at.x,decor.size.x*0.5,home_spans):
+   continue
   at.y=preload("res://scripts/landform.gd").surface(at.x,layout.ravines,FLOOR_Y)
   var support:int=int(decor.get("platform",-1))
   if support>=0 and support<layout.platforms.size():
@@ -133,7 +137,8 @@ func _draw() -> void:
   if decor.name!="banner" and (support>=0 or _clear(decor.at.x,decor.clearance,layout.gaps)):
    _art.prop(self,decor.name,at,decor.size)
  for rect in layout.rocks:
-  _art.scenic_rock(self,rect,0,preload("res://scripts/landform.gd").surface(rect.get_center().x,layout.ravines,FLOOR_Y))
+  if preload("res://scripts/landform.gd").clear_of_yurts(rect.get_center().x,rect.size.x*0.5,home_spans):
+   _art.scenic_rock(self,rect,0,preload("res://scripts/landform.gd").surface(rect.get_center().x,layout.ravines,FLOOR_Y))
  for rect in layout.platforms:
   _art.platform(self,rect,0,chapter_number,layout.ravines)
  for p in layout.supplies:

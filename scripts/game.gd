@@ -1,9 +1,11 @@
 extends Node2D
 
 const Chapters = preload("res://scripts/chapter_data.gd")
+const Land = preload("res://scripts/landform.gd")
 @export_range(1, 5) var chapter_number: int = 1
 var stage: Dictionary = {}
 var route_rocks: Array = []
+var yurt_spans: Array[Vector2] = []
 var route_charms: Array = []
 var route_supplies: Array = []
 var collected_supplies: Dictionary = {}
@@ -171,6 +173,7 @@ func _ready() -> void:
  ARENA_START = float(stage.get("arena_start",ARENA_START))
  route_depths = stage.get("ravines",[])
  route_rocks = stage.get("rocks", ROCKS).duplicate()
+ yurt_spans = Land.yurt_clearance(stage.get("decor",[]),stage.get("doors",[]))
  route_platforms = stage.platforms.duplicate()
  route_gaps = stage.gaps.duplicate()
  route_charms = CHARMS.duplicate()
@@ -183,9 +186,12 @@ func _ready() -> void:
   route_charms[i] = preload("res://scripts/landform.gd").collectible_position(route_charms[i], route_platforms, route_depths)
  for name in ["yurt","dead_tree","grass_tuft","rock","heart","empty_heart","practice_dummy","secret_door","golden_man","kumys"]:
   art._asset(name)
+ if chapter_number==1:
+  art._asset("willow")
  var hero_bank := CharacterFrames.hero_bank(chapter_number)
  for kind in [hero_bank,"elder","boar","horse"]:
   if not character_frames.action_banks.has(kind):character_frames.action_banks[kind]=load("res://art/animation/actions/"+kind+".res")
+ art.landscape_chapter=chapter_number
  art._surface_strip(null,0,WORLD_END,FLOOR_Y,route_depths)
  boss_max_hp = stage.hp
  boar_hp = boss_max_hp
@@ -742,6 +748,8 @@ func _tick(delta: float) -> void:
  var speed := RUN_SPEED if sprinting else SPEED
  if _is_mounted():
   speed = 315.0 if sprinting else 235.0
+ if hero.y > FLOOR_Y + 8 and _in_shallows(hero.x):
+  speed *= 0.55
  var horizontal_speed := movement * speed
  _move_hero(delta, horizontal_speed)
  _step_stride(delta, absf(hero.x - old_x), sprinting, grounded)
@@ -766,10 +774,6 @@ func _tick(delta: float) -> void:
   _burst(hero-Vector2(0,3),Color("c8ad7c"),6)
   attack_timer=0
   air_kick=false
- for span in stage.spikes:
-  if hero.x+14>span.x and hero.x-14<span.y and hero.y>_floor_at(hero.x)-23 and invulnerable<=0:
-   _hurt()
-   break
  if lesson_open and _held(lesson_target):
   lesson_open=false
   lesson_arrow.hide()
@@ -915,6 +919,12 @@ func _floor_at(x:float) -> float:
 func _floor_exists(x:float) -> bool:
  return _floor_at(x)<10000
 
+func _in_shallows(x: float) -> bool:
+ for basin in route_depths:
+  if basin.get("water",false) and basin.depth>0 and x>basin.span.x and x<basin.span.y:
+   return true
+ return false
+
 func _supported(at: Vector2) -> bool:
  if absf(at.y - _floor_at(at.x)) < 0.5:
   return true
@@ -996,7 +1006,7 @@ func _move_hero_step(delta: float, horizontal_speed: float) -> void:
   deaths += 1
   phase = Phase.LOST
   audio.play("hurt")
-  _show_panel("Овраг", "Перепрыгивай между каменными уступами.\n\nШаг — A / D · Бег — K · Прыжок — пробел.\nНайденные припасы сохранятся.", "Повторить путь")
+  _show_panel("Овраг", "Разбегись и прыгни у края. Из глубокого оврага можно подняться по склону.\n\nНайденные припасы сохранятся.", "Повторить путь")
 
 func _decor_clear(x: float, half_width: float = 20.0) -> bool:
  for gap in route_gaps:
@@ -1019,6 +1029,8 @@ func _draw_layout_decor() -> bool:
   var at: Vector2 = entry.at
   if at.x<camera_x-500 or at.x>camera_x+1800:
    continue
+  if entry.name in ["rock","tree","dead_tree"] and not Land.clear_of_yurts(at.x,entry.size.x*0.5,yurt_spans):
+   continue
   if entry.name not in ["banner","crate","tumbleweed"] and (int(entry.get("platform",-1))>=0 or _decor_clear(at.x, float(entry.get("clearance", entry.size.x * 0.5)))):
    at.y = _floor_at(at.x)
    var support:int=int(entry.get("platform",-1))
@@ -1030,6 +1042,14 @@ func _draw_layout_decor() -> bool:
   if door.kind=="secret":art.cave_mouth(self,door.at-Vector2(camera_x,0))
   else:art.prop(self,"yurt",door.at-Vector2(camera_x,0),Vector2(420,295))
  return true
+
+func _draw_scenic_rocks() -> void:
+ for rock in route_rocks:
+  var x: float = rock.get_center().x
+  if x<camera_x-160 or x>camera_x+1440:
+   continue
+  if Land.clear_of_yurts(x,rock.size.x*0.5,yurt_spans):
+   art.scenic_rock(self,rock,camera_x,_floor_at(x))
 
 func _refresh_npc() -> void:
  if is_instance_valid(npc_bubble):npc_bubble.hide()
@@ -1312,8 +1332,7 @@ func _draw() -> void:
    if _decor_clear(x,22):
     art.prop(self,"grass_tuft",Vector2(x-camera_x,FLOOR_Y),Vector2(44,28))
  _draw_elder(Vector2(_elder_x() - camera_x, FLOOR_Y))
- for rock in route_rocks:
-  art.scenic_rock(self, rock, camera_x, FLOOR_Y)
+ _draw_scenic_rocks()
 
  for i in range(route_charms.size()):
   if not collected.has(i):

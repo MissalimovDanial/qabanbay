@@ -130,3 +130,13 @@ Precisely edit the attached six-panel historical pixel art atlas, preserving the
 ### Юный Ерасыл
 
 Keep exactly six columns and six rows from the original youth atlas. Use the same youthful clean-shaven face, compact proportions, fur hat and teal Kazakh coat throughout the idle, run, jump, attack, hurt and super rows. Preserve the weapon and each pose. Transparent background and isolated cells.
+
+
+## Аул Зайсана, ивы и каменные переправы
+
+Панорамы и тайлмэп созданы встроенным imagegen. Исходники находятся в art/animation.
+
+- zaysan-aul.png — широкий 2:1 пиксельный пейзаж зелёного берега Зайсана. Вдали компактный аул, живые ивы и пасущиеся лошади. Передний план оставлен открытым для игровой земли.
+- zaysan-grass-bank.png — широкая 3:1 полоса земли в пиксельной технике. Прозрачное пространство сверху, зелёный край травы, корни и коричневый грунт под тропой.
+- zaysan-willow.png — отдельно стоящая живая ива с прозрачным фоном и читаемым основанием ствола.
+- ayagoz-ridges.png — широкая 2:1 охристая степь с сухими оврагами и открытым гребнем для слоя движущейся конницы. Без персонажей и строений в самой текстуре.

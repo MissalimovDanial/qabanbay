@@ -405,6 +405,10 @@ func _draw() -> void:
    draw_circle(p,48+pulse,Color(1,.84,.46,.10))
    draw_arc(p,47+pulse,0,TAU,72,GOLD,2,true)
    draw_arc(p,52,PI*.14,PI*.86,32,Color(1,.87,.55,.4),1,true)
+   for corner in range(4):
+    var angle := PI*0.25+corner*PI*0.5
+    var edge := p + Vector2(cos(angle),sin(angle))*53.0
+    draw_colored_polygon(PackedVector2Array([edge+Vector2(0,-4),edge+Vector2(4,0),edge+Vector2(0,4),edge+Vector2(-4,0)]),Color("f1ce87"))
   draw_circle(p+Vector2(0,4),37,Color(.06,.17,.12,.33))
   draw_circle(p,37,Color("e4c17d") if available else Color("9baa7d"))
   draw_circle(p,33,Color("244e42") if available else Color("506c50"))

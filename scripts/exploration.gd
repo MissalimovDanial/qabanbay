@@ -213,7 +213,7 @@ func step(dt:float)->bool:
 func after_motion()->void:
  if inside:return
  for entry in game.stage.get("doors",[]):
-  if entry.kind == "secret" and not cleared.has(str(entry.at.x)) and absf(game.hero.x - entry.at.x) < 70.0 and game.hero.y > maxf(game.FLOOR_Y + 75.0, entry.at.y - 92.0):
+  if entry.kind == "secret" and not cleared.has(str(entry.at.x)) and absf(game.hero.x - entry.at.x) < 42.0 and game.hero.y > maxf(game.FLOOR_Y + 75.0, entry.at.y - 92.0):
    enter(entry, true)
    return
  if game.grounded:
@@ -223,7 +223,7 @@ func after_motion()->void:
    var platform:Rect2=game.route_platforms[i]
    if absf(platform.position.y-game.hero.y)<1 and game.hero.x+17>platform.position.x and game.hero.x-17<platform.end.x:safe_platform=i
  for lake in game.stage.get("lakes",[]):
-  if game.hero.x>lake.x and game.hero.x<lake.y and game.hero.y>game.FLOOR_Y+18 and water_flash<=0:
+  if game.hero.x>lake.x and game.hero.x<lake.y and game.hero.y>game.FLOOR_Y+18 and water_flash<=0 and not game._in_shallows(game.hero.x):
    bounce_from=game.hero
    bounce=0.85
    water_flash=1.5
@@ -277,16 +277,17 @@ func _draw()->void:
   var left:float=maxf(-20,lake.x-game.camera_x)
   var right:float=minf(1300,lake.y-game.camera_x)
   var y:float=game.FLOOR_Y+1-game.camera_y
-  var depth:=180.0
+  var shallow: bool = game._in_shallows((lake.x+lake.y)*0.5)
+  var depth:=44.0 if shallow else 180.0
   var bed:=PackedVector2Array()
   var bed_uv:=PackedVector2Array()
   for i in range(25):
    var px:float=lerpf(left,right,i/24.0)
    var world_t:float=clampf((px+game.camera_x-lake.x)/(lake.y-lake.x),0,1)
-   var py:float=y+52+44*sin(world_t*PI)
+   var py:float=y+12+22*sin(world_t*PI) if shallow else y+52+44*sin(world_t*PI)
    bed.append(Vector2(px,py))
    bed_uv.append(Vector2((px+game.camera_x)/512,(py+game.camera_y)/512))
-  var bed_bottom: float = y + depth + 90
+  var bed_bottom: float = y + depth + (19.0 if shallow else 90.0)
   bed.append(Vector2(right, bed_bottom))
   bed_uv.append(Vector2((right+game.camera_x)/512, (bed_bottom+game.camera_y)/512))
   bed.append(Vector2(left, bed_bottom))

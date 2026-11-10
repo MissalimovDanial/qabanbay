@@ -87,7 +87,7 @@ func run()->void:
  var count:=0
  for p in g.route_platforms:
   if p.get_center().x>lake.x and p.get_center().x<lake.y:count+=1
- assert(count==5,"The lake uses five fixed sections of pier")
+ assert(count==10,"The lake uses separate stepping stones")
  for spike in g.stage.spikes:assert(not (spike.x<lake.y and spike.y>lake.x),"No spikes over water")
  var first_platform:=-1
  for i in range(g.route_platforms.size()):
@@ -104,9 +104,7 @@ func run()->void:
  g.hero=Vector2(lake.x+120,580)
  g.grounded=false
  g.exploration.after_motion()
- assert(g.hp==5 and g.exploration.bounce>0)
- for i in range(60):g.exploration.step(1.0/60)
- assert(g.hp==5 and g.hero.x<lake.x,"Water bounces the player to safety with one heart lost")
+ assert(g.hp==6 and g.exploration.bounce==0,"The shallows can be crossed without taking damage")
  g.checkpoint_x=g.ARENA_START+80
  g.hp=0
  g.phase=g.Phase.LOST
@@ -129,5 +127,5 @@ func run()->void:
  mounted.exploration.leave(true)
  assert(mounted.hero.x>door.at.x+200,"Pass-through yurt exits on the far side")
  mounted.free()
- print("Exploration passed: drop-in entry, wildlife, later archer, cave crossings, kumys, checkpoints, water and the yurt passage")
+ print("Exploration passed: drop-in entry, wildlife, archer, cave crossings, kumys, checkpoints, shallow water and yurt passage")
  quit()

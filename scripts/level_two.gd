@@ -487,8 +487,7 @@ func _draw() -> void:
  art.ground(self,camera_x,size.x,FLOOR_Y,route_gaps,route_depths)
  for rect in route_platforms:
   art.platform(self,rect,camera_x,chapter_number,route_depths)
- for rock in route_rocks:
-  art.scenic_rock(self,rock,camera_x,FLOOR_Y)
+ _draw_scenic_rocks()
  _draw_layout_decor()
  for s in spikes:
   art.spikes(self,s,camera_x,FLOOR_Y)
@@ -593,14 +592,17 @@ func _distant_troops(width:float) -> void:
  var count:=10 if chapter_number<5 else 14+mini(12,int(cover_time))
  var cell:=riders.get_size()/Vector2(6,4)
  for i in range(count):
-  var ally:=i%4==0
-  var dir:=1.0 if ally and chapter_number!=5 else -1.0
-  var t:=clock*(8+i%4)*dir-camera_x*(0.22+i%3*0.035)
+  var ally:=i%3==0
+  var dir:=1.0 if ally else -1.0
+  var t:=clock*(22+i%4*4)*dir-camera_x*(0.22+i%3*0.035)
   var x:=fposmod(i*137.0+t,width+200)-100
-  var y:=432.0+i%3*15
-  var h:=27.0+i%3*8
+  var y:=422.0+i%3*15
+  var h:=29.0+i%3*8
+  var strike := sin(clock*1.35+i*1.7)>0.55
+  var row := (0 if ally else 2)+int(strike)
+  draw_rect(Rect2(x-6*dir-5,y-3,10,3),Color(0.77,0.65,0.45,0.28))
   draw_set_transform(Vector2(x,y),0,Vector2(dir,1))
-  draw_texture_rect_region(riders,Rect2(-h,-h,h*1.35,h),Rect2(Vector2((int(clock*7)+i)%6,0 if ally else 2)*cell,cell),Color(0.63,0.58,0.52,0.8))
+  draw_texture_rect_region(riders,Rect2(-h*0.66,-h,h*1.35,h),Rect2(Vector2((int(clock*8)+i)%6,row)*cell,cell),Color(0.63,0.58,0.52,0.8))
  draw_set_transform(Vector2.ZERO)
 
 func _army_color() -> Color:

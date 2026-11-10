@@ -117,9 +117,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
+ravine_depth = 154.0
 
 
 
@@ -145,9 +145,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(212, 166)
 
-ravine_depth = 165.0
+ravine_depth = 166.0
 
 
 
@@ -175,9 +175,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(212, 166)
 
-ravine_depth = 165.0
+ravine_depth = 166.0
 
 
 
@@ -190,9 +190,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(198, 138)
 
-ravine_depth = 165.0
+ravine_depth = 138.0
 
 
 
@@ -220,9 +220,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(198, 138)
 
-ravine_depth = 165.0
+ravine_depth = 138.0
 
 
 
@@ -248,9 +248,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
+ravine_depth = 154.0
 
 
 
@@ -278,9 +278,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
+ravine_depth = 154.0
 
 
 
@@ -321,9 +321,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(212, 166)
 
-ravine_depth = 165.0
+ravine_depth = 166.0
 
 
 
@@ -343,13 +343,13 @@ dimensions = Vector2(100, 25)
 
 [node name="Gap009" type="Marker2D" parent="Layout/Gaps"]
 
-position = Vector2(54650.0, 550)
+position = Vector2(54340, 550)
 
 script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(218, 165)
 
 ravine_depth = 165.0
 
@@ -379,9 +379,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(198, 138)
 
-ravine_depth = 165.0
+ravine_depth = 138.0
 
 
 
@@ -407,9 +407,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
+ravine_depth = 154.0
 
 
 
@@ -437,9 +437,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1100, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
+ravine_depth = 154.0
 
 
 
@@ -465,9 +465,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1300, 165)
+dimensions = Vector2(212, 166)
 
-ravine_depth = 165.0
+ravine_depth = 166.0
 
 
 
@@ -480,152 +480,9 @@ script = ExtResource("3")
 
 kind = "gap"
 
-dimensions = Vector2(1400, 165)
+dimensions = Vector2(225, 154)
 
-ravine_depth = 165.0
-
-
-
-
-[node name="Lake001" type="Marker2D" parent="Layout/Gaps"]
-
-position = Vector2(42525, 550)
-
-script = ExtResource("3")
-
-kind = "lake"
-
-dimensions = Vector2(1450, 400)
-
-
-
-
-[node name="Platform001" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(41950, 490)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(269, 22)
-
-
-
-
-[node name="Charm001" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(41950, 425)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform002" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(42235, 460)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(269, 22)
-
-
-
-
-[node name="Charm002" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(42235, 395)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform003" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(42520, 490)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(269, 22)
-
-
-
-
-[node name="Charm003" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(42520, 425)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform004" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(42805, 460)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(269, 22)
-
-
-
-
-[node name="Charm004" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(42805, 395)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform005" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(43090, 490)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(269, 22)
-
-
-
-
-[node name="Charm005" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(43090, 425)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
+ravine_depth = 154.0
 
 
 
@@ -639,734 +496,6 @@ script = ExtResource("3")
 kind = "passage"
 
 dimensions = Vector2(420, 295)
-
-
-
-
-[node name="Platform006" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(3908.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm006" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(3908.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform007" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(4392.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm007" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(4392.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform008" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(9564.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm008" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(9564.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform009" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(10136.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm009" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(10136.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform010" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(15108.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm010" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(15108.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform011" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(15592.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm011" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(15592.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform012" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(20764.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm012" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(20764.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform013" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(21336.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm013" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(21336.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform014" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(26308.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm014" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(26308.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform015" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(26792.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm015" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(26792.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform016" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(31964.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm016" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(31964.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform017" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(32536.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm017" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(32536.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform018" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(37508.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm018" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(37508.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform019" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(37992.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm019" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(37992.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform020" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(48708.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm020" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(48708.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform021" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(49192.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm021" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(49192.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform022" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(54364.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm022" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(54364.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform023" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(54936.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm023" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(54936.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform024" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(59908.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm024" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(59908.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform025" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(60392.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm025" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(60392.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform026" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(65564.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm026" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(65564.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform027" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(66136.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm027" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(66136.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform028" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(71108.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm028" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(71108.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform029" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(71592.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm029" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(71592.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform030" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(76764.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm030" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(76764.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform031" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(77336.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm031" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(77336.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform032" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(17492.0, 495)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm032" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(17492.0, 430)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
-
-
-
-
-[node name="Platform033" type="Marker2D" parent="Layout/Platforms"]
-
-position = Vector2(18108.0, 485)
-
-script = ExtResource("3")
-
-kind = "platform"
-
-dimensions = Vector2(470, 22)
-
-
-
-
-[node name="Charm033" type="Marker2D" parent="Layout/Charms"]
-
-position = Vector2(18108.0, 420)
-
-script = ExtResource("3")
-
-kind = "charm"
-
-dimensions = Vector2(22, 22)
 
 
 
@@ -4440,7 +3569,7 @@ position = Vector2(54340, 715)
 script = ExtResource("3")
 kind = "secret"
 dimensions = Vector2(110, 140)
-exit_offset = 1020.0
+exit_offset = 174.0
 
 [node name="SteppeDetailRock01" type="Marker2D" parent="Layout/Rocks"]
 position = Vector2(5711, 550)
@@ -4651,3 +3780,87 @@ kind = "guard"
 dimensions = Vector2(120, 145)
 enemy_count = 2
 archer_first = true
+
+[node name="ShallowLake" type="Marker2D" parent="Layout/Gaps"]
+position = Vector2(42525, 550)
+script = ExtResource("3")
+kind = "lake"
+dimensions = Vector2(1450, 34)
+
+[node name="ShoreStone01" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(41873, 542)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(103, 19)
+
+[node name="ShoreStone02" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42018, 530)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(117, 19)
+
+[node name="ShoreAsyk02" type="Marker2D" parent="Layout/Charms"]
+position = Vector2(42018, 521)
+script = ExtResource("3")
+kind = "charm"
+dimensions = Vector2(22, 22)
+
+[node name="ShoreStone03" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42163, 536)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(96, 19)
+
+[node name="ShoreStone04" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42308, 526)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(108, 19)
+
+[node name="ShoreStone05" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42453, 542)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(126, 19)
+
+[node name="ShoreAsyk05" type="Marker2D" parent="Layout/Charms"]
+position = Vector2(42453, 533)
+script = ExtResource("3")
+kind = "charm"
+dimensions = Vector2(22, 22)
+
+[node name="ShoreStone06" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42598, 530)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(103, 19)
+
+[node name="ShoreStone07" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42743, 536)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(117, 19)
+
+[node name="ShoreStone08" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(42888, 526)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(96, 19)
+
+[node name="ShoreAsyk08" type="Marker2D" parent="Layout/Charms"]
+position = Vector2(42888, 517)
+script = ExtResource("3")
+kind = "charm"
+dimensions = Vector2(22, 22)
+
+[node name="ShoreStone09" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(43033, 542)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(108, 19)
+
+[node name="ShoreStone10" type="Marker2D" parent="Layout/Platforms"]
+position = Vector2(43178, 530)
+script = ExtResource("3")
+kind = "platform"
+dimensions = Vector2(126, 19)
